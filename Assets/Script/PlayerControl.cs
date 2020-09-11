@@ -17,7 +17,6 @@ public class PlayerControl : MonoBehaviour
     //총알
     public GameObject Bullet;
     public Transform FirePos;
-    float bulletRange = 5f;
 
     void Start()
     {
