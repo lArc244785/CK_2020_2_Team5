@@ -27,7 +27,7 @@ public class CameraManger : MonoBehaviour
     private Vector2 downRightPoint;
 
     [Range(5.0f, 30.0f)]
-    public float distance;
+    public float distance = 15.0f;
 
     [Range(30, 60)]
     public float camAngle = 45.0f;
@@ -41,7 +41,7 @@ public class CameraManger : MonoBehaviour
         setCamType(CamType.Target);
     }
 
-    private void LateUpdate()
+    private void Update()
     {
         camPiovtRoation.localRotation = Quaternion.Euler(camAngle, 0, 0);
         switch (camState)
@@ -62,21 +62,22 @@ public class CameraManger : MonoBehaviour
     {
         DistancePoint();
 
+        print("CODE44: " + upperLeftPoint.x +  downRightPoint.x);
+
         TargetPoint = new Vector3(
             Mathf.Clamp(TargetPoint.x, upperLeftPoint.x, downRightPoint.x),
             TargetPoint.y,
             Mathf.Clamp(TargetPoint.z, downRightPoint.y, upperLeftPoint.y));
 
 
+
         if (currentCamPoint == Vector3.zero)
         {
             currentCamPoint = TargetPoint;
         }
-        else
-        {
-            currentCamPoint = Vector3.SmoothDamp(currentCamPoint, TargetPoint, ref currentCamPointVelocity, smoothSpeed);
-            print("currentCamPoint   " + currentCamPoint);
-        }
+
+            currentCamPoint = Vector3.SmoothDamp(currentCamPoint, TargetPoint, ref currentCamPointVelocity, smoothSpeed ) ;
+
         camTr.position = currentCamPoint;
     }
 
@@ -88,7 +89,7 @@ public class CameraManger : MonoBehaviour
         float y = targetTr.position.y +Mathf.Sin(radian) * distance;
 
         TargetPoint = new Vector3(targetTr.position.x, y, z);
-        //print("TargetPoint   " + TargetPoint);
+        print("TargetPoint   " + TargetPoint);
     }
 
     public void SetOffset(Vector2 upperLeft, Vector2 downRight)

@@ -43,7 +43,7 @@ public class MonsterGenerator : MonoBehaviour
     {
         if (room.getIsPlayer() && isMonstersALive)
         {
-            Debug.Log("Monster  ALive");
+            //Debug.Log("Monster  ALive");
             isMonstersALive = ChackMonsterDead();
             if(isMonstersALive == false)
             {
