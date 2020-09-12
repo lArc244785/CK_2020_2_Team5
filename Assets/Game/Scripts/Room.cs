@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class Room : MonoBehaviour
@@ -9,9 +10,14 @@ public class Room : MonoBehaviour
     private List<Door> doorList = new List<Door>();
     private MonsterGenerator mg;
 
+    public Vector3 offset;
+    private Vector2 offsetUpperLeft;
+    private Vector2 offsetDownRight;
+
     private void Start()
     {
         DoorListSetting();
+        OffsetPointSetting();
         DoorClose();
         mg = transform.GetChild(0).GetComponent<MonsterGenerator>();
         //이후는 몬스터 나오나 안 나오나 확인 후
@@ -38,6 +44,16 @@ public class Room : MonoBehaviour
         }
     }
 
+    private void OffsetPointSetting()
+    {
+        float halfX = offset.x / 2;
+        float halfZ = offset.z / 2;
+        offsetUpperLeft.x = transform.position.x - halfX;
+        offsetUpperLeft.y = transform.position.z + halfZ;
+
+        offsetDownRight.x = transform.position.x + halfX;
+        offsetDownRight.y = transform.position.z - halfZ;
+    }
     
 
     public void DoorClose()
@@ -66,6 +82,7 @@ public class Room : MonoBehaviour
     public void PlayerRoomIn()
     {
         Debug.Log("PlayerRoomIn" + " GameObject" + gameObject.name);
+        GameManger.instance.getCameraManger().SetOffset(offsetUpperLeft, offsetDownRight);
         isPlayerIn = true;
     }
 
@@ -96,4 +113,13 @@ public class Room : MonoBehaviour
         }
     }
 
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.green;
+
+        Gizmos.DrawWireCube(transform.position, offset);
+    }
+
+    
+    
 }

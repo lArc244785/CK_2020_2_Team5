@@ -8,6 +8,7 @@ public class GameManger : MonoBehaviour
     
     private GameObject player;
     private StageManger stageManger;
+    private CameraManger cameraManger;
 
 
      private void Awake()
@@ -29,12 +30,18 @@ public class GameManger : MonoBehaviour
     {
         SetPlayer();
         SetStageManger();
+        SetCameraManger();
     }
 
     public void SetPlayer()
     {
         player =  GameObject.Find("Player");
         Debug.Log("Player " + player.name);
+    }
+
+    public void SetCameraManger()
+    {
+        cameraManger = GameObject.Find("CameraManger").GetComponent<CameraManger>();
     }
 
     public void SetStageManger()
@@ -52,5 +59,9 @@ public class GameManger : MonoBehaviour
         return stageManger;
     }
     
+    public CameraManger getCameraManger()
+    {
+        return cameraManger;
+    }
 
 }
