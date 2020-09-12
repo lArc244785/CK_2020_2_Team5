@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class BulletControl : MonoBehaviour
 {
-    float bulletSpeed=15f;
-    float bulletRange=15f;
+    public float bulletSpeed=20f;
+    public float bulletRange=15f;
 
     Vector3 bulletV;
 
@@ -27,6 +27,12 @@ public class BulletControl : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         //몬스터면 맞은 몬스터의 hp감소
-        Destroy(gameObject);
+        if (collision.gameObject.tag=="Monster")
+        {
+            collision.gameObject.GetComponent<MonsterControl>().HpDown();
+            UnityEngine.Debug.Log("공격성공");
+            Destroy(gameObject);
+        }
+        
     }
 }
