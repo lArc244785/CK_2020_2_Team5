@@ -1278,7 +1278,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetTr: {fileID: 1048405555901715873}
-  smoothSpeed: 0.2
+  smoothTime: 0.125
   distance: 15
   camAngle: 45
 --- !u!81 &8395056140393555108

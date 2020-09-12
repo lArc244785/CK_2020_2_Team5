@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.Serialization.Configuration;
 using UnityEngine;
@@ -18,10 +19,9 @@ public class CameraManger : MonoBehaviour
 
 
     [Range(0.0f, 1.0f)]
-    public float smoothSpeed = 5.0f;
+    public float smoothTime = 0.125f;
     private Vector3 TargetPoint;
     private Vector3 currentCamPoint;
-    private Vector3 currentCamPointVelocity;
 
     private Vector2 upperLeftPoint;
     private Vector2 downRightPoint;
@@ -41,7 +41,7 @@ public class CameraManger : MonoBehaviour
         setCamType(CamType.Target);
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         camPiovtRoation.localRotation = Quaternion.Euler(camAngle, 0, 0);
         switch (camState)
@@ -75,9 +75,11 @@ public class CameraManger : MonoBehaviour
         {
             currentCamPoint = TargetPoint;
         }
-
-            currentCamPoint = Vector3.SmoothDamp(currentCamPoint, TargetPoint, ref currentCamPointVelocity, smoothSpeed ) ;
-
+        else
+        {
+            currentCamPoint = Vector3.Lerp(currentCamPoint, TargetPoint, smoothTime);
+        }
+        Debug.Log("Code 445: " + currentCamPoint.x + "   " + currentCamPoint.z);
         camTr.position = currentCamPoint;
     }
 
