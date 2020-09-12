@@ -39,7 +39,6 @@ public class MonsterControl : MonoBehaviour
         switch (monsterState)
         {
             case MonsterState.Move:
-                MonsterMove();
                 break;
 
             case MonsterState.Attack:
@@ -58,12 +57,16 @@ public class MonsterControl : MonoBehaviour
     private void FixedUpdate()
     {
         MonsterTurn();
+        MonsterMove();
     }
 
     void MonsterTurn()
     {
-        monsvec = player.transform.position - transform.position;
-        transform.forward = monsvec.normalized;
+        if (monsterState == MonsterState.Move)
+        {
+            monsvec = player.transform.position - transform.position;
+            transform.forward = monsvec.normalized;
+        }
     }
 
     void MonsterMove()
@@ -103,6 +106,6 @@ public class MonsterControl : MonoBehaviour
     {
         monsterhp -= 1f;
         if (monsterhp <= 0)
-            Destroy(gameObject);
+            gameObject.SetActive(false);
     }
 }

@@ -18,7 +18,7 @@ public class MonsterGenerator : MonoBehaviour
         Transform tr = transform;
 
         monsterList.Clear();
-        for (int i = 0; i < tr.GetChildCount(); i++)
+        for (int i = 0; i < tr.childCount; i++)
         {
             try
             {

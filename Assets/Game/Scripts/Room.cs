@@ -26,7 +26,7 @@ public class Room : MonoBehaviour
 
     private void DoorListSetting()
     {
-        Transform doorListTr = transform.FindChild("DoorList").transform;
+        Transform doorListTr = transform.Find("DoorList").transform;
 
         for (int i = 0; i < doorListTr.childCount; i++)
         {

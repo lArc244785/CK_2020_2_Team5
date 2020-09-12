@@ -14,7 +14,7 @@ public class StageManger : MonoBehaviour
     private void Setting()
     {
         Transform tr = transform;
-        for (int i = 0; i < tr.GetChildCount(); i++)
+        for (int i = 0; i < tr.childCount; i++)
         {
             try
             {
