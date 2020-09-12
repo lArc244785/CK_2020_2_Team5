@@ -9,7 +9,9 @@ public class GameManger : MonoBehaviour
     private GameObject player;
     private StageManger stageManger;
     private CameraManger cameraManger;
+    private UIManger uiManger;
 
+    private EnumInfo.GameState gameState;
 
      private void Awake()
     {
@@ -18,6 +20,9 @@ public class GameManger : MonoBehaviour
             instance = this;
             Setting();
             DontDestroyOnLoad(this);
+
+            //임시
+            gameState = EnumInfo.GameState.Ingame;
         }
         else
         {
@@ -31,6 +36,7 @@ public class GameManger : MonoBehaviour
         SetPlayer();
         SetStageManger();
         SetCameraManger();
+        SetUIManger();
     }
 
     public void SetPlayer()
@@ -49,6 +55,11 @@ public class GameManger : MonoBehaviour
         stageManger = GameObject.Find("StageManger").GetComponent<StageManger>();
     }
 
+    public void SetUIManger()
+    {
+        uiManger = GameObject.Find("UIManger").GetComponent<UIManger>();
+    }
+
     public GameObject getPlayer()
     {
         return player;
@@ -62,6 +73,21 @@ public class GameManger : MonoBehaviour
     public CameraManger getCameraManger()
     {
         return cameraManger;
+    }
+
+    public UIManger getUIMangerI()
+    {
+        return uiManger;
+    }
+
+    public void SetGameState(EnumInfo.GameState state)
+    {
+        gameState = state;
+    }
+
+    public EnumInfo.GameState GetGameState()
+    {
+        return gameState;
     }
 
 }

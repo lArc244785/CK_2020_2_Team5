@@ -6,11 +6,9 @@ using UnityEngine;
 
 public class CameraManger : MonoBehaviour
 {
-    public enum CamType{
-        None, Target
-    }
 
-    private CamType camState;
+
+    private EnumInfo.CamType camState;
 
     public Transform targetTr;
 
@@ -38,7 +36,7 @@ public class CameraManger : MonoBehaviour
         camTr = transform;
         camPiovtRoation = transform.GetChild(0);
         currentCamPoint = Vector3.zero;
-        setCamType(CamType.Target);
+        setCamType(EnumInfo.CamType.Target);
     }
 
     private void FixedUpdate()
@@ -46,14 +44,14 @@ public class CameraManger : MonoBehaviour
         camPiovtRoation.localRotation = Quaternion.Euler(camAngle, 0, 0);
         switch (camState)
         {
-            case CamType.Target:
+            case EnumInfo.CamType.Target:
                 TargetCam();
                 break;
         }
     }
 
 
-   public void setCamType(CamType type)
+   public void setCamType(EnumInfo.CamType  type)
     {
         camState = type;
     }
