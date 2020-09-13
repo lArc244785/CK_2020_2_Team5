@@ -8,6 +8,7 @@ public class Room : MonoBehaviour
     private bool isPlayerIn;
     private bool isRoomClear = false;
     private List<Door> doorList = new List<Door>();
+
     private MonsterGenerator mg;
 
     public Vector3 offset;
@@ -43,6 +44,8 @@ public class Room : MonoBehaviour
             }
         }
     }
+
+
 
     private void OffsetPointSetting()
     {
@@ -83,12 +86,14 @@ public class Room : MonoBehaviour
     {
         Debug.Log("PlayerRoomIn" + " GameObject" + gameObject.name);
         GameManger.instance.getCameraManger().SetOffset(offsetUpperLeft, offsetDownRight);
+        mg.MonsterEventOn();
         isPlayerIn = true;
     }
 
     public void PlayerRoomOut()
     {
         Debug.Log("PlayerRoomOut" + " GameObject" + gameObject.name);
+        mg.MonsterEventOff();
     }
 
     //private void Update()
@@ -105,13 +110,13 @@ public class Room : MonoBehaviour
         return isPlayerIn;
     }
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        if(collision.gameObject.tag == "Player")
-        {
-            PlayerRoomIn();
-        }
-    }
+    //private void OnCollisionEnter(Collision collision)
+    //{
+    //    if(collision.gameObject.tag == "Player")
+    //    {
+    //        PlayerRoomIn();
+    //    }
+    //}
 
     private void OnDrawGizmos()
     {

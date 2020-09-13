@@ -11,6 +11,7 @@ public class MonsterGenerator : MonoBehaviour
     {
         room = transform.GetComponentInParent<Room>();
         monsterListSetting();
+        MonsterEventOff();
     }
 
     public void monsterListSetting()
@@ -25,10 +26,45 @@ public class MonsterGenerator : MonoBehaviour
                 GameObject temp = tr.GetChild(i).gameObject;
                 Debug.Log("Monster GameObject  " + temp.gameObject);
                 monsterList.Add(temp);
+               
             }
             catch
             {
                 Debug.LogError("MonsterGenerator_monsterListSettingNullObject Index: " + i);
+            }
+        }
+    }
+
+    public void MonsterEventOff()
+    {
+        for (int i = 0; i < monsterList.Count; i++)
+        {
+            try
+            {
+                MonsterControl mc = monsterList[i].GetComponent<MonsterControl>();
+                mc.enabled = false;
+            }
+            catch
+            {
+                Debug.LogError("MonsterEventOffError index: " + i);
+                return;
+            }
+        }
+    }
+
+    public void MonsterEventOn()
+    {
+        for (int i = 0; i < monsterList.Count; i++)
+        {
+            try
+            {
+                MonsterControl mc = monsterList[i].GetComponent<MonsterControl>();
+                mc.enabled = true;
+            }
+            catch
+            {
+                Debug.LogError("MonsterEventOffError index: " + i);
+                return;
             }
         }
     }
