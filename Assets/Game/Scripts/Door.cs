@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Door : MonoBehaviour
 {
@@ -12,8 +10,10 @@ public class Door : MonoBehaviour
 
     private float pointX;
 
-    private float offsetX = 1.5f ;
-    public bool isRight;
+    private float offsetPoint = 1.5f;
+    public EnumInfo.DoorSpawn SpawnPoint;
+
+    private Vector3 movePoint;
 
     public void Start()
     {
@@ -24,14 +24,36 @@ public class Door : MonoBehaviour
     public void PointSetting()
     {
         pointX = transform.position.x;
-        if (isRight)
+
+        switch (SpawnPoint)
         {
-            pointX += offsetX;
+            case EnumInfo.DoorSpawn.Left:
+                movePoint = new Vector3(
+                    transform.position.x - offsetPoint,
+                    0.0f,
+                    transform.position.z);
+                break;
+            case EnumInfo.DoorSpawn.Right:
+                movePoint = new Vector3(
+                    transform.position.x + offsetPoint,
+                    0.0f,
+                    transform.position.z);
+                break;
+            case EnumInfo.DoorSpawn.Up:
+                movePoint = new Vector3(
+                    transform.position.x ,
+                    0.0f,
+                    transform.position.z + offsetPoint);
+                break;
+            case EnumInfo.DoorSpawn.Down:
+                movePoint = new Vector3(
+                    transform.position.x,
+                    0.0f,
+                    transform.position.z - offsetPoint);
+                break;
         }
-        else
-        {
-            pointX -= offsetX;
-        }
+
+
     }
 
     private void OppenedTheDoor()
@@ -47,9 +69,8 @@ public class Door : MonoBehaviour
 
 
     public void RoomMove(GameObject target)
-    {   
-        Vector3 movePoint = new Vector3(pointX, target.transform.position.y, transform.position.z);
-        print("Next MovePoint: " + movePoint);
+    {
+        movePoint.y = target.transform.position.y;
         target.transform.position = movePoint;
         room.PlayerRoomIn();
     }
@@ -65,10 +86,10 @@ public class Door : MonoBehaviour
 
     private void OnTriggerEnter(Collider collider)
     {
-        
-        if(collider.gameObject.tag == "Player")
+
+        if (collider.gameObject.tag == "Player")
         {
-           OppenedTheDoor();
+            OppenedTheDoor();
         }
     }
 }
