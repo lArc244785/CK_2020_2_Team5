@@ -30,4 +30,11 @@ public class StageManger : MonoBehaviour
          
         }
     }
+
+    public Room getRoom(int index)
+    {
+        if (index > roomList.Count) return null;
+        return roomList[index];
+    }
+
 }

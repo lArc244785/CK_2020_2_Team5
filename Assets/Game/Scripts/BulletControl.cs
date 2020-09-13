@@ -33,6 +33,10 @@ public class BulletControl : MonoBehaviour
             UnityEngine.Debug.Log("공격성공");
             Destroy(gameObject);
         }
+        else
+        {
+            Destroy(gameObject);
+        }
         
     }
 }

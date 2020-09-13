@@ -144,4 +144,27 @@ public class PlayerControl : MonoBehaviour
         getbullet = maxbullet;
         UnityEngine.Debug.Log("장전끝 현재 총알 :"+getbullet.ToString());
     }
+
+    public int getBullet()
+    {
+        return getbullet;
+    }
+
+    public int getMaxBullet()
+    {
+        return maxbullet;
+    }
+
+    public bool getIsReload()
+    {
+        return load;
+    }
+
+    
+    public Vector2 getDashTime()
+    {
+        //현재 대쉬 쿨타임이랑, 총 대쉬 쿨탐
+        return new Vector2(dashCoolTime,  5.0f);
+    }
+
 }

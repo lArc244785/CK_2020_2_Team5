@@ -30,6 +30,11 @@ public class GameManger : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+      stageManger.getRoom(0).PlayerRoomIn();
+    }
+
 
     private void Setting()
     {
@@ -37,6 +42,9 @@ public class GameManger : MonoBehaviour
         SetStageManger();
         SetCameraManger();
         SetUIManger();
+
+        uiManger.Setting();
+       
     }
 
     public void SetPlayer()
@@ -60,9 +68,14 @@ public class GameManger : MonoBehaviour
         uiManger = GameObject.Find("UIManger").GetComponent<UIManger>();
     }
 
-    public GameObject getPlayer()
+    public GameObject getPlayerObject()
     {
         return player;
+    }
+
+    public PlayerControl getPlayerControl()
+    {
+        return player.GetComponent<PlayerControl>();
     }
 
     public StageManger getStageManger()

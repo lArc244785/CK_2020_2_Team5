@@ -5,18 +5,16 @@ using UnityEngine;
 public class UIManger : MonoBehaviour
 {
     private MagazineUI magazineUI;
-
+    private DashUI dashUI;
     // Start is called before the first frame update
 
-    private void Start()
-    {
-        Setting();
-    }
+
 
 
     public void Setting()
     {
         magazineUI = GameObject.Find("Magazine_UI").GetComponent<MagazineUI>();
+        dashUI = GameObject.Find("Dash_UI").GetComponent<DashUI>();
     }
 
     public MagazineUI getMagazineUI()
@@ -29,7 +27,13 @@ public class UIManger : MonoBehaviour
         switch (GameManger.instance.GetGameState())
         {
             case EnumInfo.GameState.Ingame:
+                
+                EnumInfo.MagazineUI mu = GameManger.instance.getPlayerControl().getIsReload() ? EnumInfo.MagazineUI.Reroad : EnumInfo.MagazineUI.NoEmpty;
+                magazineUI.setState(mu);
                 magazineUI.Draw();
+
+                dashUI.Draw();
+
                 break;
         }
     }

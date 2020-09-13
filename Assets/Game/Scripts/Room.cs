@@ -15,14 +15,16 @@ public class Room : MonoBehaviour
     private Vector2 offsetUpperLeft;
     private Vector2 offsetDownRight;
 
-    private void Start()
+    private void Awake()
     {
         DoorListSetting();
         OffsetPointSetting();
         DoorClose();
-        mg = transform.GetChild(0).GetComponent<MonsterGenerator>();
+
         //이후는 몬스터 나오나 안 나오나 확인 후
+        mg = transform.GetChild(0).GetComponent<MonsterGenerator>();
     }
+
 
 
     private void DoorListSetting()
@@ -84,6 +86,7 @@ public class Room : MonoBehaviour
 
     public void PlayerRoomIn()
     {
+        if (isPlayerIn == true) return;
         Debug.Log("PlayerRoomIn" + " GameObject" + gameObject.name);
         GameManger.instance.getCameraManger().SetOffset(offsetUpperLeft, offsetDownRight);
         mg.MonsterEventOn();
@@ -92,6 +95,7 @@ public class Room : MonoBehaviour
 
     public void PlayerRoomOut()
     {
+        if (isPlayerIn == false) return;
         Debug.Log("PlayerRoomOut" + " GameObject" + gameObject.name);
         mg.MonsterEventOff();
     }

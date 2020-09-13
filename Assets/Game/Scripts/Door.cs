@@ -61,7 +61,7 @@ public class Door : MonoBehaviour
         if (isOpen)
         {
             Debug.Log("Next  " + nextDoor.room.gameObject);
-            nextDoor.RoomMove(GameManger.instance.getPlayer());
+            nextDoor.RoomMove(GameManger.instance.getPlayerObject());
             room.PlayerRoomOut();
 
         }

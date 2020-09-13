@@ -6,13 +6,14 @@ using UnityEngine.UI;
 public class MagazineUI : MonoBehaviour
 {
     private EnumInfo.MagazineUI state;
-
+    private PlayerControl pc;
     private Text magazineText;
     // Start is called before the first frame update
     void Start()
     {
         magazineText = transform.FindChild("Magazine_Text").GetComponent<Text>();
         setState(EnumInfo.MagazineUI.Reroad);
+        pc = GameManger.instance.getPlayerControl();
     }
 
 
@@ -26,7 +27,7 @@ public class MagazineUI : MonoBehaviour
         switch (state)
         {
             case EnumInfo.MagazineUI.NoEmpty:
-                //플레이어 정보 받아오기
+                DrawNoEmpty(pc.getBullet(), pc.getMaxBullet());
                 break;
             case EnumInfo.MagazineUI.Reroad:
                 DrawReroad();
