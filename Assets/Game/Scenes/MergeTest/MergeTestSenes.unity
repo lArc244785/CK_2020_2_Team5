@@ -5802,7 +5802,7 @@ MonoBehaviour:
   playerRotaSpeed: 20
   Bullet: {fileID: 8292093020352922700, guid: b2f8695ba8a5afd4ca2bacf4e1efaeed, type: 3}
   FirePos: {fileID: 1048405555705352363}
-  dashCool: 10
+  dashCoolTimeMax: 5
   dashSpeed: 8
 --- !u!1 &1048405555901715935
 GameObject:

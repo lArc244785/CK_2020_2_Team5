@@ -24,16 +24,17 @@ public class PlayerControl : MonoBehaviour
     bool load;
 
     //대쉬중인가 / 대쉬 쿨 / 대쉬 시 속도
-    bool dash;
-    float dashTime = 0f;
-    public float dashCool = 10f; //임시
-    float dashCoolTime = 10;
+    bool isdash;
+    float dTime = 0f;
+    public float dashCoolTimeMax = 4f; //임시
+    float dashCoolTime;
     public float dashSpeed = 8f; //임시
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         getbullet = maxbullet;
+        dashCoolTime = dashCoolTimeMax;
     }
 
     void Update()
@@ -50,20 +51,20 @@ public class PlayerControl : MonoBehaviour
         {
             ReLoad();
         }
+        dashCoolTime += Time.deltaTime;
     }
 
     private void FixedUpdate()
     {
         phorizon = Input.GetAxisRaw("Horizontal");
         pvertical = Input.GetAxisRaw("Vertical");
-        dashCoolTime += 0.1f;
        PlayerMove();
         PlayerTurn();
     }
 
     void PlayerMove()
     {
-        if (dash == false) //대쉬중일땐 움직이지 못함
+        if (isdash == false) //대쉬중일땐 움직이지 못함
         {
             pmove.Set(phorizon, 0.0f, pvertical);
             pmove = pmove.normalized * playerMoveSpeed * Time.deltaTime;
@@ -91,13 +92,14 @@ public class PlayerControl : MonoBehaviour
         return Mathf.Atan2(b.x - a.x, b.y - a.y) * Mathf.Rad2Deg ;
     }
     //=======================
+
     void PlayerAttack() //마우스 좌클릭 시 포탄 발사
     {
         if (getbullet > 0)
         {
             Instantiate(Bullet, FirePos.transform.position, FirePos.transform.rotation);
             getbullet -= 1;
-            UnityEngine.Debug.Log("현재 총알 : " + getbullet.ToString());
+            //UnityEngine.Debug.Log("현재 총알 : " + getbullet.ToString());
             if (getbullet == 0)
                 ReLoad();
         }
@@ -106,13 +108,13 @@ public class PlayerControl : MonoBehaviour
 
     void Dash()
     {
-        if (dash == false)
+        if (isdash == false)
         {
-            if (dashCool > dashCoolTime)
+            if (dashCoolTimeMax > dashCoolTime)
                 return;
             else
             {
-                dash = true;
+                isdash = true;
                 StartCoroutine(GoDash());
             }
         }
@@ -120,18 +122,18 @@ public class PlayerControl : MonoBehaviour
 
     IEnumerator GoDash()
     {
-        dashTime += 0.1f;
-        if (dash == true && 5f >= dashTime)
+        dTime += Time.deltaTime;
+        if (isdash == true && 1f >= dTime)
         {
             transform.Translate(Vector3.forward * 2.5f * Time.deltaTime);
             StartCoroutine(GoDash());
         }
         else
         {
-            UnityEngine.Debug.Log("대시종료");
+            //UnityEngine.Debug.Log("대시종료");
             dashCoolTime = 0f;
-            dash = false;
-            dashTime = 0f;
+            isdash = false;
+            dTime = 0f;
             yield return null;
         }
     }
@@ -142,7 +144,7 @@ public class PlayerControl : MonoBehaviour
             return;
         else
         {
-            UnityEngine.Debug.Log("장전시작");
+            //UnityEngine.Debug.Log("장전시작");
             load = true;
             StartCoroutine(ReLoading());
         }
@@ -154,7 +156,7 @@ public class PlayerControl : MonoBehaviour
         yield return new WaitForSeconds(reloadTime);
         load = false;
         getbullet = maxbullet;
-        UnityEngine.Debug.Log("장전끝 현재 총알 :"+getbullet.ToString());
+        //UnityEngine.Debug.Log("장전끝 현재 총알 :"+getbullet.ToString());
     }
 
     public int getBullet()

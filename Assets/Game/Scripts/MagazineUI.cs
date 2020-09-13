@@ -11,7 +11,7 @@ public class MagazineUI : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        magazineText = transform.FindChild("Magazine_Text").GetComponent<Text>();
+        magazineText = transform.Find("Magazine_Text").GetComponent<Text>();
         setState(EnumInfo.MagazineUI.Reroad);
         pc = GameManger.instance.getPlayerControl();
     }
