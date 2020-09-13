@@ -21,7 +21,6 @@ public class PlayerControl : MonoBehaviour
     int maxbullet = 5; //최대총알수 등은 나중에 다른 스크립트로 이동 예정
     int getbullet = 0;
     float reloadTime = 2f;
-    float reTime = 0;
     bool load;
 
     //대쉬중인가 / 대쉬 쿨 / 대쉬 시 속도
@@ -95,7 +94,6 @@ public class PlayerControl : MonoBehaviour
 
     void Dash()
     {
-        //시간재는 함수 추가
         if (dash == false)
         {
             if (dashCool > dashCoolTime)
