@@ -43,8 +43,10 @@ public class GameManger : MonoBehaviour
         SetCameraManger();
         SetUIManger();
 
+
+        cameraManger.Setting();
         uiManger.Setting();
-       
+
     }
 
     public void SetPlayer()

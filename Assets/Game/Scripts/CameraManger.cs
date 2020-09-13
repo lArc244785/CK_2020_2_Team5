@@ -15,6 +15,7 @@ public class CameraManger : MonoBehaviour
     private Transform camTr;
     private Transform camPiovtRoation;
 
+    private Camera camera;
 
     [Range(0.0f, 1.0f)]
     public float smoothTime = 0.125f;
@@ -31,13 +32,17 @@ public class CameraManger : MonoBehaviour
     public float camAngle = 45.0f;
 
 
-    private void Start()
+    public void Setting()
     {
         camTr = transform;
         camPiovtRoation = transform.GetChild(0);
         currentCamPoint = Vector3.zero;
         setCamType(EnumInfo.CamType.Target);
+        camera = transform.GetChild(0).GetComponentInChildren<Camera>();
     }
+
+
+    
 
     private void FixedUpdate()
     {
@@ -96,6 +101,11 @@ public class CameraManger : MonoBehaviour
     {
         upperLeftPoint = upperLeft;
         downRightPoint = downRight;
+    }
+
+    public Camera getCamera()
+    {
+        return camera;
     }
 
 }

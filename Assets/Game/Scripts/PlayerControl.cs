@@ -57,7 +57,7 @@ public class PlayerControl : MonoBehaviour
         phorizon = Input.GetAxisRaw("Horizontal");
         pvertical = Input.GetAxisRaw("Vertical");
         dashCoolTime += 0.1f;
-        PlayerMove();
+       PlayerMove();
         PlayerTurn();
     }
 
@@ -71,14 +71,26 @@ public class PlayerControl : MonoBehaviour
         }
     }
 
+    //아직 이해를 못한 부분입니다. =========================
     void PlayerTurn()
     {
-        if (phorizon == 0 && pvertical == 0)
-            return;
-        playerRotation = Quaternion.LookRotation(pmove);
-        rb.rotation = Quaternion.Slerp(rb.rotation, playerRotation, playerRotaSpeed * Time.deltaTime);
+        //Get the Screen positions of the object
+        Vector2 positionOnScreen = Camera.main.WorldToViewportPoint(transform.position);
+
+        //Get the Screen position of the mouse
+        Vector2 mouseOnScreen = (Vector2)Camera.main.ScreenToViewportPoint(Input.mousePosition);
+
+        //Get the angle between the points
+        float angle = AngleBetweenTwoPoints(positionOnScreen, mouseOnScreen);
+
+        transform.rotation = Quaternion.Euler(new Vector3(0f, angle, 0f));
     }
 
+    float AngleBetweenTwoPoints(Vector3 a, Vector3 b)
+    {
+        return Mathf.Atan2(b.x - a.x, b.y - a.y) * Mathf.Rad2Deg ;
+    }
+    //=======================
     void PlayerAttack() //마우스 좌클릭 시 포탄 발사
     {
         if (getbullet > 0)
