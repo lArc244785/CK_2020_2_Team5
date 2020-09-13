@@ -98,6 +98,7 @@ public class Room : MonoBehaviour
         if (isPlayerIn == false) return;
         Debug.Log("PlayerRoomOut" + " GameObject" + gameObject.name);
         mg.MonsterEventOff();
+        isPlayerIn = false;
     }
 
     //private void Update()
