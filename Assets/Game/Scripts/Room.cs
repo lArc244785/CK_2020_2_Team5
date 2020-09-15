@@ -11,9 +11,14 @@ public class Room : MonoBehaviour
 
     private MonsterGenerator mg;
 
-    public Vector3 offset;
+    public Vector3 offsetSize;
+    public Vector3 offsetPosition;
     private Vector2 offsetUpperLeft;
     private Vector2 offsetDownRight;
+
+    public EnumInfo.CamType roomCamType;
+
+    public Vector3 fixingPosition;
 
     private void Awake()
     {
@@ -51,13 +56,16 @@ public class Room : MonoBehaviour
 
     private void OffsetPointSetting()
     {
-        float halfX = offset.x / 2;
-        float halfZ = offset.z / 2;
-        offsetUpperLeft.x = transform.position.x - halfX;
-        offsetUpperLeft.y = transform.position.z + halfZ;
+        float halfX = offsetSize.x / 2;
+        float halfZ = offsetSize.z / 2;
 
-        offsetDownRight.x = transform.position.x + halfX;
-        offsetDownRight.y = transform.position.z - halfZ;
+        Vector3 offsetPos = transform.position - offsetPosition;
+
+        offsetUpperLeft.x = offsetPos.x - halfX;
+        offsetUpperLeft.y = offsetPos.z + halfZ;
+
+        offsetDownRight.x = offsetPos.x + halfX;
+        offsetDownRight.y = offsetPos.z - halfZ;
     }
     
 
@@ -91,6 +99,11 @@ public class Room : MonoBehaviour
         GameManger.instance.getCameraManger().SetOffset(offsetUpperLeft, offsetDownRight);
         mg.MonsterEventOn();
         isPlayerIn = true;
+        GameManger.instance.getCameraManger().setCamType(roomCamType);
+        if(roomCamType == EnumInfo.CamType.Fixing)
+        {
+            GameManger.instance.getCameraManger().SetFixingCameraPoint(fixingPosition);
+        }
     }
 
     public void PlayerRoomOut()
@@ -127,7 +140,7 @@ public class Room : MonoBehaviour
     {
         Gizmos.color = Color.green;
 
-        Gizmos.DrawWireCube(transform.position, offset);
+        Gizmos.DrawWireCube(transform.position - offsetPosition, offsetSize);
     }
 
     
