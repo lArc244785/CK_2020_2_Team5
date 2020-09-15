@@ -10,7 +10,7 @@ public class EnumInfo
 
     public enum CamType
     {
-        None, Target
+        None, Target, Fixing
     }
 
     public enum GameState

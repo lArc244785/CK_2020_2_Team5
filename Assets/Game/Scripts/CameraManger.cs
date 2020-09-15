@@ -28,9 +28,10 @@ public class CameraManger : MonoBehaviour
     [Range(5.0f, 30.0f)]
     public float distance = 15.0f;
 
-    [Range(30, 60)]
+    [Range(30, 90)]
     public float camAngle = 45.0f;
 
+    private Vector3 fixingPoint;
 
     public void Setting()
     {
@@ -52,9 +53,28 @@ public class CameraManger : MonoBehaviour
             case EnumInfo.CamType.Target:
                 TargetCam();
                 break;
+            case EnumInfo.CamType.Fixing:
+                FixingCam();
+                break;
         }
     }
 
+    public void SetFixingCameraPoint(Vector3 position)
+    {
+
+        fixingPoint = position;
+    }
+
+    public void FixingCam()
+    {
+        float radian = camAngle * Mathf.PI / 180.0f;
+
+        float y = targetTr.position.y + Mathf.Sin(radian) * distance;
+
+        camTr.position = new Vector3(fixingPoint.x, y, fixingPoint.z);
+
+
+    }
 
    public void setCamType(EnumInfo.CamType  type)
     {
