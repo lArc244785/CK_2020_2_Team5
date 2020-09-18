@@ -3,9 +3,9 @@
 public class EnumInfo
 {
 
-    public enum MagazineUI
+    public enum CanonState
     {
-        NoEmpty, Reroad
+        NoEmpty, Reroad, BulletOn
     }
 
     public enum CamType
