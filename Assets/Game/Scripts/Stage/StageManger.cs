@@ -6,12 +6,9 @@ public class StageManger : MonoBehaviour
 {
     private List<Room> roomList = new List<Room>();
 
-    private void Awake()
-    {
-        Setting();
-    }
 
-    private void Setting()
+
+    public void Setting()
     {
         Transform tr = transform;
         for (int i = 0; i < tr.childCount; i++)

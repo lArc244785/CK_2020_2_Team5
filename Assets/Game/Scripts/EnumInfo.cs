@@ -15,12 +15,18 @@ public class EnumInfo
 
     public enum GameState
     {
-        None, StateChoice, Ingame
+        None, Title, Ingame, Pause, GameOver, StageMove
     }
 
     public enum DoorSpawn
     {
         Left , Right , Up, Down
     }
+
+    public enum ItemGet 
+    {
+        Power, Range, Reload, Speed
+    }
+
 
 }

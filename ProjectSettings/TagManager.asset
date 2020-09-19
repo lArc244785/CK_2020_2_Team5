@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - Monster
+  - PauseUI_Button
   layers:
   - Default
   - TransparentFX

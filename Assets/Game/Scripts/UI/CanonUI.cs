@@ -16,20 +16,19 @@ public class CanonUI : I_UI
     private int canonNum;
     private int canonMaxNum;
 
-    private float moveX = 80.0f;
-    private float minX = 0.0f;
-    private float maxX = 400.0f;
+    private float moveX = 70.0f;
+    private float minX = 54.0f;
+    private float maxX = 390;
+
+    private float posY;
 
     private Vector2 targetPos;
-    private Vector2 currentPos;
-    private Vector2 beforeCurrentPos;
-    private Vector2 currentPosValue;
 
     private float RemoveSmoothTime= 0.05f;
 
     private float SmoothTime ;
 
-
+    private Image backGround;
 
     public override void Setting()
     {
@@ -47,9 +46,11 @@ public class CanonUI : I_UI
         }
 
         targetPos= canonImgParentRectTr.localPosition;
-        currentPos = canonImgParentRectTr.localPosition;
 
         SmoothTime = RemoveSmoothTime;
+
+        posY = canonImgParentRectTr.localPosition.y;
+        backGround = GetComponent<Image>();
 
         CanonUISet(GameManger.instance.getPlayerControl().getMaxBullet());
     }
@@ -77,7 +78,11 @@ public class CanonUI : I_UI
         switch (state)
         {
             case EnumInfo.CanonState.Reroad:
+                backGround.color = Color.red;
                 canonImgParentRectTr.DOLocalMoveX(targetPos.x, SmoothTime);
+                break;
+            case EnumInfo.CanonState.BulletOn:
+                backGround.color = Color.white;
                 break;
         }
       
@@ -90,9 +95,8 @@ public class CanonUI : I_UI
         Draw();
         float parentLoaclX = maxX - moveX * canonNum;
         parentLoaclX = Mathf.Clamp(parentLoaclX, minX, maxX);
-        canonImgParentRectTr.localPosition = new Vector3(parentLoaclX, 0, 0);
+        canonImgParentRectTr.localPosition = new Vector3(parentLoaclX, posY, 0);
         targetPos = canonImgParentRectTr.localPosition;
-        currentPos = targetPos;
     }
 
 
@@ -107,7 +111,7 @@ public class CanonUI : I_UI
     public void ReLoadEvent(float ReloadTime)
     {
         Draw();
-        canonImgParentRectTr.localPosition = new Vector3(maxX, 0, 0);
+        canonImgParentRectTr.localPosition = new Vector3(maxX, posY, 0);
         targetPos.x = maxX;
         state = EnumInfo.CanonState.Reroad;
         StartCoroutine(ReLoadCorutine(ReloadTime));
@@ -115,17 +119,21 @@ public class CanonUI : I_UI
 
     IEnumerator ReLoadCorutine(float ReloadTime)
     {
-        
-        float reloadTic = ReloadTime / 6.0f;
+    
+        float reloadTic = ReloadTime / 5.0f;
+        float animationSpeed = 1.0f / reloadTic; // 애니메이션이 Tic의 시간안에 모두 돌아가야되서 얼마나 배속을 해야되는지 연산
         SmoothTime = reloadTic - 0.05f;
         yield return new WaitForSeconds(reloadTic);
         for (int i = 0; i < canonMaxNum; i++)
         {
             canonNum++;
+            canonImgAniList[i].speed = animationSpeed;
             canonImgAniList[i].SetTrigger("Reload");
             CanonTargetPosSet(true);
             yield return new WaitForSeconds(reloadTic);
+            canonImgAniList[i].speed = 1.0f;
         }
+
         state = EnumInfo.CanonState.BulletOn;
         yield return 0;
     }

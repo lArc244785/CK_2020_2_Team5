@@ -99,7 +99,7 @@ public class PlayerControl : MonoBehaviour
         {
             Instantiate(Bullet, FirePos.transform.position, FirePos.transform.rotation);
             getbullet -= 1;
-            GameManger.instance.getUIMangerI().getcanonUI().ShootBullet(getbullet);
+            GameManger.instance.getInGameUIMangerI().getcanonUI().ShootBullet(getbullet);
             //UnityEngine.Debug.Log("현재 총알 : " + getbullet.ToString());
             if (getbullet == 0)
                 ReLoad();
@@ -155,7 +155,7 @@ public class PlayerControl : MonoBehaviour
     IEnumerator ReLoading()
     {
         //UI리로드 이벤트를 실행시킵니다.
-        GameManger.instance.getUIMangerI().getcanonUI().ReLoadEvent(reloadTime);
+        GameManger.instance.getInGameUIMangerI().getcanonUI().ReLoadEvent(reloadTime);
         yield return new WaitForSeconds(reloadTime);
         load = false;
         getbullet = maxbullet;
