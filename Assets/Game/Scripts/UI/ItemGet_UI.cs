@@ -13,7 +13,9 @@ public class ItemGet_UI : I_UI
     public override void Setting()
     {
         ItemGetParent = transform.GetChild(0).gameObject;
-        explainText = GameObject.Find("UI_explainText").GetComponentInChildren<Text>();
+        GameObject obj = GameObject.Find("UI_explainText");
+        Debug.Log("AA: " + obj);
+        explainText = obj.GetComponentInChildren<Text>();
         if (explainText == null) Debug.LogError("Code 995: explainText Null");
         itemImg = GameObject.Find("UI_itemImg").GetComponent<Image>();
         ItemGetParent.SetActive(false);

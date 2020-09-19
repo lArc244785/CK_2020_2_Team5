@@ -22,6 +22,7 @@ public class Room : MonoBehaviour
 
     private void Awake()
     {
+        print("SCENE AWAKE");
         DoorListSetting();
         OffsetPointSetting();
         DoorClose();

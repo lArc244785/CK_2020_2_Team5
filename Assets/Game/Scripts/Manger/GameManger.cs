@@ -23,14 +23,6 @@ public class GameManger : MonoBehaviour
             instance = this;
             DontDestroyOnLoad(this);
 
-            if(gameState == EnumInfo.GameState.Ingame)
-            {
-                InGameSetting();
-
-                SetGameState(EnumInfo.GameState.Ingame);
-            }
-      
-
         }
         else
         {
@@ -38,26 +30,32 @@ public class GameManger : MonoBehaviour
         }
     }
 
+
+
     private void Start()
     {
-        if(gameState == EnumInfo.GameState.Ingame)
+        if (gameState == EnumInfo.GameState.Ingame)
+        {
+            print("DDS");
             getStageManger().getRoom(0).PlayerRoomIn();
+        }
     }
 
 
     public void InGameSetting()
     {
+        print("Player Setting...");
         SetPlayer();
+        print("Player Finsh...");
+   print("Stage Setting...");
         SetStageManger();
+        print("Stage Finsh...");
+        print("CameraManger Setting...");
         SetCameraManger();
+        print("CameraManger Finsh...");
+        print("InGameUIManger Setting...");
         SetInGameUIManger();
-
-        cameraManger.Setting();
-        inGameManger.Setting();
-        stageManger.Setting();
-
-      
-
+        print("InGameUIManger Finsh...");
     }
 
 
@@ -69,23 +67,46 @@ public class GameManger : MonoBehaviour
         if (player == null)
         {
             Debug.LogError("No Serch Player " );
+            return;
         }
       
     }
 
     public void SetCameraManger()
     {
-        cameraManger = GameObject.Find("CameraManger").GetComponent<CameraManger>();
+        GameObject cameraMangerObj = GameObject.Find("CameraManger");
+        if (cameraMangerObj == null)
+        {
+            Debug.LogError("No Serch cameraManger ");
+            return;
+        }
+        cameraManger = cameraMangerObj.GetComponent<CameraManger>();
+        cameraManger.Setting();
     }
 
     public void SetStageManger()
     {
-        stageManger = GameObject.Find("StageManger").GetComponent<StageManger>();
+        GameObject  stageMangerObj= GameObject.Find("StageManger");
+
+        if (stageMangerObj == null)
+        {
+            Debug.LogError("No Serch StageManger ");
+            return;
+        }
+            stageManger = stageMangerObj.GetComponent<StageManger>();
+            stageManger.Setting();
     }
 
     public void SetInGameUIManger()
     {
-        inGameManger = GameObject.Find("InGameUIManger").GetComponent<InGameUIManger>();
+        GameObject inGameMangerObj = GameObject.Find("InGameUIManger");
+        if (inGameMangerObj == null)
+        {
+            Debug.LogError("No Serch inGameManger ");
+            return;
+        }
+        inGameManger = inGameMangerObj.GetComponent<InGameUIManger>();
+        inGameManger.Setting();
     }
 
     public GameObject getPlayerObject()
@@ -108,7 +129,7 @@ public class GameManger : MonoBehaviour
     
     public CameraManger getCameraManger()
     {
-        if (cameraManger == null) SetCameraManger();
+      //  if (cameraManger == null) SetCameraManger();
         return cameraManger;
     }
 
@@ -148,11 +169,8 @@ public class GameManger : MonoBehaviour
 
     public void GoToInGameScene()
     {
-        
-
         SceneManager.LoadScene(1);
         SetGameState(EnumInfo.GameState.Ingame);
-        InGameSetting();
     }
 
     public void GameExit()
@@ -160,23 +178,26 @@ public class GameManger : MonoBehaviour
         Application.Quit();
     }
 
-    private void OnEnable()
+
+    void OnEnable()
     {
+        // 델리게이트 체인 추가
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
-
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        if(scene.name == "MergeTestSenes")
+        Debug.Log("씬 교체됨, 현재 씬: " + scene.name);
+        if (scene.name == "MergeTestSenes")
         {
-            print("DDD");
+            // 씬 전환 효과 (Fade In)
             InGameSetting();
         }
     }
 
-    private void OnDisable()
+    void OnDisable()
     {
+        // 델리게이트 체인 제거
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 }

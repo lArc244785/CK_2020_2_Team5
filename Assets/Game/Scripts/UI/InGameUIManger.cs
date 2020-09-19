@@ -12,9 +12,13 @@ public class InGameUIManger :I_UI
     private GameOver_UI gameOverUI;
     // Start is called before the first frame update
 
+    public bool TestMode;
+
 
     public override void Setting()
     {
+        print("InGameSetting");
+
         canonUI = GameObject.Find("UI_Canon").GetComponent<CanonUI>();
         hpUI = GameObject.Find("UI_HP").GetComponent<HPUI>();
         itemUI = GameObject.Find("UI_ItemGet").GetComponent<ItemGet_UI>();
@@ -55,6 +59,22 @@ public class InGameUIManger :I_UI
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             PauseUIOppenAndClose();
+        }
+
+        if (TestMode)
+        {
+            if (Input.GetKeyDown(KeyCode.F1))
+            {
+                itemUI.ItemGet(EnumInfo.ItemGet.Power);
+            }
+            else if (Input.GetKeyDown(KeyCode.F2))
+            {
+                gameClearUI.Draw();
+            }
+            else if (Input.GetKeyDown(KeyCode.F3))
+            {
+                gameOverUI.Draw();
+            }
         }
 
         Draw();

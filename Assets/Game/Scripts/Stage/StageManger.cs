@@ -16,7 +16,6 @@ public class StageManger : MonoBehaviour
             try
             {
                 Room tempRoom = tr.GetChild(i).GetComponent<Room>();
-                Debug.Log(tempRoom.gameObject);
                 roomList.Add(tempRoom);
             }
             catch 
