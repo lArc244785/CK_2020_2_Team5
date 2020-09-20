@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,7 +8,7 @@ public class ItemGet_UI : I_UI
 {
     public Sprite[] items;
     private GameObject ItemGetParent;
-    private Text explainText;
+    private TextMeshProUGUI explainText;
     private Image itemImg;
 
     public override void Setting()
@@ -15,7 +16,7 @@ public class ItemGet_UI : I_UI
         ItemGetParent = transform.GetChild(0).gameObject;
         GameObject obj = GameObject.Find("UI_explainText");
         Debug.Log("AA: " + obj);
-        explainText = obj.GetComponentInChildren<Text>();
+        explainText = obj.GetComponentInChildren<TextMeshProUGUI>();
         if (explainText == null) Debug.LogError("Code 995: explainText Null");
         itemImg = GameObject.Find("UI_itemImg").GetComponent<Image>();
         ItemGetParent.SetActive(false);
