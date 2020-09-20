@@ -13,5 +13,9 @@ public class PlayerStatus
     public int maxBullet;
     public int getBullet;
 
+    public float attackPower;
+    public float reLoadSpeedUp;
+    public float rangeUp;
+    public float attackRangeUp;
     
 }
