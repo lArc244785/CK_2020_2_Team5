@@ -6,9 +6,9 @@ public class PlayerControl : MonoBehaviour
 {
     [Range(0,50)]
     public float playerMoveSpeed = 5;
-    public float playerRotaSpeed = 10;
 
-    Quaternion playerRotation;
+    public PlayerStatus playerStatus;
+
     private Rigidbody rb;
     Vector3 pmove;
 
@@ -122,20 +122,23 @@ public class PlayerControl : MonoBehaviour
 
     IEnumerator GoDash()
     {
-        dTime += Time.deltaTime;
-        if (isdash == true && 1f >= dTime)
+        while (true)
         {
-            transform.Translate(Vector3.forward * 2.5f * Time.deltaTime);
-            StartCoroutine(GoDash());
+            dTime += Time.deltaTime;
+            if (isdash == true && 1f >= dTime)
+            {
+                transform.Translate(Vector3.forward * 2.5f * Time.deltaTime);
+            }
+            else
+            {
+                dashCoolTime = 0f;
+                isdash = false;
+                dTime = 0f;
+                yield return null;
+                break;
+            }
         }
-        else
-        {
-            //UnityEngine.Debug.Log("대시종료");
-            dashCoolTime = 0f;
-            isdash = false;
-            dTime = 0f;
-            yield return null;
-        }
+
     }
 
     void ReLoad()
@@ -181,4 +184,12 @@ public class PlayerControl : MonoBehaviour
         return new Vector2(dashCoolTime,  5.0f);
     }
 
+    public void SetDamage(float damage)
+    {
+        playerStatus.hp -= (int)damage;
+        if (playerStatus.hp <= 0)
+        {
+            Debug.Log("GameOver");
+        }
+    }
 }
