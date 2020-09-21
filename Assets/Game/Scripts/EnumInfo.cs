@@ -23,4 +23,10 @@ public class EnumInfo
         Left , Right , Up, Down
     }
 
+    public enum MonsterState
+    {
+        Move = 1,
+        Attack,
+        CoolDown //임시 제작
+    }
 }

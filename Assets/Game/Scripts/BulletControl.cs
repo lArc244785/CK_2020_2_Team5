@@ -14,8 +14,7 @@ public class BulletControl : MonoBehaviour
         bulletV.Set(transform.position.x, transform.position.y, transform.position.z);
     }
 
-
-    void Update()
+    private void FixedUpdate()
     {
         transform.Translate(Vector3.forward * bulletSpeed * Time.deltaTime);
 
@@ -23,7 +22,6 @@ public class BulletControl : MonoBehaviour
         if (Vector3.Distance(bulletV, transform.position) > bulletRange)
             Destroy(gameObject);
     }
-
     private void OnCollisionEnter(Collision collision)
     {
         //몬스터면 맞은 몬스터의 hp감소

@@ -126,6 +126,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 716ab2fdde81ed64ea176e1113b31531, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mstatus:
+    hp: 3
+    maxHp: 3
+    shortMonsterRange: 3
+    longMonsterRange: 0
+    tick: 0
+    tickRate: 5
+    shortdamage: 5
+    longdamage: 0
+    bulletSpeed: 0
+    shortAttackRange: 3
+    longAttackRange: 0
+    isShortMonster: 1
+    isLongMonster: 0
+  nav: {fileID: 7705916033526836195}
+  monsterBullet: {fileID: 0}
+  firePos: {fileID: 0}
   attackRange: 1
   cooldownTime: 1
 --- !u!195 &7705916033526836195
