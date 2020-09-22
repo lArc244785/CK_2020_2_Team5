@@ -3,9 +3,9 @@
 public class EnumInfo
 {
 
-    public enum MagazineUI
+    public enum CanonState
     {
-        NoEmpty, Reroad
+        NoEmpty, Reroad, BulletOn
     }
 
     public enum CamType
@@ -15,7 +15,7 @@ public class EnumInfo
 
     public enum GameState
     {
-        None, StateChoice, Ingame
+        None, Title, Ingame, Pause, GameOver, StageMove
     }
 
     public enum DoorSpawn
@@ -23,10 +23,19 @@ public class EnumInfo
         Left , Right , Up, Down
     }
 
+
     public enum MonsterState
     {
         Move = 1,
         Attack,
         CoolDown //임시 제작
     }
+
+    public enum ItemGet 
+    {
+        Power, Range, Reload, Speed
+    }
+
+
+
 }

@@ -7,6 +7,8 @@ public class MonsterGenerator : MonoBehaviour
     private Room room;
     private List<GameObject> monsterList = new List<GameObject>();
     private bool isMonstersALive = true;
+
+
     private void Awake()
     {
         room = transform.GetComponentInParent<Room>();
