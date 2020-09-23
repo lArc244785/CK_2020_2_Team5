@@ -25,7 +25,7 @@ public class CameraManger : MonoBehaviour
     private Vector2 upperLeftPoint;
     private Vector2 downRightPoint;
 
-    [Range(5.0f, 30.0f)]
+    [Range(5.0f, 100.0f)]
     public float distance = 15.0f;
 
     [Range(30, 90)]
