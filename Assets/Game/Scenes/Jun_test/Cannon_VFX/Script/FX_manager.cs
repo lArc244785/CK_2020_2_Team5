@@ -17,7 +17,8 @@ public class FX_manager : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.Space))
         {
-            Instantiate(cannonBall, firePos.transform.position, firePos.transform.rotation);
+            //Instantiate(cannonBall, firePos.transform.position, firePos.transform.rotation);
+            transform.Translate(Vector3.forward * moveSpeed*Time.deltaTime);
         }
 
         transform.Translate(Vector3.forward * moveSpeed);

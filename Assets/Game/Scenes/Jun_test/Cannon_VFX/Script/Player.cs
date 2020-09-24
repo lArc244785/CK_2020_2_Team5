@@ -9,9 +9,14 @@ public class Player : MonoBehaviour
 
     public Transform firePos;
 
+    public GameObject effect;
+
+    Vector3 shoot;
+
     private void Start()
     {
         //Instantiate(cannon, firePos.transform.position, firePos.transform.rotation);
+        Vector3 shoot = firePos.position;
     }
     // Update is called once per frame
     void Update()
@@ -20,8 +25,10 @@ public class Player : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             Instantiate(cannon, firePos.transform.position, firePos.transform.rotation);
-        }
 
-       // transform.Translate(Vector3.forward * moveSpeed);
+            GameObject cannonEffect = Instantiate(effect, firePos.transform.position, firePos.transform.rotation);
+
+            Destroy(cannonEffect,2f) ;
+        }
     }
 }
