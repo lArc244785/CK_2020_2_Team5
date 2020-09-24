@@ -8,7 +8,7 @@ public class Cannon : MonoBehaviour
 {
     public GameObject cannon;
 
-    //public GameObject effect1;
+    public GameObject effect1;
     //public GameObject effect2;
     //public GameObject effect3;
 
@@ -30,12 +30,12 @@ public class Cannon : MonoBehaviour
     {
         Debug.Log("충돌");
         GetComponent<Rigidbody>().useGravity = true;
-        gameObject.GetComponent<Rigidbody>().AddForce(Vector3.forward * 0);
+        gameObject.GetComponent<Rigidbody>().AddForce(Vector3.forward * -3);
         //GameObject cannonEffect = Instantiate(effect1, cannon.transform.position, cannon.transform.rotation);
         //Destroy(effect1)
         //Destroy(effect2);
         // Destroy(effect3);
 
-        Destroy(cannon, 1f);
+        Destroy(effect1);
     }
 }

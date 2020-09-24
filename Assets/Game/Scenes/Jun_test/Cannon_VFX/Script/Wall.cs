@@ -23,5 +23,6 @@ public class Wall : MonoBehaviour
     {
         Debug.Log("충돌");
         GameObject cannonEffect = Instantiate(effect, wall.transform.position, wall.transform.rotation);
+
     }
 }
