@@ -15,7 +15,7 @@ public class EnumInfo
 
     public enum GameState
     {
-        None, Title, Ingame, Pause, GameOver, StageMove
+        None, Title, Ingame, Pause, GameOver, StageMove, Loading
     }
 
     public enum DoorSpawn

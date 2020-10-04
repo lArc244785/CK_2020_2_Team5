@@ -30,6 +30,8 @@ public class PlayerControl : MonoBehaviour
     float dashCoolTime;
     public float dashSpeed = 8f; //임시
 
+   
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -39,27 +41,33 @@ public class PlayerControl : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (GameManger.instance.GetGameState() == EnumInfo.GameState.Ingame)
         {
-            PlayerAttack();
+            if (Input.GetMouseButtonDown(0))
+            {
+                PlayerAttack();
+            }
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                Dash();
+            }
+            if (Input.GetKeyDown(KeyCode.R))
+            {
+                ReLoad();
+            }
+            dashCoolTime += Time.deltaTime;
         }
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            Dash();
-        }
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            ReLoad();
-        }
-        dashCoolTime += Time.deltaTime;
     }
 
     private void FixedUpdate()
     {
-        phorizon = Input.GetAxisRaw("Horizontal");
-        pvertical = Input.GetAxisRaw("Vertical");
-       PlayerMove();
-        PlayerTurn();
+        if (GameManger.instance.GetGameState() == EnumInfo.GameState.Ingame)
+        {
+            phorizon = Input.GetAxisRaw("Horizontal");
+            pvertical = Input.GetAxisRaw("Vertical");
+            PlayerMove();
+            PlayerTurn();
+        }
     }
 
     void PlayerMove()

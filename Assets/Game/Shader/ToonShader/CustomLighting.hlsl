@@ -24,7 +24,7 @@ void MainLight_half(float3 worldPos, out half3 lightDir, out half3 lightColor0, 
     lightColor0 = mainLight.color;				//! 메인 라이트 칼라
 
     distanceAtten = mainLight.distanceAttenuation;	//! 컬링마스크에 의해 컬링되면 1, 아니면 0 (No확실), 라이트맵 상황때는 다름
-    //shadowAtten = mainLight.shadowAttenuation;		//! <ㅗ
+    //shadowAtten = mainLight.shadowAttenuation;		//! <
     ShadowSamplingData shadowSamplingData = GetMainLightShadowSamplingData();	//! 쉐도우 감쇠값
     half4 shadowParams = GetMainLightShadowParams();
     shadowAtten = SampleShadowmap(TEXTURE2D_ARGS(_MainLightShadowmapTexture, sampler_MainLightShadowmapTexture), TransformWorldToShadowCoord(worldPos), shadowSamplingData, shadowParams, false);

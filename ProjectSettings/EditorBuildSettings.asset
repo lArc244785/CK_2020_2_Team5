@@ -6,9 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Game/Scenes/Title.unity
+    path: Assets/Game/Scenes/InGame/Title.unity
     guid: f0772d4a97b7bd1449ef37e83b6e4306
   - enabled: 1
-    path: Assets/Game/Scenes/MergeTest/MergeTestSenes.unity
-    guid: 424b4a03068a2f644947bad02be86034
+    path: Assets/Game/Scenes/InGame/SkulBombs.unity
+    guid: aee3c33a8ac63e945be602a79250a036
   m_configObjects: {}

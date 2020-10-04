@@ -4,18 +4,18 @@ using UnityEngine;
 
 public class RoomPlayerInSensor : MonoBehaviour
 {
-    private Room room;
+    private Stage room;
 
     private void Start()
     {
-        room = GetComponentInParent<Room>();
+        room = GetComponentInParent<Stage>();
     }
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.tag == "Player")
-        {
-            room.PlayerRoomIn();
-        }
-    }
+    //private void OnCollisionEnter(Collision collision)
+    //{
+    //    if (collision.gameObject.tag == "Player")
+    //    {
+    //        room.PlayerStageIn();
+    //    }
+    //}
 }

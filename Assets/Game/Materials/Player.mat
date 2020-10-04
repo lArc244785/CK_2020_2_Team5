@@ -34,12 +34,12 @@ Material:
     - REQUIRES_VERTEX_SHADOW_COORD_INTERPOLATOR: 1
     - Vector1_1255AB6A: 1
     - Vector1_2A455339: 0.5
-    - Vector1_2BBE90C2: 0
+    - Vector1_2BBE90C2: 1
     - Vector1_5A9E5888: 0.86
-    - Vector1_67F791E9: 0.131
+    - Vector1_67F791E9: 0.8
     - Vector1_CD9CB9E8: 0.1
-    - Vector1_F5DCAAE8: 0.1
+    - Vector1_F5DCAAE8: 0
     - _MAIN_LIGHT_SHADOWS_CASCADE: 1
     - _SHADOWS_SOFT: 1
     m_Colors:
-    - Color_FA669E8D: {r: 0.97181326, g: 1, b: 0.8160377, a: 0}
+    - Color_FA669E8D: {r: 0, g: 0, b: 0, a: 0}

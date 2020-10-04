@@ -12,7 +12,7 @@ public class GameManger : MonoBehaviour
     private CameraManger cameraManger;
     private InGameUIManger inGameManger;
     public EnumInfo.GameState gameState;
-
+    private UI_LoadingView LoadingView;
 
   
 
@@ -23,6 +23,10 @@ public class GameManger : MonoBehaviour
             instance = this;
             DontDestroyOnLoad(this);
 
+            LoadingView = GameObject.Find("LodingView").GetComponent<UI_LoadingView>();
+            LoadingView.Setting();
+            LoadingView.SetLoadingViewActive(false);
+            LoadingView.SetLoadTextAndImg(false);
         }
         else
         {
@@ -34,10 +38,12 @@ public class GameManger : MonoBehaviour
 
     private void Start()
     {
+
         if (gameState == EnumInfo.GameState.Ingame)
         {
             print("DDS");
-            getStageManger().getRoom(0).PlayerRoomIn();
+           // getStageManger().getStage(0).PlayerStageIn(Vector3.zero, Vector3.zero, true);
+
         }
     }
 
@@ -56,6 +62,7 @@ public class GameManger : MonoBehaviour
         print("InGameUIManger Setting...");
         SetInGameUIManger();
         print("InGameUIManger Finsh...");
+        getStageManger().getStage(0).PlayerStageIn(Vector3.zero, Vector3.zero, true);
     }
 
 
@@ -66,7 +73,12 @@ public class GameManger : MonoBehaviour
         player =  GameObject.Find("Player");
         if (player == null)
         {
-            Debug.LogError("No Serch Player " );
+            Debug.LogWarning("No Serch Player " );
+            player = GameObject.FindGameObjectWithTag("Player");
+            if(player == null)
+            {
+                Debug.LogWarning("No Serch Tag Player");
+            }
             return;
         }
       
@@ -129,7 +141,7 @@ public class GameManger : MonoBehaviour
     
     public CameraManger getCameraManger()
     {
-      //  if (cameraManger == null) SetCameraManger();
+       if (cameraManger == null) SetCameraManger();
         return cameraManger;
     }
 
@@ -142,6 +154,7 @@ public class GameManger : MonoBehaviour
     public void SetGameState(EnumInfo.GameState state)
     {
         gameState = state;
+       // LoadingView.SetLoadingViewActive(false);
         switch (gameState)
         {
             case EnumInfo.GameState.Ingame:
@@ -150,6 +163,9 @@ public class GameManger : MonoBehaviour
             case EnumInfo.GameState.Pause:
             case EnumInfo.GameState.GameOver:
                 Time.timeScale = 0;
+                break;
+            case EnumInfo.GameState.Loading:
+                LoadingView.SetLoadingViewActive(true);
                 break;
         }
 
@@ -163,20 +179,28 @@ public class GameManger : MonoBehaviour
 
     public void GoToTitleScene()
     {
-        SceneManager.LoadScene(0);
-        SetGameState(EnumInfo.GameState.Title);
+        StartCoroutine(IE_LoadingEvnetStart(0));
+
+       // SetGameState(EnumInfo.GameState.Title);
     }
+
 
     public void GoToInGameScene()
     {
-        SceneManager.LoadScene(1);
-        SetGameState(EnumInfo.GameState.Ingame);
+        StartCoroutine(IE_LoadingEvnetStart(1));
+        // SetGameState(EnumInfo.GameState.Ingame);
     }
 
     public void GameExit()
     {
         Application.Quit();
     }
+
+    public UI_LoadingView GetLoadingView()
+    {
+        return LoadingView;
+    }
+
 
 
     void OnEnable()
@@ -187,13 +211,57 @@ public class GameManger : MonoBehaviour
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        if(LoadingView.GetLoadingView())
+        StartCoroutine(IE_LoadingEventEnd(scene));
+    }
+
+    private IEnumerator IE_LoadingEvnetStart(int i)
+    {
+        SetGameState(EnumInfo.GameState.Loading);
+        LoadingView.PadeIn();
+        yield return new WaitForSeconds(1.0f);
+        LoadingView.SetLoadTextAndImg(true);
+        LoadingView.LoadImgAniStart();
+
+        if (i == 0)
+        {
+            SetGameState(EnumInfo.GameState.Title);
+        }
+        else
+        {
+            SetGameState(EnumInfo.GameState.Ingame);
+        }
+        yield return new WaitForSeconds(1.0f);
+        SceneManager.LoadScene(i);
+    }
+
+
+    private IEnumerator IE_LoadingEventEnd(Scene scene)
+    {
+
         Debug.Log("씬 교체됨, 현재 씬: " + scene.name);
-        if (scene.name == "MergeTestSenes")
+
+        if (scene.name == "SkulBombs")
         {
             // 씬 전환 효과 (Fade In)
             InGameSetting();
+
         }
+        else
+        {
+            SetGameState(EnumInfo.GameState.Title);
+        }
+        yield return new WaitForSeconds(1.0f);
+        LoadingView.LoadImgAniStop();
+        LoadingView.SetLoadTextAndImg(false);
+        LoadingView.PadeOut();
+        yield return new WaitForSeconds(1.0f);
+        LoadingView.SetLoadingViewActive(false);
+
+
+
     }
+
 
     void OnDisable()
     {

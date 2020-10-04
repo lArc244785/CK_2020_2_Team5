@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class StageManger : MonoBehaviour
 {
-    private List<Room> roomList = new List<Room>();
+    private List<Stage> stageList = new List<Stage>();
 
 
 
@@ -15,8 +15,8 @@ public class StageManger : MonoBehaviour
         {
             try
             {
-                Room tempRoom = tr.GetChild(i).GetComponent<Room>();
-                roomList.Add(tempRoom);
+                Stage tempRoom = tr.GetChild(i).GetComponent<Stage>();
+                stageList.Add(tempRoom);
             }
             catch 
             {
@@ -27,10 +27,10 @@ public class StageManger : MonoBehaviour
         }
     }
 
-    public Room getRoom(int index)
+    public Stage getStage(int index)
     {
-        if (index > roomList.Count) return null;
-        return roomList[index];
+        if (index > stageList.Count) return null;
+        return stageList[index];
     }
 
 }

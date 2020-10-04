@@ -56,6 +56,7 @@ public class InGameUIManger :I_UI
 
     public void Update()
     {
+        
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             PauseUIOppenAndClose();

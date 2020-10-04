@@ -17,19 +17,22 @@ public class CameraManger : MonoBehaviour
 
     private Camera camera;
 
+    public float RoationY;
+
+
     [Range(0.0f, 1.0f)]
     public float smoothTime = 0.125f;
     private Vector3 TargetPoint;
     private Vector3 currentCamPoint;
 
-    private Vector2 upperLeftPoint;
-    private Vector2 downRightPoint;
+    public Vector2 upperLeftPoint;
+    public Vector2 downRightPoint;
 
-    [Range(5.0f, 100.0f)]
-    public float distance = 15.0f;
+    [Range(3.0f, 50.0f)]
+    public float distance = 5.0f;
 
     [Range(30, 90)]
-    public float camAngle = 45.0f;
+    public float camAngle = 65.0f;
 
     private Vector3 fixingPoint;
 
@@ -47,7 +50,7 @@ public class CameraManger : MonoBehaviour
 
     private void FixedUpdate()
     {
-        camPiovtRoation.localRotation = Quaternion.Euler(camAngle, 0, 0);
+        camPiovtRoation.localRotation = Quaternion.Euler(camAngle, RoationY, 0);
         switch (camState)
         {
             case EnumInfo.CamType.Target:
@@ -127,5 +130,10 @@ public class CameraManger : MonoBehaviour
     {
         return camera;
     }
-
+    public void SetCamToTargetPos()
+    {
+        print("DASE");
+        currentCamPoint= Vector2.zero;
+        TargetCam();
+    }
 }

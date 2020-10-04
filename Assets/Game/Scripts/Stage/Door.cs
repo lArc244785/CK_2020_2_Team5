@@ -2,7 +2,7 @@
 
 public class Door : MonoBehaviour
 {
-    private Room room;
+    private Stage room;
 
     public Door nextDoor;
 
@@ -10,14 +10,16 @@ public class Door : MonoBehaviour
 
     private float pointX;
 
-    private float offsetPoint = 1.5f;
+    private float offsetPoint = 0.2f;
     public EnumInfo.DoorSpawn SpawnPoint;
 
     private Vector3 movePoint;
+    private Vector3 rotion;
+
 
     public void Start()
     {
-        room = transform.GetComponentInParent<Room>();
+        room = transform.GetComponentInParent<Stage>();
         PointSetting();
     }
 
@@ -32,24 +34,28 @@ public class Door : MonoBehaviour
                     transform.position.x - offsetPoint,
                     0.0f,
                     transform.position.z);
+                rotion = new Vector3(0, 270, 0);
                 break;
             case EnumInfo.DoorSpawn.Right:
                 movePoint = new Vector3(
                     transform.position.x + offsetPoint,
                     0.0f,
                     transform.position.z);
+                rotion = new Vector3(0, 90, 0); 
                 break;
             case EnumInfo.DoorSpawn.Up:
                 movePoint = new Vector3(
                     transform.position.x ,
                     0.0f,
                     transform.position.z + offsetPoint);
+                rotion = new Vector3(0, 0, 0);
                 break;
             case EnumInfo.DoorSpawn.Down:
                 movePoint = new Vector3(
                     transform.position.x,
                     0.0f,
                     transform.position.z - offsetPoint);
+                rotion = new Vector3(0, 180, 0);
                 break;
         }
 
@@ -62,7 +68,7 @@ public class Door : MonoBehaviour
         {
             Debug.Log("Next  " + nextDoor.room.gameObject);
             nextDoor.RoomMove(GameManger.instance.getPlayerObject());
-            room.PlayerRoomOut();
+            room.PlayerStageOut();
 
         }
     }
@@ -71,8 +77,8 @@ public class Door : MonoBehaviour
     public void RoomMove(GameObject target)
     {
         movePoint.y = target.transform.position.y;
-        target.transform.position = movePoint;
-        room.PlayerRoomIn();
+        //target.transform.position = movePoint;
+        room.PlayerStageIn(movePoint, rotion);
     }
 
     public void CloseDoor()
