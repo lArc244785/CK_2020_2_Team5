@@ -58,7 +58,7 @@ public class PlayerControl : MonoBehaviour
     {
         phorizon = Input.GetAxisRaw("Horizontal");
         pvertical = Input.GetAxisRaw("Vertical");
-       PlayerMove();
+        PlayerMove();
         PlayerTurn();
     }
 
