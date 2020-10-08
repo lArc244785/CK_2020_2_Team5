@@ -1,5 +1,5 @@
 ﻿
-
+[System.Serializable]
 public class EnumInfo
 {
 
@@ -26,9 +26,14 @@ public class EnumInfo
 
     public enum MonsterState
     {
-        Move = 1,
+        Move = 1, //배회 상태
         Attack,
-        CoolDown //임시 제작
+        CoolDown, //임시 제작
+        Wait,
+        Trace,
+        Die,
+        RandomMove,
+        Turn
     }
 
     public enum Item 

@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Floor
+  m_Name: floor
   m_Shader: {fileID: -6465566751694194690, guid: c48eb409f20e451488c77cd1452d6e08,
     type: 3}
   m_ShaderKeywords: 

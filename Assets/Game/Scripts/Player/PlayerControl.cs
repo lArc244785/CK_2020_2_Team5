@@ -61,6 +61,21 @@ public class PlayerControl : MonoBehaviour
 
     private void FixedUpdate()
     {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         if (GameManger.instance.GetGameState() == EnumInfo.GameState.Ingame)
         {
             phorizon = Input.GetAxisRaw("Horizontal");
