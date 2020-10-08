@@ -1,5 +1,5 @@
 ﻿
-
+[System.Serializable]
 public class EnumInfo
 {
 

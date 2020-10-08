@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - Monster
+  - LongEnemy
+  - ShortEnemy
   layers:
   - Default
   - TransparentFX

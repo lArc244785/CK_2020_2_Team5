@@ -25,9 +25,15 @@ public class BulletControl : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         //몬스터면 맞은 몬스터의 hp감소
-        if (collision.gameObject.tag=="Monster")
+        if (collision.gameObject.tag=="LongEnemy")
         {
-            collision.gameObject.GetComponent<MonsterControl>().HpDown();
+            collision.gameObject.GetComponent<LongEnemy>().OnDamage();
+            UnityEngine.Debug.Log("공격성공");
+            Destroy(gameObject);
+        }
+        else if (collision.gameObject.tag == "ShortEnemy")
+        {
+            collision.gameObject.GetComponent<ShortEnemy>().OnDamage();
             UnityEngine.Debug.Log("공격성공");
             Destroy(gameObject);
         }

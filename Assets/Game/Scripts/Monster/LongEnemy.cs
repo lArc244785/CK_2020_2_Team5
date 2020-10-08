@@ -6,10 +6,13 @@ using UnityEngine.AI;
 public class LongEnemy : EnemyBase
 {
     public NavMeshAgent agent;
-    EnumInfo.MonsterState menum;
+    public EnumInfo.MonsterState menum;
     GameObject player;
+    public Transform firePos;
+    public GameObject bullet;
     public GameObject collisionFoward;
     Quaternion to;
+    Vector3 monsvec;
 
     float xrange = 0f;
 
@@ -17,7 +20,7 @@ public class LongEnemy : EnemyBase
 
     Vector3 enemyVector;
 
-    bool isMoving;
+    public bool isMoving;
 
     //임시값들
     int rotationnum;
@@ -39,7 +42,7 @@ public class LongEnemy : EnemyBase
             case EnumInfo.MonsterState.Move:
                 break;
             case EnumInfo.MonsterState.Attack:
-                Attack();
+                
                 break;
             case EnumInfo.MonsterState.Trace:
                 //TracePlayer();
@@ -55,14 +58,16 @@ public class LongEnemy : EnemyBase
             default:
                 break;
         }
-
+        Attack();
         FindPlayer();
         IsCollision();
-
+        
     }
 
     private void FixedUpdate()
     {
+
+        MonsterTurn();
         switch (menum)
         {
             case EnumInfo.MonsterState.Move:
@@ -84,18 +89,19 @@ public class LongEnemy : EnemyBase
     {
         base.Attack();
         mstatus.tick += Time.deltaTime;
-        if (mstatus.tick >= mstatus.tickRate)
+        if (mstatus.tick >= mstatus.tickRate && mstatus.isFindPlayer==true)
         {
             if (Vector3.Distance(player.transform.position, transform.position) <= mstatus.longAttackRange)
             {
-                Debug.Log("단거리 공격");
-                //Instantiate(monsterBullet, firePos.transform.position, firePos.transform.rotation);
+                Debug.Log("long거리 공격");
+                Instantiate(bullet, firePos.transform.position, firePos.transform.rotation);
+                menum = EnumInfo.MonsterState.Trace;
                 mstatus.tick = 0;
             }
             else
             {
-                menum = EnumInfo.MonsterState.Trace;
-                Debug.Log("사거리 부족");
+                //menum = EnumInfo.MonsterState.Trace;
+                //Debug.Log("사거리 부족");
             }
         }
 
@@ -109,7 +115,22 @@ public class LongEnemy : EnemyBase
         {
             menum = EnumInfo.MonsterState.Move;
             mstatus.isFindPlayer = true;
-            //Debug.Log("플레이어 찾음");
+
+        }
+        else
+        {
+            mstatus.isFindPlayer = false;
+            agent.Stop();
+        }
+    }
+
+    void MonsterTurn()
+    {
+        if (mstatus.isFindPlayer==true && Vector3.Distance(player.transform.position, transform.position) <= agent.stoppingDistance)
+        {
+            monsvec = player.transform.position - transform.position;
+            transform.forward = monsvec.normalized;
+
         }
     }
 
@@ -121,11 +142,11 @@ public class LongEnemy : EnemyBase
 
         if (wait >= mstatus.waitingTime)
         {
-            //Debug.Log("기다림 끝");
+            Debug.Log("기다림 끝");
             menum = EnumInfo.MonsterState.RandomMove;
             wait = 0;
         }
-        //wait로 전환된 경우 기다림-이곳에서 계산
+
     }
 
     public override void RandomMove()
@@ -139,12 +160,13 @@ public class LongEnemy : EnemyBase
         Debug.Log("랜덤생성");
         rotationnum = Random.Range(0, 361);
         enemyVector = transform.position;
-        //Debug.Log(rotationnum + " 돌리기 실행@@");
+
 
         xrange = Random.Range(mstatus.minMoveRange, mstatus.maxMoveRange);
         menum = EnumInfo.MonsterState.Turn;
 
     }
+
 
     void TurnEnemy()
     {
@@ -152,42 +174,42 @@ public class LongEnemy : EnemyBase
         to.eulerAngles = new Vector3(0, rotationnum, 0);
         transform.rotation = Quaternion.Slerp(transform.rotation, to, Time.deltaTime*8f);
 
-        //Debug.Log(rotationnum + " 이만큼돌아야함");
 
         float angle = Quaternion.Angle(transform.rotation, to);
         if (angle<=0)
         {
-            //move로 전환?
-            //Debug.Log("끝임");
+
             menum = EnumInfo.MonsterState.Move;
             return;
         }
+
     }
 
+    [System.Obsolete]
     public override void TracePlayer()
     {
         base.TracePlayer();
-        //nav를 이용해서 추적 만약 사거리를 벗어나면->랜덤으로 전환
+
         if (mstatus.isFindPlayer == true)
         {
             Debug.Log("추적");
             agent.SetDestination(player.transform.position);
             agent.Resume();
+
             if (Vector3.Distance(player.transform.position, transform.position) <= mstatus.longAttackRange)
-                menum = EnumInfo.MonsterState.Attack;
-            else
             {
-                Debug.Log("놓침");
-                mstatus.isFindPlayer = false;
-                menum = EnumInfo.MonsterState.Wait;
-                agent.Stop();
+                menum = EnumInfo.MonsterState.Attack;
+                return;
             }
+
         }
         else
         {
+            agent.Stop();
             menum = EnumInfo.MonsterState.Wait;
         }
     }
+
 
     public override void OnDamage()
     {
@@ -204,7 +226,7 @@ public class LongEnemy : EnemyBase
         base.Move();
         if (isMoving == true)
             return;
-        //Debug.Log("움직임!!");
+
         enemyVector = transform.position;
         StartCoroutine(Moving());
         menum = EnumInfo.MonsterState.Wait;
@@ -213,12 +235,11 @@ public class LongEnemy : EnemyBase
 
     IEnumerator Moving()
     {
-        //거리만 구해서 이동해야할 거리<이동한거리 가 되면 return되게끔 변경
+
         while (true)
         {
-            transform.Translate(Vector3.forward * mstatus.moveSpeed * Time.deltaTime);
-
-            if(Vector3.Distance(enemyVector, transform.position) >= xrange || mstatus.fcollision==true)
+            transform.position =  transform.position+transform.forward * mstatus.moveSpeed * Time.deltaTime;
+            if (Vector3.Distance(enemyVector, transform.position) >= xrange || mstatus.fcollision==true)
             {
                 isMoving = false;
                 break;
@@ -235,6 +256,12 @@ public class LongEnemy : EnemyBase
     void IsCollision()
     {
         mstatus.fcollision=collisionFoward.GetComponent<CollisionCheck>().isCollision();
+        if (mstatus.fcollision == true)
+        {
+            isMoving = false;
+        }
     }
 
 }
+
+//수정예정 -> 근접시 플레이어 바라보는 걸 자연스럽게 수정
