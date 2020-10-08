@@ -15,7 +15,7 @@ public class EnumInfo
 
     public enum GameState
     {
-        None, Title, Ingame, Pause, GameOver, StageMove, Loading
+        None, Title, Ingame, Pause, GameOver, StageMove, Loading, ItemGet, GameClear
     }
 
     public enum DoorSpawn
@@ -31,11 +31,16 @@ public class EnumInfo
         CoolDown //임시 제작
     }
 
-    public enum ItemGet 
+    public enum Item 
     {
-        Power, Range, Reload, Speed
+        Power, Range, Reload, Speed, HP
     }
 
+    public enum PadeinOutOption
+    {
+        Nomal, Icon,horizon,StageMove
+    }
 
+    
 
 }

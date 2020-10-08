@@ -5,18 +5,17 @@ using UnityEngine.UI;
 
 public class GameClearUI : I_UI
 {
-    private GameObject gameClearUI;
 
-    public override void Setting()
+    public override void Setting(GameObject obj)
     {
-        gameClearUI = GameObject.Find("UI_ClearParent").gameObject;
-        gameClearUI.SetActive(false);
+        base.Setting(GameObject.Find("UI_ClearParent"));
+        DrawUIObject.SetActive(false);
     }
 
     //이 메소드를 불러주면 클리어화면이 나옵니다.
-    public override void Draw()
+    public override void Draw(bool isVisable)
     {
-        gameClearUI.SetActive(true);
+        base.Draw(isVisable);
     }
 
 

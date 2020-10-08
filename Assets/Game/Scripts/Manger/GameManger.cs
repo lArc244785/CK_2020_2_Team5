@@ -30,7 +30,8 @@ public class GameManger : MonoBehaviour
         }
         else
         {
-            GameObject.Destroy(this);
+            gameObject.SetActive(false);
+            GameObject.Destroy(gameObject);
         }
     }
 
@@ -42,7 +43,7 @@ public class GameManger : MonoBehaviour
         if (gameState == EnumInfo.GameState.Ingame)
         {
             print("DDS");
-           // getStageManger().getStage(0).PlayerStageIn(Vector3.zero, Vector3.zero, true);
+            InGameSetting();
 
         }
     }
@@ -118,7 +119,7 @@ public class GameManger : MonoBehaviour
             return;
         }
         inGameManger = inGameMangerObj.GetComponent<InGameUIManger>();
-        inGameManger.Setting();
+        inGameManger.Setting(null);
     }
 
     public GameObject getPlayerObject()
@@ -161,7 +162,6 @@ public class GameManger : MonoBehaviour
                 Time.timeScale = 1;
                 break;
             case EnumInfo.GameState.Pause:
-            case EnumInfo.GameState.GameOver:
                 Time.timeScale = 0;
                 break;
             case EnumInfo.GameState.Loading:
@@ -250,15 +250,22 @@ public class GameManger : MonoBehaviour
         else
         {
             SetGameState(EnumInfo.GameState.Title);
+           
         }
         yield return new WaitForSeconds(1.0f);
         LoadingView.LoadImgAniStop();
         LoadingView.SetLoadTextAndImg(false);
         LoadingView.PadeOut();
-        yield return new WaitForSeconds(1.0f);
+        yield return new WaitForSeconds(0.5f);
         LoadingView.SetLoadingViewActive(false);
 
-
+        if(gameState == EnumInfo.GameState.Ingame)
+        {
+            LoadingView.SetPadeinOutOption(EnumInfo.PadeinOutOption.StageMove);
+        }else if(gameState == EnumInfo.GameState.Title)
+        {
+            LoadingView.LoadOptionReset();
+        }
 
     }
 

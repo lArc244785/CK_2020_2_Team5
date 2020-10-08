@@ -4,7 +4,15 @@ using UnityEngine.UI;
 
 public class I_UI : MonoBehaviour
 {
-    public virtual void Draw() { }
+    protected GameObject DrawUIObject;
 
-    public virtual void Setting() { }
+
+    public virtual void Draw(bool isVisable) 
+    {
+        DrawUIObject.SetActive(isVisable);
+    }
+
+    public virtual void Setting(GameObject obj) {
+        DrawUIObject = obj;
+    }
 }

@@ -10,12 +10,13 @@ public class InGameUIManger :I_UI
     private GameClearUI gameClearUI;
     private Pause_UI pauseUI;
     private GameOver_UI gameOverUI;
+
     // Start is called before the first frame update
 
     public bool TestMode;
 
 
-    public override void Setting()
+    public override void Setting(GameObject obj)
     {
         print("InGameSetting");
 
@@ -26,32 +27,58 @@ public class InGameUIManger :I_UI
         pauseUI = GameObject.Find("UI_Pause").GetComponent<Pause_UI>();
         gameOverUI = GameObject.Find("UI_GameOver").GetComponent<GameOver_UI>();
 
-
-        canonUI.Setting();
-        hpUI.Setting();
-        itemUI.Setting();
-        gameClearUI.Setting();
-        pauseUI.Setting();
-        gameOverUI.Setting();
+ 
+        canonUI.Setting(null);
+        hpUI.Setting(null);
+        itemUI.Setting(null);
+        gameClearUI.Setting(null);
+        pauseUI.Setting(null);
+        gameOverUI.Setting(null);
     }
 
-    public override void Draw()
+    public override void Draw(bool isVisable)
     {
-        switch (GameManger.instance.GetGameState())
+        if(GameManger.instance.GetGameState() == EnumInfo.GameState.Ingame)
         {
-            case EnumInfo.GameState.Ingame:
-                hpUI.Draw();
-                canonUI.Draw();
-                break;
-            case EnumInfo.GameState.Pause:
-                pauseUI.Draw();
-                break;
-            case EnumInfo.GameState.GameOver:
-                gameOverUI.Draw();
-                break;
+            gameOverUI.Draw(false);
+            itemUI.Draw(false);
+            gameClearUI.Draw(false);
+            pauseUI.Draw(false);
+
+            hpUI.Draw(true);
+            canonUI.Draw(true);
         }
+        else
+        {
+            hpUI.Draw(false);
+            canonUI.Draw(false);
+            switch (GameManger.instance.GetGameState())
+            {
+                case EnumInfo.GameState.Pause:
+                    pauseUI.Draw(true);
+                    break;
+                case EnumInfo.GameState.GameOver:
+                    gameOverUI.Draw(true);
+                    break;
+                case EnumInfo.GameState.ItemGet:
+                    itemUI.Draw(true);
+                    break;
+                case EnumInfo.GameState.GameClear:
+                    gameClearUI.Draw(true);
+                    break;
+            }
+        }
+
     }
 
+    private void DrawVisable()
+    {
+        hpUI.Draw(false);
+        pauseUI.Draw(false);
+        gameOverUI.Draw(false);
+        itemUI.Draw(false);
+        gameClearUI.Draw(false);
+    }
 
 
     public void Update()
@@ -66,19 +93,19 @@ public class InGameUIManger :I_UI
         {
             if (Input.GetKeyDown(KeyCode.F1))
             {
-                itemUI.ItemGet(EnumInfo.ItemGet.Power);
+                itemUI.ItemGet(EnumInfo.Item.Power);
             }
             else if (Input.GetKeyDown(KeyCode.F2))
             {
-                gameClearUI.Draw();
+                GameManger.instance.SetGameState(EnumInfo.GameState.GameClear);
             }
             else if (Input.GetKeyDown(KeyCode.F3))
             {
-                gameOverUI.Draw();
+                gameOverUI.GameOver();
             }
         }
 
-        Draw();
+        Draw(true);
     }
 
     public CanonUI getcanonUI()
@@ -93,11 +120,6 @@ public class InGameUIManger :I_UI
         if (gameState == EnumInfo.GameState.Ingame) GameManger.instance.SetGameState(EnumInfo.GameState.Pause);
         else if (gameState == EnumInfo.GameState.Pause) GameManger.instance.SetGameState(EnumInfo.GameState.Ingame);
         else return;
-
-        gameState = GameManger.instance.GetGameState();
-        bool isPauseDraw = gameState == EnumInfo.GameState.Ingame ? false : true;
-
-        pauseUI.setDraw(isPauseDraw);
     }
 
     public void GoToTitle()
@@ -107,5 +129,16 @@ public class InGameUIManger :I_UI
     public void GoToInGame()
     {
         GameManger.instance.GoToInGameScene();
+    }
+
+    public void ItemGet(EnumInfo.Item item)
+    {
+        GameManger.instance.SetGameState(EnumInfo.GameState.ItemGet);
+        itemUI.ItemGet(item);
+    }
+
+    public GameOver_UI GetGameOverUI()
+    {
+        return gameOverUI;
     }
 }

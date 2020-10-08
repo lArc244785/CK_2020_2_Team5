@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class CanonUI : I_UI
 {
+
     RectTransform canonImgParentRectTr;
     private List<Image> cannonImgList;
     private List<Animator> canonImgAniList;
@@ -30,11 +31,12 @@ public class CanonUI : I_UI
 
     private Image backGround;
 
-    public override void Setting()
+    public override void Setting(GameObject obj)
     {
+        base.Setting(transform.GetChild(0).gameObject);
         setState(EnumInfo.CanonState.BulletOn);
         pc = GameManger.instance.getPlayerControl();
-        canonImgParentRectTr = transform.GetChild(0).GetComponent<RectTransform>();
+        canonImgParentRectTr = DrawUIObject.transform.GetChild(0).GetComponent<RectTransform>();
         print("CODE 232: " + canonImgParentRectTr.GetChildCount());
         cannonImgList = new List<Image>();
         canonImgAniList = new List<Animator>();
@@ -50,7 +52,7 @@ public class CanonUI : I_UI
         SmoothTime = RemoveSmoothTime;
 
         posY = canonImgParentRectTr.localPosition.y;
-        backGround = GetComponent<Image>();
+        backGround = DrawUIObject.GetComponent<Image>();
 
         CanonUISet(GameManger.instance.getPlayerControl().getMaxBullet());
     }
@@ -61,8 +63,10 @@ public class CanonUI : I_UI
         this.state = state;
     }
 
-    public void Draw()
+    public override void Draw(bool isVisable)
     {
+        base.Draw(isVisable);
+
         for (int i = 0; i < cannonImgList.Count; i++)
         {
             if (i < canonNum)
@@ -92,7 +96,7 @@ public class CanonUI : I_UI
     {
         canonMaxNum = Bullet;
         canonNum = canonMaxNum;
-        Draw();
+        Draw(DrawUIObject.activeSelf);
         float parentLoaclX = maxX - moveX * canonNum;
         parentLoaclX = Mathf.Clamp(parentLoaclX, minX, maxX);
         canonImgParentRectTr.localPosition = new Vector3(parentLoaclX, posY, 0);
@@ -110,7 +114,7 @@ public class CanonUI : I_UI
 
     public void ReLoadEvent(float ReloadTime)
     {
-        Draw();
+        Draw(DrawUIObject.activeSelf);
         canonImgParentRectTr.localPosition = new Vector3(maxX, posY, 0);
         targetPos.x = maxX;
         state = EnumInfo.CanonState.Reroad;

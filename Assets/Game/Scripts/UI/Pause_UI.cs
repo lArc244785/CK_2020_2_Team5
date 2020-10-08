@@ -6,17 +6,15 @@ using UnityEngine.UI;
 public class Pause_UI : I_UI
 {
     public Image[] selectionImgs;
-    private GameObject PauseResourceParent;
 
-    public override void Setting()
+    public override void Setting(GameObject obj)
     {
-        base.Setting();
-        PauseResourceParent = GameObject.Find("UI_PauseResourceParent");
-        setDraw(false);
+        base.Setting(GameObject.Find("UI_PauseResourceParent"));
+        DrawUIObject.SetActive(false);
     }
-    public override void Draw()
+    public override void Draw(bool isvisable)
     {
-
+        base.Draw(isvisable);
         for (int i = 0; i < selectionImgs.Length; i++)
         {
             selectionImgs[i].enabled = false;
@@ -40,22 +38,7 @@ public class Pause_UI : I_UI
     }
 
 
-    public void setDraw(bool isDraw)
-    {
 
-        switch (GameManger.instance.GetGameState())
-        {
-            case EnumInfo.GameState.Ingame:
-            case EnumInfo.GameState.Pause:
-                PauseResourceParent.SetActive(isDraw);
-                break;
-            default:
-                Debug.LogError("CODE 3002: " + GameManger.instance.GetGameState());
-                PauseResourceParent.SetActive(false);
-                break;
-        }
-
-    }
 
 
 

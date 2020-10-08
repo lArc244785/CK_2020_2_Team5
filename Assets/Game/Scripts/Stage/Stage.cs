@@ -112,7 +112,7 @@ public class Stage : MonoBehaviour
 
             UI_LoadingView loadEvent = GameManger.instance.GetLoadingView();
             loadEvent.PadeIn();
-            yield return new WaitForSeconds(1.0f);
+            yield return new WaitForSeconds(0.25f);
 
             Debug.Log("PlayerRoomIn" + " GameObject" + gameObject.name);
             GameManger.instance.getCameraManger().SetOffset(offsetUpperLeft, offsetDownRight);
@@ -134,7 +134,7 @@ public class Stage : MonoBehaviour
                 GameManger.instance.getCameraManger().SetFixingCameraPoint(fixingPosition);
             }
             loadEvent.PadeOut();
-            yield return new WaitForSeconds(1.0f);
+            yield return new WaitForSeconds(0.25f);
             loadEvent.SetLoadingViewActive(false);
             GameManger.instance.SetGameState(EnumInfo.GameState.Ingame);
 

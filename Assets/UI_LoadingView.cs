@@ -4,62 +4,115 @@ using UnityEngine;
 
 public class UI_LoadingView : MonoBehaviour
 {
-    private Animator loadAni;
-    private GameObject LoadingView;
-    private GameObject LoadTextAndImg;
-    private Animator LoadAni;
+    private Animator CurrentPadeInOutAni;
+    private List<GameObject> LoadingViewPadeinoutList;
+    private GameObject CurrentPadeinout;
+    private GameObject LoadingView_LoadingAni;
+    private Animator LoadImgAni;
+
+    private EnumInfo.PadeinOutOption currentPadinoutOption;
+    public EnumInfo.PadeinOutOption TitleToInGameOption;
+
 
     public void Setting()
     {
-        LoadingView = transform.GetChild(0).gameObject;
-        loadAni = LoadingView.GetComponent<Animator>();
-        LoadTextAndImg = GameObject.Find("LoadTextAndImg");
-        LoadAni = GameObject.Find("LoadingImg").GetComponent<Animator>();
-        LoadAni.speed = 1.5f;
+        Transform ParentPadeinout = GameObject.Find("LoadingView_LoadPadeinOutList").transform;
+        LoadingViewPadeinoutList = new List<GameObject>();
+        for (int i = 0; i < ParentPadeinout.GetChildCount(); i++)
+        {
+            LoadingViewPadeinoutList.Add(ParentPadeinout.GetChild(i).gameObject);
+            LoadingViewPadeinoutList[i].SetActive(false);
+        }
+
+        SetPadeinOutOption(TitleToInGameOption);
+
+
+        LoadingView_LoadingAni = GameObject.Find("LoadingView_LoadingAni");
+        LoadImgAni = GameObject.Find("LoadingView_LoadImg").GetComponent<Animator>();
+        LoadImgAni.speed = 1.5f;
+    }
+
+    private void PadeinOutExit()
+    {
+        
+        EventEnd();
+        SetLoadingViewActive(false);
+    }
+
+    public void SetPadeinOutOption(EnumInfo.PadeinOutOption poo)
+    {
+        int index = (int)poo;
+        if(index >= LoadingViewPadeinoutList.Count )
+        {
+            Debug.LogWarning("Code 4000: LVP_Count: " + LoadingViewPadeinoutList.Count + "poo count: " + (int)poo);
+            return;
+        }
+
+        PadeinOutExit();
+
+        CurrentPadeinout = LoadingViewPadeinoutList[index];
+        CurrentPadeInOutAni = CurrentPadeinout.GetComponent<Animator>();
     }
 
     public void PadeIn()
     {
-        loadAni.SetTrigger("PadeIn");
+        CurrentPadeInOutAni.SetTrigger("PadeIn");
 
     }
 
     public void PadeOut()
     {
-        loadAni.SetTrigger("PadeOut");
+        if (CurrentPadeInOutAni == null) return;
+        CurrentPadeInOutAni.SetTrigger("PadeOut");
     }
 
 
     public bool GetLoadingView()
     {
-        return LoadingView.active;
+        return CurrentPadeinout.active;
     }
 
 
     public void EventEnd()
     {
-        loadAni.SetTrigger("End");
+        if (CurrentPadeInOutAni == null) return;
+
+        CurrentPadeInOutAni.SetTrigger("End");
     }
 
     public void SetLoadingViewActive(bool isVisable) 
     {
-        Debug.Log("CODE 7894");
-        LoadingView.SetActive(isVisable);
+        if (CurrentPadeinout == null) return;
+        CurrentPadeinout.SetActive(isVisable);
     }
 
     public void SetLoadTextAndImg(bool isVisable)
     {
-        LoadTextAndImg.SetActive(isVisable);
+        if (LoadingView_LoadingAni == null) return;
+        LoadingView_LoadingAni.SetActive(isVisable);
     }
 
     public void LoadImgAniStart()
     {
-        LoadAni.SetTrigger("Loading");
+        if (LoadImgAni == null) return;
+        LoadImgAni.SetTrigger("Loading");
     }
 
     public void LoadImgAniStop()
     {
-        LoadAni.SetTrigger("End");
+        if (LoadImgAni == null) return;
+        LoadImgAni.SetTrigger("End");
     }
+
+    public void LoadOptionReset()
+    {
+        SetPadeinOutOption(TitleToInGameOption);
+    }
+
+    public void SetSpeed(float speed)
+    {
+        CurrentPadeInOutAni.speed = speed;
+    }
+
 
 }

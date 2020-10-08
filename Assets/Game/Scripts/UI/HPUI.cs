@@ -12,13 +12,15 @@ public class HPUI : I_UI
     public Sprite blankHpSprite;
     public Sprite fullHpSprite;
 
-    public override void Setting()
+    public override void Setting(GameObject obj)
     {
+        base.Setting(transform.GetChild(0).gameObject);
         HpImagesSetting();
+
     }
     public void HpImagesSetting()
     {
-        Transform tr = transform;
+        Transform tr = DrawUIObject.transform;
         imageList = new List<Image>();
         for (int i = 0; i < tr.GetChildCount(); i++)
         {
@@ -26,8 +28,9 @@ public class HPUI : I_UI
         }
     }
 
-    public override void Draw()
+    public override void Draw(bool isviable)
     {
+        base.Draw(isviable);
         float uiHpValue = HP;
 
 
@@ -47,18 +50,18 @@ public class HPUI : I_UI
     public void SetHp(int hp)
     {
         HP = hp;
-        Draw(); 
+        Draw(true); 
     }
 
     public void AddHp(int hp)
     {
         HP += hp;
-        Draw();
+        Draw(true);
     }
 
     public void DecreaseHp(int hp)
     {
         HP -= hp;
-        Draw();
+        Draw(true);
     }
 }
