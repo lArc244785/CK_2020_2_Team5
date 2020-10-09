@@ -96,16 +96,21 @@ public class ShortEnemy : EnemyBase
             if (Vector3.Distance(player.transform.position, transform.position) <= mstatus.shortAttackRange)
             {
                 Debug.Log("단거리 공격");
-                shortAnim.SetBool("Attack", true);
+
                 PlayerHpDown((int)mstatus.shortdamage);
-                menum = EnumInfo.MonsterState.Trace;
+                //menum = EnumInfo.MonsterState.Trace;
                 mstatus.tick = 0;
             }
             else
             {
-                //menum = EnumInfo.MonsterState.Trace;
+                menum = EnumInfo.MonsterState.Move;
                 //Debug.Log("사거리 부족");
             }
+        }
+        else
+        {
+            menum = EnumInfo.MonsterState.Move;
+            //shortAnim.SetBool("Idle", true);
         }
 
     }
@@ -114,7 +119,7 @@ public class ShortEnemy : EnemyBase
     {
         if (mstatus.isFindPlayer == true && Vector3.Distance(player.transform.position, transform.position) <= agent.stoppingDistance)
         {
-            shortAnim.SetBool("Walk", true);
+
             monsvec = player.transform.position - transform.position;
             transform.forward = monsvec.normalized;
         }
@@ -129,11 +134,13 @@ public class ShortEnemy : EnemyBase
             mstatus.isFindPlayer = true;
             menum = EnumInfo.MonsterState.Move;
 
+
         }
         else
         {
+
             mstatus.isFindPlayer = false;
-            //agent.Stop();
+            agent.Stop();
         }
     }
 
@@ -143,12 +150,12 @@ public class ShortEnemy : EnemyBase
         if (isMoving == true)
             return;
 
-        shortAnim.SetBool("Idle", true);
+
         wait += Time.deltaTime;
-        //shortAnim.SetTrigger("idle");
+
         if (wait >= mstatus.waitingTime)
         {
-            shortAnim.SetBool("Idle", false);
+
             menum = EnumInfo.MonsterState.RandomMove;
             wait = 0;
         }
@@ -177,14 +184,13 @@ public class ShortEnemy : EnemyBase
 
         to.eulerAngles = new Vector3(0, rotationnum, 0);
         transform.rotation = Quaternion.Slerp(transform.rotation, to, Time.deltaTime * 8f);
-        shortAnim.SetBool("Idle", false);
-        shortAnim.SetBool("Walk", true);
+
         float angle = Quaternion.Angle(transform.rotation, to);
         if (angle <= 1)
         {
 
             Debug.Log("끝임");
-            shortAnim.SetBool("Walk", false);
+
             menum = EnumInfo.MonsterState.Move;
             return;
         }
@@ -199,6 +205,7 @@ public class ShortEnemy : EnemyBase
         {
             Debug.Log("추적");
             agent.SetDestination(player.transform.position);
+            
             agent.Resume();
             //shortAnim.SetTrigger("run");
             if (Vector3.Distance(player.transform.position, transform.position) <= mstatus.shortAttackRange)
@@ -255,12 +262,12 @@ public class ShortEnemy : EnemyBase
         {
 
             transform.position = transform.position + transform.forward * mstatus.moveSpeed * Time.deltaTime;
-            shortAnim.SetBool("Walk", true);
+
             if (Vector3.Distance(enemyVector, transform.position) >= xrange || mstatus.fcollision == true)
             {
                 isMoving = false;
                 Debug.Log("움직임끝남");
-                shortAnim.SetBool("Walk", false);
+
                 break;
             }
             yield return null;
