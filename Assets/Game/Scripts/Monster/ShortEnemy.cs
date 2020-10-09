@@ -12,7 +12,7 @@ public class ShortEnemy : EnemyBase
     Quaternion to;
     Vector3 monsvec;
     float xrange = 0f;
-
+    
     float wait = 0f;
 
     Vector3 enemyVector;
@@ -22,13 +22,18 @@ public class ShortEnemy : EnemyBase
     //임시값들
     int rotationnum;
 
+    //============애니메이션===================
+    public Animator shortAnim;
+    //=========================================
 
     void Start()
     {
         menum = EnumInfo.MonsterState.RandomMove;
         player = GameObject.FindGameObjectWithTag("Player");
         isMoving = false;
-
+        agent = GetComponent<NavMeshAgent>();
+        shortAnim = GetComponent<Animator>();
+        shortAnim.SetBool("Idle", true);
     }
 
     // Update is called once per frame
@@ -80,7 +85,7 @@ public class ShortEnemy : EnemyBase
                 break;
         }
     }
-
+    
     //수정필요
     public override void Attack()
     {
@@ -91,6 +96,7 @@ public class ShortEnemy : EnemyBase
             if (Vector3.Distance(player.transform.position, transform.position) <= mstatus.shortAttackRange)
             {
                 Debug.Log("단거리 공격");
+                shortAnim.SetBool("Attack", true);
                 PlayerHpDown((int)mstatus.shortdamage);
                 menum = EnumInfo.MonsterState.Trace;
                 mstatus.tick = 0;
@@ -108,6 +114,7 @@ public class ShortEnemy : EnemyBase
     {
         if (mstatus.isFindPlayer == true && Vector3.Distance(player.transform.position, transform.position) <= agent.stoppingDistance)
         {
+            shortAnim.SetBool("Walk", true);
             monsvec = player.transform.position - transform.position;
             transform.forward = monsvec.normalized;
         }
@@ -126,19 +133,22 @@ public class ShortEnemy : EnemyBase
         else
         {
             mstatus.isFindPlayer = false;
-            agent.Stop();
+            //agent.Stop();
         }
     }
 
     public override void Wait()
     {
         base.Wait();
+        if (isMoving == true)
+            return;
 
+        shortAnim.SetBool("Idle", true);
         wait += Time.deltaTime;
-
+        //shortAnim.SetTrigger("idle");
         if (wait >= mstatus.waitingTime)
         {
-
+            shortAnim.SetBool("Idle", false);
             menum = EnumInfo.MonsterState.RandomMove;
             wait = 0;
         }
@@ -167,12 +177,14 @@ public class ShortEnemy : EnemyBase
 
         to.eulerAngles = new Vector3(0, rotationnum, 0);
         transform.rotation = Quaternion.Slerp(transform.rotation, to, Time.deltaTime * 8f);
-
+        shortAnim.SetBool("Idle", false);
+        shortAnim.SetBool("Walk", true);
         float angle = Quaternion.Angle(transform.rotation, to);
-        if (angle <= 0)
+        if (angle <= 1)
         {
 
             Debug.Log("끝임");
+            shortAnim.SetBool("Walk", false);
             menum = EnumInfo.MonsterState.Move;
             return;
         }
@@ -188,7 +200,7 @@ public class ShortEnemy : EnemyBase
             Debug.Log("추적");
             agent.SetDestination(player.transform.position);
             agent.Resume();
-
+            //shortAnim.SetTrigger("run");
             if (Vector3.Distance(player.transform.position, transform.position) <= mstatus.shortAttackRange)
             {
                 menum = EnumInfo.MonsterState.Attack;
@@ -215,8 +227,12 @@ public class ShortEnemy : EnemyBase
         base.OnDamage();
 
         mstatus.hp -= 1;
+        //shortAnim.SetTrigger("hit");
         if (mstatus.hp <= 0)
+        {
+            //shortAnim.SetTrigger("dead");
             gameObject.SetActive(false);
+        }
     }
 
     //이동시키는 함수
@@ -239,10 +255,12 @@ public class ShortEnemy : EnemyBase
         {
 
             transform.position = transform.position + transform.forward * mstatus.moveSpeed * Time.deltaTime;
+            shortAnim.SetBool("Walk", true);
             if (Vector3.Distance(enemyVector, transform.position) >= xrange || mstatus.fcollision == true)
             {
                 isMoving = false;
                 Debug.Log("움직임끝남");
+                shortAnim.SetBool("Walk", false);
                 break;
             }
             yield return null;
