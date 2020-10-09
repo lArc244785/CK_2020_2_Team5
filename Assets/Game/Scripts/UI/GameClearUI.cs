@@ -18,5 +18,25 @@ public class GameClearUI : I_UI
         base.Draw(isVisable);
     }
 
+    public void GameClear()
+    {
+        StartCoroutine(GameClearPadeInOutEvent());
+    }
+
+    IEnumerator GameClearPadeInOutEvent()
+    {
+        GameManger.instance.SetGameState(EnumInfo.GameState.Loading);
+        UI_LoadingView loadView = GameManger.instance.GetLoadingView();
+        loadView.SetPadeinOutOption(EnumInfo.PadeinOutOption.GameClear);
+        loadView.PadeIn();
+        yield return new WaitForSeconds(0.7f);
+        Draw(true);
+        loadView.PadeOut();
+        yield return new WaitForSeconds(1.0f);
+        loadView.SetPadeinOutOption(EnumInfo.PadeinOutOption.StageMove);
+        loadView.SetLoadingViewActive(false);
+        GameManger.instance.SetGameState(EnumInfo.GameState.GameClear);
+    }
+
 
 }

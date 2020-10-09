@@ -18,6 +18,7 @@ public class UI_LoadingView : MonoBehaviour
     {
         Transform ParentPadeinout = GameObject.Find("LoadingView_LoadPadeinOutList").transform;
         LoadingViewPadeinoutList = new List<GameObject>();
+        print(ParentPadeinout.GetChildCount());
         for (int i = 0; i < ParentPadeinout.GetChildCount(); i++)
         {
             LoadingViewPadeinoutList.Add(ParentPadeinout.GetChild(i).gameObject);
@@ -52,6 +53,7 @@ public class UI_LoadingView : MonoBehaviour
 
         CurrentPadeinout = LoadingViewPadeinoutList[index];
         CurrentPadeInOutAni = CurrentPadeinout.GetComponent<Animator>();
+        SetLoadingViewActive(true);
     }
 
     public void PadeIn()
@@ -107,6 +109,7 @@ public class UI_LoadingView : MonoBehaviour
     public void LoadOptionReset()
     {
         SetPadeinOutOption(TitleToInGameOption);
+        SetLoadingViewActive(false);
     }
 
     public void SetSpeed(float speed)

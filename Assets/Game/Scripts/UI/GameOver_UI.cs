@@ -26,15 +26,14 @@ public class GameOver_UI : I_UI
     {
         GameManger.instance.SetGameState(EnumInfo.GameState.Loading);
         UI_LoadingView loadView = GameManger.instance.GetLoadingView();
-
+        loadView.SetPadeinOutOption(EnumInfo.PadeinOutOption.GameOver);
         loadView.PadeIn();
         yield return new WaitForSeconds(0.7f);
         Draw(true);
-        loadView.SetSpeed(0.25f);
         loadView.PadeOut();
         yield return new WaitForSeconds(1.0f);
+        loadView.SetPadeinOutOption(EnumInfo.PadeinOutOption.StageMove);
         loadView.SetLoadingViewActive(false);
-        loadView.SetSpeed(1.0f);
         GameManger.instance.SetGameState(EnumInfo.GameState.GameOver);
 
     }

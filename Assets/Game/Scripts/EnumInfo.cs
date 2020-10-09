@@ -43,7 +43,7 @@ public class EnumInfo
 
     public enum PadeinOutOption
     {
-        Nomal, Icon,horizon,StageMove
+        Nomal, Icon,horizon,StageMove, GameOver, GameClear
     }
 
     

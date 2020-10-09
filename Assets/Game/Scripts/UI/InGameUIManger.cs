@@ -97,7 +97,7 @@ public class InGameUIManger :I_UI
             }
             else if (Input.GetKeyDown(KeyCode.F2))
             {
-                GameManger.instance.SetGameState(EnumInfo.GameState.GameClear);
+                gameClearUI.GameClear();
             }
             else if (Input.GetKeyDown(KeyCode.F3))
             {
