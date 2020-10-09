@@ -10,7 +10,7 @@ public class Door : MonoBehaviour
 
     private float pointX;
 
-    private float offsetPoint = 0.2f;
+    private float offsetPoint = 0.5f;
     public EnumInfo.DoorSpawn SpawnPoint;
 
     private Vector3 movePoint;
