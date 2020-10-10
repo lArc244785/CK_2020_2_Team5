@@ -22,7 +22,7 @@ public class HPUI : I_UI
     {
         Transform tr = DrawUIObject.transform;
         imageList = new List<Image>();
-        for (int i = 0; i < tr.GetChildCount(); i++)
+        for (int i = 0; i < tr.childCount; i++)
         {
             imageList.Add(tr.GetChild(i).GetComponent<Image>());
         }

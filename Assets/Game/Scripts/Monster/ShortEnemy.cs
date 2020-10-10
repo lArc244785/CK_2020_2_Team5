@@ -28,12 +28,12 @@ public class ShortEnemy : EnemyBase
 
     void Start()
     {
-        menum = EnumInfo.MonsterState.RandomMove;
         player = GameObject.FindGameObjectWithTag("Player");
         isMoving = false;
         agent = GetComponent<NavMeshAgent>();
         shortAnim = GetComponent<Animator>();
-        shortAnim.SetBool("Idle", true);
+        shortAnim.SetTrigger("Idle");
+        menum = EnumInfo.MonsterState.RandomMove;
     }
 
     // Update is called once per frame
@@ -96,20 +96,20 @@ public class ShortEnemy : EnemyBase
             if (Vector3.Distance(player.transform.position, transform.position) <= mstatus.shortAttackRange)
             {
                 Debug.Log("단거리 공격");
-
+                shortAnim.SetTrigger("Attack");
                 PlayerHpDown((int)mstatus.shortdamage);
-                //menum = EnumInfo.MonsterState.Trace;
+                menum = EnumInfo.MonsterState.Move;
                 mstatus.tick = 0;
             }
             else
             {
-                menum = EnumInfo.MonsterState.Move;
+                //menum = EnumInfo.MonsterState.Move;
                 //Debug.Log("사거리 부족");
             }
         }
         else
         {
-            menum = EnumInfo.MonsterState.Move;
+            //menum = EnumInfo.MonsterState.Move;
             //shortAnim.SetBool("Idle", true);
         }
 
@@ -119,7 +119,7 @@ public class ShortEnemy : EnemyBase
     {
         if (mstatus.isFindPlayer == true && Vector3.Distance(player.transform.position, transform.position) <= agent.stoppingDistance)
         {
-
+            shortAnim.SetTrigger("Walk");
             monsvec = player.transform.position - transform.position;
             transform.forward = monsvec.normalized;
         }
@@ -131,10 +131,9 @@ public class ShortEnemy : EnemyBase
 
         if (Vector3.Distance(player.transform.position, transform.position) <= mstatus.shortMonsterRange)// || menum !=EnumInfo.MonsterState.Attack)
         {
-            mstatus.isFindPlayer = true;
             menum = EnumInfo.MonsterState.Move;
-
-
+            mstatus.isFindPlayer = true;
+            
         }
         else
         {
@@ -147,15 +146,16 @@ public class ShortEnemy : EnemyBase
     public override void Wait()
     {
         base.Wait();
+
         if (isMoving == true)
             return;
 
 
         wait += Time.deltaTime;
+        shortAnim.SetTrigger("Idle");
 
         if (wait >= mstatus.waitingTime)
         {
-
             menum = EnumInfo.MonsterState.RandomMove;
             wait = 0;
         }
@@ -170,11 +170,14 @@ public class ShortEnemy : EnemyBase
             return;
         if (mstatus.isFindPlayer == true)
             return;
+
         Debug.Log("랜덤생성");
+
         rotationnum = Random.Range(0, 361);
         enemyVector = transform.position;
 
         xrange = Random.Range(mstatus.minMoveRange, mstatus.maxMoveRange);
+
         menum = EnumInfo.MonsterState.Turn;
 
     }
@@ -184,11 +187,10 @@ public class ShortEnemy : EnemyBase
 
         to.eulerAngles = new Vector3(0, rotationnum, 0);
         transform.rotation = Quaternion.Slerp(transform.rotation, to, Time.deltaTime * 8f);
-
         float angle = Quaternion.Angle(transform.rotation, to);
-        if (angle <= 1)
-        {
 
+        if (angle <= 0.5)
+        {
             Debug.Log("끝임");
 
             menum = EnumInfo.MonsterState.Move;
@@ -207,7 +209,7 @@ public class ShortEnemy : EnemyBase
             agent.SetDestination(player.transform.position);
             
             agent.Resume();
-            //shortAnim.SetTrigger("run");
+            shortAnim.SetTrigger("Run");
             if (Vector3.Distance(player.transform.position, transform.position) <= mstatus.shortAttackRange)
             {
                 menum = EnumInfo.MonsterState.Attack;
@@ -234,10 +236,10 @@ public class ShortEnemy : EnemyBase
         base.OnDamage();
 
         mstatus.hp -= 1;
-        //shortAnim.SetTrigger("hit");
+        shortAnim.SetTrigger("Hit");
         if (mstatus.hp <= 0)
         {
-            //shortAnim.SetTrigger("dead");
+            shortAnim.SetTrigger("Dead");
             gameObject.SetActive(false);
         }
     }
@@ -250,9 +252,12 @@ public class ShortEnemy : EnemyBase
             return;
 
         enemyVector = transform.position;
+        shortAnim.SetTrigger("Walk");
         StartCoroutine(Moving());
-        menum = EnumInfo.MonsterState.Wait;
         isMoving = true;
+        Debug.Log("계속여기로옴");
+        menum = EnumInfo.MonsterState.Wait;
+
     }
 
     IEnumerator Moving()
@@ -260,14 +265,12 @@ public class ShortEnemy : EnemyBase
 
         while (true)
         {
-
             transform.position = transform.position + transform.forward * mstatus.moveSpeed * Time.deltaTime;
-
             if (Vector3.Distance(enemyVector, transform.position) >= xrange || mstatus.fcollision == true)
             {
                 isMoving = false;
                 Debug.Log("움직임끝남");
-
+                menum = EnumInfo.MonsterState.Wait;
                 break;
             }
             yield return null;
@@ -276,7 +279,7 @@ public class ShortEnemy : EnemyBase
 
     void PlayerHpDown(int damage)
     {
-        player.GetComponent<PlayerControl>().SetDamage(damage);
+        //player.GetComponent<PlayerControl>().SetDamage(damage);
     }
 
     void IsCollision()

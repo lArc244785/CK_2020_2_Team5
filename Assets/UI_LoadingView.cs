@@ -18,8 +18,8 @@ public class UI_LoadingView : MonoBehaviour
     {
         Transform ParentPadeinout = GameObject.Find("LoadingView_LoadPadeinOutList").transform;
         LoadingViewPadeinoutList = new List<GameObject>();
-        print(ParentPadeinout.GetChildCount());
-        for (int i = 0; i < ParentPadeinout.GetChildCount(); i++)
+        print(ParentPadeinout.childCount);
+        for (int i = 0; i < ParentPadeinout.childCount; i++)
         {
             LoadingViewPadeinoutList.Add(ParentPadeinout.GetChild(i).gameObject);
             LoadingViewPadeinoutList[i].SetActive(false);
