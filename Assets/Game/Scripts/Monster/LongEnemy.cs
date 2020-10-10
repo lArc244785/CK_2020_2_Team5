@@ -6,11 +6,14 @@ using UnityEngine.AI;
 public class LongEnemy : EnemyBase
 {
     public NavMeshAgent agent;
+
     public EnumInfo.MonsterState menum;
+
     GameObject player;
     public Transform firePos;
     public GameObject bullet;
     public GameObject collisionFoward;
+
     Quaternion to;
     Vector3 monsvec;
 
@@ -21,12 +24,17 @@ public class LongEnemy : EnemyBase
     Vector3 enemyVector;
 
     public bool isMoving;
+    bool isTrace;
+    bool Co_move_running = false;
+    bool endAttack = true;
 
     //임시값들
     int rotationnum;
 
     //============애니메이션===================
+
     public Animator longAnim;
+
     //=========================================
 
     void Start()
@@ -91,8 +99,13 @@ public class LongEnemy : EnemyBase
     {
         base.Attack();
 
+        if (!isTrace)
+            return;
+        if (!mstatus.isFindPlayer)
+            return;
+
         mstatus.tick += Time.deltaTime;
-        if (mstatus.tick >= mstatus.tickRate && mstatus.isFindPlayer==true)
+        if (mstatus.tick >= mstatus.tickRate)
         {
             if (Vector3.Distance(player.transform.position, transform.position) <= mstatus.longAttackRange)
             {
@@ -100,38 +113,44 @@ public class LongEnemy : EnemyBase
                 if (Vector3.Distance(player.transform.position, transform.position) <= agent.stoppingDistance)
                 {
                     longAnim.SetTrigger("attack");
+                    endAttack = false;
                     Instantiate(bullet, firePos.transform.position, firePos.transform.rotation);
                 }
                 menum = EnumInfo.MonsterState.Move;
                 mstatus.tick = 0;
             }
-            else
-            {
-                //menum = EnumInfo.MonsterState.Trace;
-                //Debug.Log("사거리 부족");
-            }
+
         }
         else
         {
-            //longAnim.SetTrigger("idle");
+            menum = EnumInfo.MonsterState.Move;
         }
+
 
     }
 
+    //find가 true일 경우 처음 호출자는 부르지 말고 멀어졌나를 확인하는 코드만 호출
     public override void FindPlayer()
     {
         base.FindPlayer();
 
-        if (Vector3.Distance(player.transform.position, transform.position) <= mstatus.longMonsterRange)// || menum !=EnumInfo.MonsterState.Attack)
+        if (!mstatus.isFindPlayer)
         {
-            menum = EnumInfo.MonsterState.Move;
-            mstatus.isFindPlayer = true;
+            if (Vector3.Distance(player.transform.position, transform.position) <= mstatus.longMonsterRange)// || menum !=EnumInfo.MonsterState.Attack)
+            {
+                StartTrace();
+                menum = EnumInfo.MonsterState.Move;
+                mstatus.isFindPlayer = true;
 
+            }
         }
-        else
+
+        if(mstatus.isFindPlayer==true && Vector3.Distance(player.transform.position, transform.position) > mstatus.longMonsterRange)
         {
             mstatus.isFindPlayer = false;
+            isTrace = false;
             agent.Stop();
+            menum = EnumInfo.MonsterState.RandomMove;
         }
     }
 
@@ -139,7 +158,7 @@ public class LongEnemy : EnemyBase
     {
         if (mstatus.isFindPlayer==true && Vector3.Distance(player.transform.position, transform.position) <= agent.stoppingDistance)
         {
-            longAnim.SetTrigger("idle");
+            //longAnim.SetTrigger("idle");
             monsvec = player.transform.position - transform.position;
             transform.forward = monsvec.normalized;
 
@@ -151,11 +170,12 @@ public class LongEnemy : EnemyBase
         base.Wait();
         if (isMoving == true)
             return;
-
+        if (Co_move_running == true)
+            return;
 
         Debug.Log("waiting");
         wait += Time.deltaTime;
-        longAnim.SetTrigger("idle");
+
 
         if (wait >= mstatus.waitingTime)
         {
@@ -201,6 +221,15 @@ public class LongEnemy : EnemyBase
 
     }
 
+    public void StartTrace()
+    {
+        if (!isTrace)
+        {
+            longAnim.SetTrigger("run");
+            isTrace = true;
+        }
+    }
+
     [System.Obsolete]
     public override void TracePlayer()
     {
@@ -208,23 +237,42 @@ public class LongEnemy : EnemyBase
 
         if (mstatus.isFindPlayer == true)
         {
-            Debug.Log("추적");
+            if (longAnim.GetCurrentAnimatorStateInfo(0).IsName("attack"))
+            {
+                if (longAnim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.8f)
+                {
+                    endAttack = true;
+                    if (Vector3.Distance(player.transform.position, transform.position) <= agent.stoppingDistance)
+                    {
+                        if (!longAnim.GetCurrentAnimatorStateInfo(0).IsName("idle"))
+                        {
+                            Debug.Log("대기중이 아니여서 대기 세팅");
+                            longAnim.SetTrigger("idle");
+                        }
+                    }
+                    else
+                    {
+                        if (!longAnim.GetCurrentAnimatorStateInfo(0).IsName("run"))
+                            longAnim.SetTrigger("run");
+                    }
+                }
+            }
+
+            else
+            {
+                if(!longAnim.GetCurrentAnimatorStateInfo(0).IsName("run") && !longAnim.GetCurrentAnimatorStateInfo(0).IsName("idle"))
+                    longAnim.SetTrigger("run");
+            }
+
             agent.SetDestination(player.transform.position);
             agent.Resume();
 
             if (Vector3.Distance(player.transform.position, transform.position) <= mstatus.longAttackRange)
             {
-                
-                menum = EnumInfo.MonsterState.Attack;
+                if(endAttack==true)
+                    menum = EnumInfo.MonsterState.Attack;
                 return;
             }
-            else
-            {
-                longAnim.SetTrigger("run");
-            }
-
-
-
         }
         else
         {
@@ -258,21 +306,25 @@ public class LongEnemy : EnemyBase
 
         StartCoroutine(Moving());
         isMoving = true;
-        //menum = EnumInfo.MonsterState.Wait;
     }
 
     IEnumerator Moving()
     {
+        Co_move_running = true;
+        longAnim.SetTrigger("walk");
 
         while (true)
         {
+            if (!longAnim.GetCurrentAnimatorStateInfo(0).IsName("walk2"))
+                longAnim.SetTrigger("walk");
             transform.position =  transform.position+transform.forward * mstatus.moveSpeed * Time.deltaTime;
-            longAnim.SetTrigger("walk");
+
             if (Vector3.Distance(enemyVector, transform.position) >= xrange || mstatus.fcollision==true)
             {
                 isMoving = false;
                 menum = EnumInfo.MonsterState.Wait;
-
+                longAnim.SetTrigger("idle");
+                Co_move_running = false;
                 break;
             }
             yield return null;
@@ -293,6 +345,6 @@ public class LongEnemy : EnemyBase
         }
     }
 
+
 }
 
-//수정예정 -> 근접시 플레이어 바라보는 걸 자연스럽게 수정
