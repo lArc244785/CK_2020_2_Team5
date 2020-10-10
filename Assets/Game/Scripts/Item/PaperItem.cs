@@ -17,7 +17,7 @@ public class PaperItem : I_Item
                 case EnumInfo.Item.Range:
                 case EnumInfo.Item.Reload:
                 case EnumInfo.Item.Speed:
-                    GameManger.instance.getInGameUIMangerI().ItemGet(item);
+                    GameManger.instance.getInGameUIManger().ItemGet(item);
                     break;
                 default:
                     Debug.LogWarning("Code: 1000 : 잘 못된 값이 들어왔습니다. " + other);
@@ -36,7 +36,7 @@ public class PaperItem : I_Item
             case EnumInfo.Item.Range:
             case EnumInfo.Item.Reload:
             case EnumInfo.Item.Speed:
-                GameManger.instance.getInGameUIMangerI().ItemGet(item);
+                GameManger.instance.getInGameUIManger().ItemGet(item);
                 break;
             default:
 

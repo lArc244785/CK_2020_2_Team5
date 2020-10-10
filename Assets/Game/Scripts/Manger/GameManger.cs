@@ -146,7 +146,7 @@ public class GameManger : MonoBehaviour
         return cameraManger;
     }
 
-    public InGameUIManger getInGameUIMangerI()
+    public InGameUIManger getInGameUIManger()
     {
         if (inGameManger == null) SetInGameUIManger();
         return inGameManger;
