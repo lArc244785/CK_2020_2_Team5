@@ -141,4 +141,14 @@ public class InGameUIManger :I_UI
     {
         return gameOverUI;
     }
+
+    public GameClearUI GetGameClearUI()
+    {
+        return gameClearUI;
+    }
+
+    public HPUI GetHpUI()
+    {
+        return hpUI;
+    }
 }
