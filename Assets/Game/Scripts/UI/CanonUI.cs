@@ -37,10 +37,10 @@ public class CanonUI : I_UI
         setState(EnumInfo.CanonState.BulletOn);
         pc = GameManger.instance.getPlayerControl();
         canonImgParentRectTr = DrawUIObject.transform.GetChild(0).GetComponent<RectTransform>();
-        print("CODE 232: " + canonImgParentRectTr.GetChildCount());
+        print("CODE 232: " + canonImgParentRectTr.childCount);
         cannonImgList = new List<Image>();
         canonImgAniList = new List<Animator>();
-        for (int i = 0; i < canonImgParentRectTr.GetChildCount(); i++)
+        for (int i = 0; i < canonImgParentRectTr.childCount; i++)
         {
             GameObject canon = canonImgParentRectTr.GetChild(i).gameObject;
             cannonImgList.Add(canon.GetComponent<Image>());
