@@ -7,12 +7,14 @@ public class BulletControl : MonoBehaviour
     public float bulletSpeed=20f;
     public float bulletRange=15f;
     public GameObject hit_Effect;
-
+    GameObject player;
     Vector3 bulletV;
 
     void Start()
     {
+        player = GameObject.FindGameObjectWithTag("Player");
         bulletV.Set(transform.position.x, transform.position.y, transform.position.z);
+        bulletRange = GetRange();
     }
 
     private void FixedUpdate()
@@ -26,7 +28,7 @@ public class BulletControl : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         Instantiate(hit_Effect, transform.position, transform.rotation);
-        Debug.Log("충돌하마ㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏ");
+
         //몬스터면 맞은 몬스터의 hp감소
         if (collision.gameObject.tag=="LongEnemy")
         {
@@ -45,5 +47,12 @@ public class BulletControl : MonoBehaviour
             Destroy(gameObject);
         }
         
+    }
+    //플레이어 사거리 받아오기
+
+    public float GetRange()
+    {
+        bulletRange = player.GetComponent<PlayerControl>().playerStatus.rangeUp;
+        return bulletRange;
     }
 }

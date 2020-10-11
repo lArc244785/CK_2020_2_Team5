@@ -213,7 +213,7 @@ MonoBehaviour:
     attackRangeUp: 0
     fCollision: 0
     isLive: 0
-  Bullet: {fileID: 6847845578350283539, guid: 4e962c7c1e1d2d14188ce9d7c5a7ab61, type: 3}
+  Bullet: {fileID: 8292093020352922700, guid: b2f8695ba8a5afd4ca2bacf4e1efaeed, type: 3}
   FirePos: {fileID: 784499487}
   dashCoolTimeMax: 4
   dashSpeed: 8
@@ -228,17 +228,17 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: a5c7bd599929f7c4b9e8794222f08900,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -37.53885
+      value: 0.4084116
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a5c7bd599929f7c4b9e8794222f08900,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 3.158926e-17
+      value: -5.7690446e-18
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a5c7bd599929f7c4b9e8794222f08900,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -7.981
+      value: -16.104465
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a5c7bd599929f7c4b9e8794222f08900,
         type: 3}
@@ -285,10 +285,15 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: fdf0933779d52e7419916d4dc69931b6, type: 2}
+    - target: {fileID: 791631713288424484, guid: a5c7bd599929f7c4b9e8794222f08900,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: ac06d8cf07a3e374aa0d08c5d477a4e9, type: 2}
     - target: {fileID: 919132149155446097, guid: a5c7bd599929f7c4b9e8794222f08900,
         type: 3}
       propertyPath: m_Name
-      value: Player_Anim
+      value: Player_Anim Variant
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: a5c7bd599929f7c4b9e8794222f08900,
         type: 3}

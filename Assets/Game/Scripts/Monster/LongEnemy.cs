@@ -286,7 +286,7 @@ public class LongEnemy : EnemyBase
     {
         base.OnDamage();
 
-        mstatus.hp -= 1;
+        mstatus.hp -= mstatus.hp -= player.GetComponent<PlayerControl>().playerStatus.attackPower;
         longAnim.SetTrigger("hit");
         if (mstatus.hp <= 0)
         {

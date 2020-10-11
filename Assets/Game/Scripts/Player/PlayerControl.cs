@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class PlayerControl : MonoBehaviour
 {
-    [Range(0,50)]
-    public float playerMoveSpeed = 5;
     public GameObject collisionFoward;
 
     public PlayerStatus playerStatus;
@@ -19,9 +17,9 @@ public class PlayerControl : MonoBehaviour
     //총알
     public GameObject Bullet;
     public Transform FirePos;
-    int maxbullet = 5; //최대총알수 등은 나중에 다른 스크립트로 이동 예정
-    int getbullet = 0;
-    float reloadTime = 2f;
+    //int maxbullet = 5; //최대총알수 등은 나중에 다른 스크립트로 이동 예정
+    //int getbullet = 0;
+    //float reloadTime = 2f;
     bool load;
 
     //대쉬중인가 / 대쉬 쿨 / 대쉬 시 속도
@@ -37,13 +35,14 @@ public class PlayerControl : MonoBehaviour
     bool isMoving;                 //움직이는 중인지
     //======================================
 
+
     //=============이펙트==================
 
     //=====================================
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        getbullet = maxbullet;
         dashCoolTime = dashCoolTimeMax;
         playeranim.SetTrigger("idle");
         dashStop = false;
@@ -56,8 +55,8 @@ public class PlayerControl : MonoBehaviour
         IsCollision();
         if (playerStatus.isLive == true)
         {
-            //if (GameManger.instance.GetGameState() == EnumInfo.GameState.Ingame)
-            //{
+            if (GameManger.instance.GetGameState() == EnumInfo.GameState.Ingame)
+            {
             if (Input.GetMouseButtonDown(0))
             {
                 PlayerAttack();
@@ -71,7 +70,7 @@ public class PlayerControl : MonoBehaviour
                 ReLoad();
             }
             dashCoolTime += Time.deltaTime;
-            //}
+            }
 
             if (playeranim.GetCurrentAnimatorStateInfo(0).IsName("hit"))
             {
@@ -84,14 +83,14 @@ public class PlayerControl : MonoBehaviour
     {
         if (playerStatus.isLive == true)
         {
-            //if (GameManger.instance.GetGameState() == EnumInfo.GameState.Ingame)
-            //{
+            if (GameManger.instance.GetGameState() == EnumInfo.GameState.Ingame)
+            {
             phorizon = Input.GetAxisRaw("Horizontal");
             pvertical = Input.GetAxisRaw("Vertical");
             PlayerMove();
             PlayerTurn();
             playerAnimation();
-            //}
+            }
         }
     }
 
@@ -109,7 +108,7 @@ public class PlayerControl : MonoBehaviour
             }
 
             pmove.Set(phorizon, 0.0f, pvertical);
-            pmove = pmove.normalized * playerMoveSpeed * Time.deltaTime;
+            pmove = pmove.normalized * playerStatus.moveSpeed * Time.deltaTime;
             rb.MovePosition(transform.position + pmove);
         }
     }
@@ -152,13 +151,13 @@ public class PlayerControl : MonoBehaviour
 
     void PlayerAttack() //마우스 좌클릭 시 포탄 발사
     {
-        if (getbullet > 0)
+        if (playerStatus.getBullet > 0)
         {
             Instantiate(Bullet, FirePos.transform.position, FirePos.transform.rotation);
-            getbullet -= 1;
+            playerStatus.getBullet -= 1;
             //GameManger.instance.getInGameUIManger().getcanonUI().ShootBullet(getbullet);
             //UnityEngine.Debug.Log("현재 총알 : " + getbullet.ToString());
-            if (getbullet == 0)
+            if (playerStatus.getBullet == 0)
                 ReLoad();
         }
         
@@ -217,7 +216,7 @@ public class PlayerControl : MonoBehaviour
 
     void ReLoad()
     {
-        if (maxbullet == getbullet && load==true)
+        if (playerStatus.maxBullet == playerStatus.getBullet && load==true)
             return;
         else
         {
@@ -231,21 +230,21 @@ public class PlayerControl : MonoBehaviour
     IEnumerator ReLoading()
     {
         //UI리로드 이벤트를 실행시킵니다.
-        GameManger.instance.getInGameUIManger().getcanonUI().ReLoadEvent(reloadTime);
-        yield return new WaitForSeconds(reloadTime);
+        GameManger.instance.getInGameUIManger().getcanonUI().ReLoadEvent(playerStatus.reLoadTime);
+        yield return new WaitForSeconds(playerStatus.reLoadTime);
         load = false;
-        getbullet = maxbullet;
+        playerStatus.getBullet = playerStatus.maxBullet;
         //UnityEngine.Debug.Log("장전끝 현재 총알 :"+getbullet.ToString());
     }
 
     public int getBullet()
     {
-        return getbullet;
+        return playerStatus.getBullet;
     }
 
     public int getMaxBullet()
     {
-        return maxbullet;
+        return playerStatus.maxBullet;
     }
 
     public bool getIsReload()
@@ -259,6 +258,7 @@ public class PlayerControl : MonoBehaviour
         //현재 대쉬 쿨타임이랑, 총 대쉬 쿨탐
         return new Vector2(dashCoolTime,  5.0f);
     }
+
 
     public void SetDamage(float damage)
     {
@@ -300,6 +300,27 @@ public class PlayerControl : MonoBehaviour
                 isHit = false;
             }
         }
+    }
+
+    public void StatUp_AttackRange()
+    {
+        playerStatus.attackRangeUp += 0.5f;
+        Debug.Log("사거리증가");
+    }
+
+    public void StatUp_PowerUp()
+    {
+        playerStatus.attackPower += 0.1f;
+    }
+
+    public void StatUp_ReLoadUp()
+    {
+        playerStatus.reLoadTime -= 0.1f;
+    }
+
+    public void StatUp_SpeedUp()
+    {
+        playerStatus.moveSpeed += 1;
     }
     //hit일때 끝났음을 확인하는 코드를 추가하고, bool값이 true이면 다른게 움직일 수 있도록? -> hit상태에서 hit을 부르는건 그대로 부를 수 있도록 조절
 }

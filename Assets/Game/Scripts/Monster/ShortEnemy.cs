@@ -285,7 +285,7 @@ public class ShortEnemy : EnemyBase
     {
         base.OnDamage();
 
-        mstatus.hp -= 1;
+        mstatus.hp -= player.GetComponent<PlayerControl>().playerStatus.attackPower;
         shortAnim.SetTrigger("hit");
         if (mstatus.hp <= 0)
         {

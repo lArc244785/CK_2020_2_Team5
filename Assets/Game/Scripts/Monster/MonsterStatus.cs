@@ -5,8 +5,8 @@ using UnityEngine;
 [System.Serializable]
 public class MonsterStatus 
 {
-    public int hp;
-    public int maxHp;
+    public float hp;
+    public float maxHp;
 
     public float shortMonsterRange; //플레이어로 이동하기 위한 거리
     public float longMonsterRange;

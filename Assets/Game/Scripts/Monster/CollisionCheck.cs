@@ -22,7 +22,8 @@ public class CollisionCheck : MonoBehaviour
     {
         if (other.gameObject.tag == ("Player") || other.gameObject.tag==("Bullet"))
             return;
-
+        if(other.gameObject.tag==("Wall"))
+            collision = true;
         collision = true;
         Debug.Log("충돌");
     }
@@ -32,7 +33,10 @@ public class CollisionCheck : MonoBehaviour
         if (other.gameObject.tag == ("Player") || other.gameObject.tag == ("Bullet"))
             return;
         Debug.Log("충돌끝");
+        if (other.gameObject.tag == ("Wall"))
+            collision = false;
         collision = false;
+        //collision = false;
     }
 
     public bool isCollision()

@@ -7,6 +7,12 @@ TagManager:
   - LongEnemy
   - ShortEnemy
   - PauseUI_Button
+  - Item
+  - Box
+  - Bullet
+  - Monster
+  - Wall
+  - Object
   layers:
   - Default
   - TransparentFX

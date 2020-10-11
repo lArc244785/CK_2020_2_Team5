@@ -43,6 +43,7 @@ GameObject:
   - component: {fileID: 499856647}
   - component: {fileID: 499856646}
   - component: {fileID: 499856645}
+  - component: {fileID: 8100941562995970349}
   m_Layer: 0
   m_Name: fowa
   m_TagString: Untagged
@@ -58,7 +59,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 499856644}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.3, z: 0.3}
+  m_LocalPosition: {x: 0, y: 0.18, z: 0.242}
   m_LocalScale: {x: 0.29999998, y: 0.1704, z: 0.1322}
   m_Children: []
   m_Father: {fileID: 3063264845697450193}
@@ -137,6 +138,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   collision: 0
+--- !u!54 &8100941562995970349
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 499856644}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1001 &5529659347083605169
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -154,19 +171,19 @@ PrefabInstance:
       objectReference: {fileID: 499856644}
     - target: {fileID: 591180746, guid: 14c904066e5def3479a76117df7a6076, type: 3}
       propertyPath: mstatus.minMoveRange
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 591180746, guid: 14c904066e5def3479a76117df7a6076, type: 3}
       propertyPath: mstatus.maxMoveRange
-      value: 5
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 591180746, guid: 14c904066e5def3479a76117df7a6076, type: 3}
       propertyPath: mstatus.shortAttackRange
-      value: 3
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 591180746, guid: 14c904066e5def3479a76117df7a6076, type: 3}
       propertyPath: mstatus.shortMonsterRange
-      value: 8
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 591180746, guid: 14c904066e5def3479a76117df7a6076, type: 3}
       propertyPath: mstatus.tickRate
@@ -191,7 +208,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 591180747, guid: 14c904066e5def3479a76117df7a6076, type: 3}
       propertyPath: m_StoppingDistance
-      value: 4
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 591180747, guid: 14c904066e5def3479a76117df7a6076, type: 3}
       propertyPath: m_AutoBraking
@@ -201,6 +218,12 @@ PrefabInstance:
       propertyPath: m_Radius
       value: 0.19
       objectReference: {fileID: 0}
+    - target: {fileID: 3409756452185910942, guid: 14c904066e5def3479a76117df7a6076,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 239378781582670930, guid: 7625b04feeb69cf49b7c17ee06a38ddd,
+        type: 3}
     - target: {fileID: 6879448538718425734, guid: 14c904066e5def3479a76117df7a6076,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
