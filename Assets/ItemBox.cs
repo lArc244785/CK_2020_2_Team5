@@ -36,13 +36,13 @@ public class ItemBox : MonoBehaviour
         yield return new WaitForSeconds(1.0f);
         Particle.SetActive(true);
         Modle.SetActive(false);
-        yield return new WaitForSeconds(0.8f);
+        //yield return new WaitForSeconds(0.2f);
         if (Random.Range(.0f, 100.0f) < randomParcent)
         {
             Item.SetActive(true);
             Item.transform.parent = null;
         }
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(0.6f);
         gameObject.SetActive(false);
     }
 
