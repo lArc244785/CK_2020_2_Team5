@@ -29,6 +29,12 @@ public class ShortEnemy : EnemyBase
     public Animator shortAnim;
     //=========================================
 
+    //=============이펙트======================
+    public GameObject attack_effact;
+    public Transform effectTransform;
+    //=========================================
+
+
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
@@ -109,6 +115,8 @@ public class ShortEnemy : EnemyBase
                 if (Vector3.Distance(player.transform.position, transform.position) <= agent.stoppingDistance)
                 {
                     shortAnim.SetTrigger("attack");
+                    Instantiate(attack_effact, effectTransform.position, effectTransform.rotation);
+
                     endAttack = false;
                     //공격 - 공격시 가까이 있나 한번 더 확인
                     PlayerHpDown(1);
@@ -234,6 +242,7 @@ public class ShortEnemy : EnemyBase
             {
                 if (shortAnim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.8f)
                 {
+
                     endAttack = true;
                     if (Vector3.Distance(player.transform.position, transform.position) <= agent.stoppingDistance)
                     {

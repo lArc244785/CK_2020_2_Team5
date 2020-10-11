@@ -37,6 +37,9 @@ public class PlayerControl : MonoBehaviour
     bool isMoving;                 //움직이는 중인지
     //======================================
 
+    //=============이펙트==================
+
+    //=====================================
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -45,6 +48,7 @@ public class PlayerControl : MonoBehaviour
         playeranim.SetTrigger("idle");
         dashStop = false;
         playerStatus.isLive = true;
+
     }
 
     void Update()
@@ -95,7 +99,7 @@ public class PlayerControl : MonoBehaviour
     {
         if (isdash == false) //대쉬중일땐 움직이지 못함
         {
-            if ((phorizon !=0 || pvertical != 0))
+            if ((Input.GetButton("Horizontal") || Input.GetButton("Vertical"))||(Input.GetButtonDown("Horizontal") || Input.GetButtonDown("Vertical")))
             {
                 isMoving = true;
             }
@@ -112,8 +116,9 @@ public class PlayerControl : MonoBehaviour
 
     void playerAnimation()
     {
-        if (!playeranim.GetCurrentAnimatorStateInfo(0).IsName("run") && isMoving == true &&isHit==false)
+        if (!playeranim.GetCurrentAnimatorStateInfo(0).IsName("run") && isMoving == true && isHit==false)
         {
+            Debug.Log("움직이려고 함");
             playeranim.SetTrigger("run");
         }
         else if (!playeranim.GetCurrentAnimatorStateInfo(0).IsName("idle") && isMoving == false && isHit == false)
@@ -151,7 +156,7 @@ public class PlayerControl : MonoBehaviour
         {
             Instantiate(Bullet, FirePos.transform.position, FirePos.transform.rotation);
             getbullet -= 1;
-            GameManger.instance.getInGameUIManger().getcanonUI().ShootBullet(getbullet);
+            //GameManger.instance.getInGameUIManger().getcanonUI().ShootBullet(getbullet);
             //UnityEngine.Debug.Log("현재 총알 : " + getbullet.ToString());
             if (getbullet == 0)
                 ReLoad();
