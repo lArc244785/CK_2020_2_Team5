@@ -20,15 +20,16 @@ public class CollisionCheck : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == ("Player"))
+        if (other.gameObject.tag == ("Player") || other.gameObject.tag==("Bullet"))
             return;
+
         collision = true;
         Debug.Log("충돌");
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.tag == ("Player"))
+        if (other.gameObject.tag == ("Player") || other.gameObject.tag == ("Bullet"))
             return;
         Debug.Log("충돌끝");
         collision = false;

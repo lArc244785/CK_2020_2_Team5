@@ -110,7 +110,9 @@ public class ShortEnemy : EnemyBase
                 {
                     shortAnim.SetTrigger("attack");
                     endAttack = false;
-                    //공격
+                    //공격 - 공격시 가까이 있나 한번 더 확인
+                    PlayerHpDown(1);
+
                 }
                 menum = EnumInfo.MonsterState.Move;
                 mstatus.tick = 0;
@@ -318,7 +320,7 @@ public class ShortEnemy : EnemyBase
 
     void PlayerHpDown(int damage)
     {
-        //player.GetComponent<PlayerControl>().SetDamage(damage);
+        player.GetComponent<PlayerControl>().SetDamage(damage);
     }
 
     void IsCollision()

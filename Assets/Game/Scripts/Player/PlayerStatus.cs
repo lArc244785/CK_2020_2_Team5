@@ -17,5 +17,7 @@ public class PlayerStatus
     public float reLoadSpeedUp;
     public float rangeUp;
     public float attackRangeUp;
+    public bool fCollision;
+    public bool isLive;
     
 }
