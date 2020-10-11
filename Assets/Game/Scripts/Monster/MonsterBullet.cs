@@ -6,6 +6,7 @@ public class MonsterBullet : MonoBehaviour
 {
     public MonsterStatus mstatus;
     Vector3 bulletV;
+    public GameObject hit_effect;
 
     void Start()
     {
@@ -15,7 +16,7 @@ public class MonsterBullet : MonoBehaviour
 
     void Update()
     {
-
+        
     }
 
     private void FixedUpdate()
@@ -32,12 +33,17 @@ public class MonsterBullet : MonoBehaviour
         if (collision.gameObject.tag == "Player")
         {
             collision.gameObject.GetComponent<PlayerControl>().SetDamage(mstatus.longdamage);
+            Instantiate(hit_effect, transform.position,transform.rotation);
+            
+            
             UnityEngine.Debug.Log("공격성공");
             Destroy(gameObject);
+
         }
         else
         {
-            //Destroy(gameObject);
+            Instantiate(hit_effect, transform);
+            Destroy(gameObject);
         }
 
     }

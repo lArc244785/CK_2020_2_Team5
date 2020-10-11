@@ -6,6 +6,7 @@ public class BulletControl : MonoBehaviour
 {
     public float bulletSpeed=20f;
     public float bulletRange=15f;
+    public GameObject hit_Effect;
 
     Vector3 bulletV;
 
@@ -24,6 +25,8 @@ public class BulletControl : MonoBehaviour
     }
     private void OnCollisionEnter(Collision collision)
     {
+        Instantiate(hit_Effect, transform.position, transform.rotation);
+        Debug.Log("충돌하마ㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏ");
         //몬스터면 맞은 몬스터의 hp감소
         if (collision.gameObject.tag=="LongEnemy")
         {

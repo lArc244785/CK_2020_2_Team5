@@ -6,6 +6,7 @@ public class PlayerControl : MonoBehaviour
 {
     [Range(0,50)]
     public float playerMoveSpeed = 5;
+    public GameObject collisionFoward;
 
     public PlayerStatus playerStatus;
 
@@ -29,20 +30,34 @@ public class PlayerControl : MonoBehaviour
     public float dashCoolTimeMax = 4f; //임시
     float dashCoolTime;
     public float dashSpeed = 8f; //임시
+    bool dashStop;
+    //================애니메이션 관련=======
+    public Animator playeranim;
+    bool isHit=false;                    //맞았는지
+    bool isMoving;                 //움직이는 중인지
+    //======================================
 
-   
+    //=============이펙트==================
 
+    //=====================================
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         getbullet = maxbullet;
         dashCoolTime = dashCoolTimeMax;
+        playeranim.SetTrigger("idle");
+        dashStop = false;
+        playerStatus.isLive = true;
+
     }
 
     void Update()
     {
-        if (GameManger.instance.GetGameState() == EnumInfo.GameState.Ingame)
+        IsCollision();
+        if (playerStatus.isLive == true)
         {
+            //if (GameManger.instance.GetGameState() == EnumInfo.GameState.Ingame)
+            //{
             if (Input.GetMouseButtonDown(0))
             {
                 PlayerAttack();
@@ -56,18 +71,27 @@ public class PlayerControl : MonoBehaviour
                 ReLoad();
             }
             dashCoolTime += Time.deltaTime;
+            //}
+
+            if (playeranim.GetCurrentAnimatorStateInfo(0).IsName("hit"))
+            {
+                Ishit();
+            }
         }
     }
 
     private void FixedUpdate()
     {
-
-        if (GameManger.instance.GetGameState() == EnumInfo.GameState.Ingame)
+        if (playerStatus.isLive == true)
         {
+            //if (GameManger.instance.GetGameState() == EnumInfo.GameState.Ingame)
+            //{
             phorizon = Input.GetAxisRaw("Horizontal");
             pvertical = Input.GetAxisRaw("Vertical");
             PlayerMove();
             PlayerTurn();
+            playerAnimation();
+            //}
         }
     }
 
@@ -75,11 +99,35 @@ public class PlayerControl : MonoBehaviour
     {
         if (isdash == false) //대쉬중일땐 움직이지 못함
         {
+            if ((Input.GetButton("Horizontal") || Input.GetButton("Vertical"))||(Input.GetButtonDown("Horizontal") || Input.GetButtonDown("Vertical")))
+            {
+                isMoving = true;
+            }
+            else
+            {
+                isMoving = false;
+            }
+
             pmove.Set(phorizon, 0.0f, pvertical);
             pmove = pmove.normalized * playerMoveSpeed * Time.deltaTime;
             rb.MovePosition(transform.position + pmove);
         }
     }
+
+    void playerAnimation()
+    {
+        if (!playeranim.GetCurrentAnimatorStateInfo(0).IsName("run") && isMoving == true && isHit==false)
+        {
+            Debug.Log("움직이려고 함");
+            playeranim.SetTrigger("run");
+        }
+        else if (!playeranim.GetCurrentAnimatorStateInfo(0).IsName("idle") && isMoving == false && isHit == false)
+        {
+            playeranim.SetTrigger("idle");
+            Debug.Log("멈춰있다");
+        }
+    }
+
 
     //아직 이해를 못한 부분입니다. =========================
     void PlayerTurn()
@@ -108,7 +156,7 @@ public class PlayerControl : MonoBehaviour
         {
             Instantiate(Bullet, FirePos.transform.position, FirePos.transform.rotation);
             getbullet -= 1;
-            GameManger.instance.getInGameUIManger().getcanonUI().ShootBullet(getbullet);
+            //GameManger.instance.getInGameUIManger().getcanonUI().ShootBullet(getbullet);
             //UnityEngine.Debug.Log("현재 총알 : " + getbullet.ToString());
             if (getbullet == 0)
                 ReLoad();
@@ -132,13 +180,26 @@ public class PlayerControl : MonoBehaviour
 
     IEnumerator GoDash()
     {
+
         while (true)
         {
+            if (dashStop == true)
+            {
+                Debug.Log("대시 중단");
+                dashCoolTime = 0f;
+                isdash = false;
+                dTime = 0f;
+                break;
+            }
+
             dTime += Time.deltaTime;
+
             if (isdash == true && 1f >= dTime)
             {
-                transform.Translate(Vector3.forward * 2.5f * Time.deltaTime);
+                float dash_f = Time.deltaTime * 1f;
+                transform.Translate(Vector3.forward*dash_f);
             }
+
             else
             {
                 dashCoolTime = 0f;
@@ -147,7 +208,10 @@ public class PlayerControl : MonoBehaviour
                 yield return null;
                 break;
             }
+
+
         }
+
 
     }
 
@@ -198,10 +262,44 @@ public class PlayerControl : MonoBehaviour
 
     public void SetDamage(float damage)
     {
-        playerStatus.hp -= (int)damage;
-        if (playerStatus.hp <= 0)
+        if (playerStatus.isLive == true)
         {
-            Debug.Log("GameOver");
+            playerStatus.hp -= (int)damage;
+            playeranim.SetTrigger("hit");
+            isHit = true;
+            Debug.Log("데미지!!!");
+
+            if (playerStatus.hp <= 0)
+            {
+                playeranim.SetTrigger("die");
+                playerStatus.isLive = false;
+                Debug.Log("GameOver");
+            }
         }
     }
+
+    void IsCollision()
+    {
+        playerStatus.fCollision = collisionFoward.GetComponent<PlayerCollisionCheck>().isCollision();
+        if (playerStatus.fCollision == true)
+        {
+            dashStop = true;
+        }
+        else
+        {
+            dashStop = false;
+        }
+    }
+
+    void Ishit()
+    {
+        if (playeranim.GetCurrentAnimatorStateInfo(0).IsName("hit"))
+        {
+            if (playeranim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.8f)
+            {
+                isHit = false;
+            }
+        }
+    }
+    //hit일때 끝났음을 확인하는 코드를 추가하고, bool값이 true이면 다른게 움직일 수 있도록? -> hit상태에서 hit을 부르는건 그대로 부를 수 있도록 조절
 }
