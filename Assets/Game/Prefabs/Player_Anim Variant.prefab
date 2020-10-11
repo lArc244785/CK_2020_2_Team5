@@ -153,8 +153,8 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 116
   m_CollisionDetection: 0
---- !u!136 &116479838
-CapsuleCollider:
+--- !u!65 &1760922526139742231
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -163,10 +163,9 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.17
-  m_Height: 0.68
-  m_Direction: 1
-  m_Center: {x: 0, y: 0.2, z: 0.19}
+  serializedVersion: 2
+  m_Size: {x: 0.25, y: 0.4, z: 0.49}
+  m_Center: {x: 0, y: 0.27, z: 0.27}
 --- !u!95 &116479834
 Animator:
   serializedVersion: 3
@@ -198,22 +197,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d15660b4cedb9354a950621f410ada90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerMoveSpeed: 5
   collisionFoward: {fileID: 1528194066}
   playerStatus:
-    hp: 0
-    maxHp: 0
-    moveSpeed: 0
-    reLoadTime: 0
-    maxBullet: 0
-    getBullet: 0
-    attackPower: 0
-    reLoadSpeedUp: 0
-    rangeUp: 0
-    attackRangeUp: 0
+    hp: 5
+    maxHp: 5
+    moveSpeed: 5
+    reLoadTime: 2
+    maxBullet: 5
+    getBullet: 5
+    attackPower: 1
+    reLoadSpeedUp: 2
+    rangeUp: 2.1
+    attackRangeUp: 2.1
     fCollision: 0
     isLive: 0
-  Bullet: {fileID: 8292093020352922700, guid: b2f8695ba8a5afd4ca2bacf4e1efaeed, type: 3}
+  Bullet: {fileID: 6847845578350283539, guid: 4e962c7c1e1d2d14188ce9d7c5a7ab61, type: 3}
   FirePos: {fileID: 784499487}
   dashCoolTimeMax: 4
   dashSpeed: 8

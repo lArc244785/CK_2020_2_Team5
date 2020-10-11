@@ -30,6 +30,7 @@ public class LongEnemy : EnemyBase
 
     //임시값들
     int rotationnum;
+    bool deadmotion = false;
 
     //============애니메이션===================
 
@@ -48,49 +49,72 @@ public class LongEnemy : EnemyBase
     // Update is called once per frame
     void Update()
     {
-        switch (menum)
+        if (mstatus.isLive == true)
         {
-            case EnumInfo.MonsterState.Move:
-                break;
-            case EnumInfo.MonsterState.Attack:
-                break;
-            case EnumInfo.MonsterState.Trace:
-                //TracePlayer();
-                break;
-            case EnumInfo.MonsterState.Wait:
-                Wait();
-                break;
-            case EnumInfo.MonsterState.Die:
-                break;
-            case EnumInfo.MonsterState.RandomMove:
-                RandomMove();
-                break;
-            default:
-                break;
+            switch (menum)
+            {
+                case EnumInfo.MonsterState.Move:
+                    break;
+                case EnumInfo.MonsterState.Attack:
+                    break;
+                case EnumInfo.MonsterState.Trace:
+                    //TracePlayer();
+                    break;
+                case EnumInfo.MonsterState.Wait:
+                    Wait();
+                    break;
+                case EnumInfo.MonsterState.Die:
+                    break;
+                case EnumInfo.MonsterState.RandomMove:
+                    RandomMove();
+                    break;
+                default:
+                    break;
+            }
+            Attack();
+            FindPlayer();
+            IsCollision();
         }
-        Attack();
-        FindPlayer();
-        IsCollision();
+        else
+        {
+            if (longAnim.GetCurrentAnimatorStateInfo(0).IsName("dead"))
+            {
+                if (longAnim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.5f)
+                {
+                    gameObject.SetActive(false);
+                }
+            }
+            else
+            {
+                if (deadmotion == false)
+                {
+                    longAnim.SetTrigger("dead");
+                    deadmotion = true;
+                }
+            }
+        }
         
     }
 
     private void FixedUpdate()
     {
-
-        MonsterTurn();
-        switch (menum)
+        if (mstatus.isLive == true)
         {
-            case EnumInfo.MonsterState.Move:
-                if (mstatus.isFindPlayer == false)
-                {
-                    Move();
-                }
-                else
-                    TracePlayer();
-                break;
-            case EnumInfo.MonsterState.Turn:
-                TurnEnemy();
-                break;
+            MonsterTurn();
+            switch (menum)
+            {
+                case EnumInfo.MonsterState.Move:
+                    if (mstatus.isFindPlayer == false)
+                    {
+                        Move();
+                    }
+                    else
+                        TracePlayer();
+                    break;
+                case EnumInfo.MonsterState.Turn:
+                    TurnEnemy();
+                    break;
+            }
         }
     }
 
@@ -234,6 +258,10 @@ public class LongEnemy : EnemyBase
     public override void TracePlayer()
     {
         base.TracePlayer();
+        if (deadmotion == true)
+            return;
+        if (mstatus.isLive == false)
+            return;
 
         if (mstatus.isFindPlayer == true)
         {
@@ -257,6 +285,15 @@ public class LongEnemy : EnemyBase
                     }
                 }
             }
+
+            //else if (Vector3.Distance(player.transform.position, transform.position) <= agent.stoppingDistance)
+            //{
+            //    if (!longAnim.GetCurrentAnimatorStateInfo(0).IsName("idle"))
+            //    {
+            //        Debug.Log("대기중이 아니여서 대기 세팅");
+            //        longAnim.SetTrigger("idle");
+            //    }
+            //}
 
             else
             {
@@ -285,13 +322,16 @@ public class LongEnemy : EnemyBase
     public override void OnDamage()
     {
         base.OnDamage();
-
-        mstatus.hp -= mstatus.hp -= player.GetComponent<PlayerControl>().playerStatus.attackPower;
-        longAnim.SetTrigger("hit");
-        if (mstatus.hp <= 0)
+        if (mstatus.isLive == true)
         {
-            longAnim.SetTrigger("dead");
-            gameObject.SetActive(false);
+            mstatus.hp -= player.GetComponent<PlayerControl>().playerStatus.attackPower;
+            if (mstatus.hp > 0)
+                longAnim.SetTrigger("hit");
+            if (mstatus.hp <= 0)
+            {
+                agent.isStopped = true;
+                mstatus.isLive = false;
+            }
         }
     }
 

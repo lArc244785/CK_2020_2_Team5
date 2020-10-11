@@ -16,9 +16,9 @@ public class ItemBox : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Modle = transform.FindChild("Modle").gameObject;
-        Particle = transform.FindChild("Particle").gameObject;
-        Item = transform.FindChild("Item").gameObject;
+        Modle = transform.Find("Modle").gameObject;
+        Particle = transform.Find("Particle").gameObject;
+        Item = transform.Find("Item").gameObject;
 
         Item.SetActive(false);
         Particle.SetActive(false);

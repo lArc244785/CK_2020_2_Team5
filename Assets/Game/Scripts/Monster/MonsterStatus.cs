@@ -34,6 +34,8 @@ public class MonsterStatus
     public float waitingTime;
 
     public bool fcollision;
+
+    public bool isLive = true;
     public void Initialize()
     {
         hp = maxHp;

@@ -27,15 +27,35 @@ public class MonsterBullet : MonoBehaviour
         if (Vector3.Distance(bulletV, transform.position) > mstatus.longAttackRange)
             Destroy(gameObject);
     }
-    private void OnCollisionEnter(Collision collision)
+    //private void OnCollisionEnter(Collision collision)
+    //{
+    //    //플레이어 hp감소
+    //    if (collision.gameObject.tag == "Player")
+    //    {
+    //        collision.gameObject.GetComponent<PlayerControl>().SetDamage(mstatus.longdamage);
+    //        Instantiate(hit_effect, transform.position,transform.rotation);
+            
+            
+    //        UnityEngine.Debug.Log("공격성공");
+    //        Destroy(gameObject);
+
+    //    }
+    //    else
+    //    {
+    //        Instantiate(hit_effect, transform);
+    //        Destroy(gameObject);
+    //    }
+
+    //}
+
+    void OnTriggerEnter(Collider other)
     {
-        //플레이어 hp감소
-        if (collision.gameObject.tag == "Player")
+        if (other.gameObject.tag == "Player")
         {
-            collision.gameObject.GetComponent<PlayerControl>().SetDamage(mstatus.longdamage);
-            Instantiate(hit_effect, transform.position,transform.rotation);
-            
-            
+            other.gameObject.GetComponent<PlayerControl>().SetDamage(mstatus.longdamage);
+            Instantiate(hit_effect, transform.position, transform.rotation);
+
+
             UnityEngine.Debug.Log("공격성공");
             Destroy(gameObject);
 
@@ -45,6 +65,5 @@ public class MonsterBullet : MonoBehaviour
             Instantiate(hit_effect, transform);
             Destroy(gameObject);
         }
-
     }
 }

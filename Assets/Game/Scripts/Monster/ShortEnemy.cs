@@ -9,6 +9,10 @@ public class ShortEnemy : EnemyBase
     public EnumInfo.MonsterState menum;
     GameObject player;
     public GameObject collisionFoward;
+    public GameObject can_attack;
+
+    bool icanattack=false;
+
     Quaternion to;
     Vector3 monsvec;
     float xrange = 0f;
@@ -24,6 +28,7 @@ public class ShortEnemy : EnemyBase
 
     //임시값들
     int rotationnum;
+    public bool deadmotion = false;
 
     //============애니메이션===================
     public Animator shortAnim;
@@ -48,51 +53,76 @@ public class ShortEnemy : EnemyBase
     // Update is called once per frame
     void Update()
     {
-        switch (menum)
+        if (mstatus.isLive == true)
         {
-            case EnumInfo.MonsterState.Move:
-                break;
-            case EnumInfo.MonsterState.Attack:
-                //Attack();
-                break;
-            case EnumInfo.MonsterState.Trace:
-                //TracePlayer();
-                break;
-            case EnumInfo.MonsterState.Wait:
-                Wait();
-                break;
-            case EnumInfo.MonsterState.Die:
-                break;
-            case EnumInfo.MonsterState.RandomMove:
-                RandomMove();
-                break;
-            default:
-                break;
+            switch (menum)
+            {
+                case EnumInfo.MonsterState.Move:
+                    break;
+                case EnumInfo.MonsterState.Attack:
+                    //Attack();
+                    break;
+                case EnumInfo.MonsterState.Trace:
+                    //TracePlayer();
+                    break;
+                case EnumInfo.MonsterState.Wait:
+                    Wait();
+                    break;
+                case EnumInfo.MonsterState.Die:
+                    break;
+                case EnumInfo.MonsterState.RandomMove:
+                    RandomMove();
+                    break;
+                default:
+                    break;
+            }
+
+            Attack();
+            FindPlayer();
+            IsCollision();
+            I_can_Attack();
         }
-
-        Attack();
-        FindPlayer();
-        IsCollision();
-
+        else
+        {
+            if (shortAnim.GetCurrentAnimatorStateInfo(0).IsName("dead"))
+            {
+                if (shortAnim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.6f)
+                {
+                    gameObject.SetActive(false);
+                }
+            }
+            else
+            {
+                deadmotion = false;
+                if (deadmotion == false)
+                {
+                    shortAnim.SetTrigger("dead");
+                    deadmotion = true;
+                }
+            }
+        }
     }
 
     private void FixedUpdate()
     {
-        MonsterTurn();
-        switch (menum)
+        if (mstatus.isLive == true)
         {
-            case EnumInfo.MonsterState.Move:
-                if (mstatus.isFindPlayer == false)
-                {
-                    Move();
-                }
-                else
-                    TracePlayer();
-                break;
+            MonsterTurn();
+            switch (menum)
+            {
+                case EnumInfo.MonsterState.Move:
+                    if (mstatus.isFindPlayer == false)
+                    {
+                        Move();
+                    }
+                    else
+                        TracePlayer();
+                    break;
 
-            case EnumInfo.MonsterState.Turn:
-                TurnEnemy();
-                break;
+                case EnumInfo.MonsterState.Turn:
+                    TurnEnemy();
+                    break;
+            }
         }
     }
     
@@ -104,6 +134,8 @@ public class ShortEnemy : EnemyBase
         if (!isTrace)
             return;
         if (!mstatus.isFindPlayer)
+            return;
+        if (mstatus.isLive == false)
             return;
 
         mstatus.tick += Time.deltaTime;
@@ -235,6 +267,8 @@ public class ShortEnemy : EnemyBase
     public override void TracePlayer()
     {
         base.TracePlayer();
+        if (!mstatus.isLive)
+            return;
 
         if (mstatus.isFindPlayer == true)
         {
@@ -284,13 +318,20 @@ public class ShortEnemy : EnemyBase
     public override void OnDamage()
     {
         base.OnDamage();
-
-        mstatus.hp -= player.GetComponent<PlayerControl>().playerStatus.attackPower;
-        shortAnim.SetTrigger("hit");
-        if (mstatus.hp <= 0)
+        if (mstatus.isLive == true)
         {
-            shortAnim.SetTrigger("dead");
-            gameObject.SetActive(false);
+            mstatus.hp -= player.GetComponent<PlayerControl>().playerStatus.attackPower;
+            if (deadmotion == true)
+                return;
+            if(mstatus.hp>0)
+                shortAnim.SetTrigger("hit");
+
+            if (mstatus.hp <= 0)
+            {
+                menum = EnumInfo.MonsterState.Die;
+                mstatus.isLive = false;
+                agent.isStopped = true;
+            }
         }
     }
 
@@ -329,7 +370,8 @@ public class ShortEnemy : EnemyBase
 
     void PlayerHpDown(int damage)
     {
-        player.GetComponent<PlayerControl>().SetDamage(damage);
+        if(icanattack==true)
+            player.GetComponent<PlayerControl>().SetDamage(damage);
     }
 
     void IsCollision()
@@ -341,6 +383,10 @@ public class ShortEnemy : EnemyBase
         }
     }
 
+    void I_can_Attack()
+    {
+        icanattack = can_attack.GetComponent<ShortAttackRange>().Set_canAttack();
+    }
 }
 
 //수정예정 -> 근접시 플레이어 바라보는 걸 자연스럽게 수정
