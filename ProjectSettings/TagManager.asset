@@ -9,7 +9,9 @@ TagManager:
   - ShortEnemy
   - Wall
   - GameClear
-  - HP
+  - Box
+  - Item
+  - Bullet
   layers:
   - Default
   - TransparentFX
