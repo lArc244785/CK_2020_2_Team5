@@ -22,6 +22,7 @@ public class ItemBox : MonoBehaviour
 
         Item.SetActive(false);
         Particle.SetActive(false);
+        ItemBoxDestoryEvent();
     }
 
 
@@ -32,14 +33,16 @@ public class ItemBox : MonoBehaviour
 
     IEnumerator Evnet()
     {
-        Particle.SetActive(true);
         yield return new WaitForSeconds(1.0f);
+        Particle.SetActive(true);
+        Modle.SetActive(false);
+        yield return new WaitForSeconds(0.8f);
         if (Random.Range(.0f, 100.0f) < randomParcent)
         {
             Item.SetActive(true);
             Item.transform.parent = null;
         }
-
+        yield return new WaitForSeconds(0.2f);
         gameObject.SetActive(false);
     }
 
