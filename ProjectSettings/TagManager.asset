@@ -4,14 +4,9 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - PauseUI_Button
   - LongEnemy
   - ShortEnemy
-  - Wall
-  - GameClear
-  - Box
-  - Item
-  - Bullet
+  - PauseUI_Button
   layers:
   - Default
   - TransparentFX
