@@ -138,7 +138,7 @@ public class LongEnemy : EnemyBase
                 {
                     longAnim.SetTrigger("attack");
                     endAttack = false;
-                    Instantiate(bullet, firePos.transform.position, firePos.transform.rotation);
+                    StartCoroutine(shootArrow());
                 }
                 menum = EnumInfo.MonsterState.Move;
                 mstatus.tick = 0;
@@ -265,16 +265,25 @@ public class LongEnemy : EnemyBase
 
         if (mstatus.isFindPlayer == true)
         {
+
+            if (agent.speed >= 2)
+            {
+                agent.speed = 2;
+            }
             if (longAnim.GetCurrentAnimatorStateInfo(0).IsName("attack"))
             {
                 if (longAnim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.8f)
                 {
+                    if (mstatus.hp <= 0)
+                    {
+                        return;
+                    }
+
                     endAttack = true;
                     if (Vector3.Distance(player.transform.position, transform.position) <= agent.stoppingDistance)
                     {
                         if (!longAnim.GetCurrentAnimatorStateInfo(0).IsName("idle"))
                         {
-                            Debug.Log("대기중이 아니여서 대기 세팅");
                             longAnim.SetTrigger("idle");
                         }
                     }
@@ -286,19 +295,21 @@ public class LongEnemy : EnemyBase
                 }
             }
 
-            //else if (Vector3.Distance(player.transform.position, transform.position) <= agent.stoppingDistance)
-            //{
-            //    if (!longAnim.GetCurrentAnimatorStateInfo(0).IsName("idle"))
-            //    {
-            //        Debug.Log("대기중이 아니여서 대기 세팅");
-            //        longAnim.SetTrigger("idle");
-            //    }
-            //}
+            else if (Vector3.Distance(player.transform.position, transform.position) <= agent.stoppingDistance)
+            {
+                if (!longAnim.GetCurrentAnimatorStateInfo(0).IsName("idle"))
+                {
+                    Debug.Log("대기중이 아니여서 대기 세팅");
+                    longAnim.SetTrigger("idle");
+                }
+            }
 
             else
             {
-                if(!longAnim.GetCurrentAnimatorStateInfo(0).IsName("run") && !longAnim.GetCurrentAnimatorStateInfo(0).IsName("idle"))
+
+                if (!longAnim.GetCurrentAnimatorStateInfo(0).IsName("run") && agent.acceleration > 0)
                     longAnim.SetTrigger("run");
+
             }
 
             agent.SetDestination(player.transform.position);
@@ -371,10 +382,6 @@ public class LongEnemy : EnemyBase
         }
     }
 
-    void PlayerHpDown(int damage)
-    {
-        //player.GetComponent<PlayerControl>().SetDamage(damage);
-    }
 
     void IsCollision()
     {
@@ -385,6 +392,13 @@ public class LongEnemy : EnemyBase
         }
     }
 
+    IEnumerator shootArrow()
+    {
+        //화살 나가는 타이밍 조절
+        yield return new WaitForSeconds(0.8f);
+        Instantiate(bullet, firePos.transform.position, firePos.transform.rotation);
 
+        yield return null;
+    }
 }
 

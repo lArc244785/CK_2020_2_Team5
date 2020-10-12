@@ -11,12 +11,12 @@ public class ShortEnemy : EnemyBase
     public GameObject collisionFoward;
     public GameObject can_attack;
 
-    bool icanattack=false;
+    bool icanattack = false;
 
     Quaternion to;
     Vector3 monsvec;
     float xrange = 0f;
-    
+
     float wait = 0f;
 
     Vector3 enemyVector;
@@ -125,7 +125,7 @@ public class ShortEnemy : EnemyBase
             }
         }
     }
-    
+
     //수정필요
     public override void Attack()
     {
@@ -147,11 +147,9 @@ public class ShortEnemy : EnemyBase
                 if (Vector3.Distance(player.transform.position, transform.position) <= agent.stoppingDistance)
                 {
                     shortAnim.SetTrigger("attack");
-                    Instantiate(attack_effact, effectTransform.position, effectTransform.rotation);
 
                     endAttack = false;
-                    //공격 - 공격시 가까이 있나 한번 더 확인
-                    PlayerHpDown(1);
+                    StartCoroutine(Shortattack());
 
                 }
                 menum = EnumInfo.MonsterState.Move;
@@ -272,10 +270,19 @@ public class ShortEnemy : EnemyBase
 
         if (mstatus.isFindPlayer == true)
         {
+            if (agent.speed >= 2)
+            {
+                agent.speed = 2;
+            }
+
             if (shortAnim.GetCurrentAnimatorStateInfo(0).IsName("attack"))
             {
                 if (shortAnim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.8f)
                 {
+                    if (mstatus.hp <= 0)
+                    {
+                        return;
+                    }
 
                     endAttack = true;
                     if (Vector3.Distance(player.transform.position, transform.position) <= agent.stoppingDistance)
@@ -283,19 +290,28 @@ public class ShortEnemy : EnemyBase
                         if (!shortAnim.GetCurrentAnimatorStateInfo(0).IsName("idle"))
                             shortAnim.SetTrigger("idle");
                     }
-                    else {
-                        if(!shortAnim.GetCurrentAnimatorStateInfo(0).IsName("run"))
+                    else
+                    {
+                        if (!shortAnim.GetCurrentAnimatorStateInfo(0).IsName("run"))
                             shortAnim.SetTrigger("run");
                     }
+                }
+            }
+            else if (Vector3.Distance(player.transform.position, transform.position) <= agent.stoppingDistance)
+            {
+                if (!shortAnim.GetCurrentAnimatorStateInfo(0).IsName("idle"))
+                {
+                    Debug.Log("대기중이 아니여서 대기 세팅");
+                    shortAnim.SetTrigger("idle");
                 }
             }
 
             else
             {
-                if (!shortAnim.GetCurrentAnimatorStateInfo(0).IsName("run") && !shortAnim.GetCurrentAnimatorStateInfo(0).IsName("idle"))
-                {
+
+                if (!shortAnim.GetCurrentAnimatorStateInfo(0).IsName("run") && agent.acceleration > 0)
                     shortAnim.SetTrigger("run");
-                }
+
             }
 
             agent.SetDestination(player.transform.position);
@@ -323,7 +339,7 @@ public class ShortEnemy : EnemyBase
             mstatus.hp -= player.GetComponent<PlayerControl>().playerStatus.attackPower;
             if (deadmotion == true)
                 return;
-            if(mstatus.hp>0)
+            if (mstatus.hp > 0)
                 shortAnim.SetTrigger("hit");
 
             if (mstatus.hp <= 0)
@@ -370,7 +386,7 @@ public class ShortEnemy : EnemyBase
 
     void PlayerHpDown(int damage)
     {
-        if(icanattack==true)
+        if (icanattack == true)
             player.GetComponent<PlayerControl>().SetDamage(damage);
     }
 
@@ -386,6 +402,14 @@ public class ShortEnemy : EnemyBase
     void I_can_Attack()
     {
         icanattack = can_attack.GetComponent<ShortAttackRange>().Set_canAttack();
+    }
+
+    IEnumerator Shortattack()
+    {
+        yield return new WaitForSeconds(0.9f);
+        //Instantiate(attack_effact, effectTransform.position, effectTransform.rotation);
+        PlayerHpDown(1);
+        yield return null;
     }
 }
 

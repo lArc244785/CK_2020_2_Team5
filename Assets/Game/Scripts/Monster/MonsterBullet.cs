@@ -64,6 +64,8 @@ public class MonsterBullet : MonoBehaviour
         }
         else 
         {
+            if (other.gameObject.tag == "forward")
+                return;
             Instantiate(hit_effect, transform);
             Destroy(gameObject);
         }

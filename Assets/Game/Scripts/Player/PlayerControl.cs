@@ -11,6 +11,8 @@ public class PlayerControl : MonoBehaviour
     private Rigidbody rb;
     Vector3 pmove;
 
+    float attack_tick;
+    
     float phorizon;
     float pvertical;
 
@@ -47,7 +49,7 @@ public class PlayerControl : MonoBehaviour
         playeranim.SetTrigger("idle");
         dashStop = false;
         playerStatus.isLive = true;
-
+        attack_tick = 0;
     }
 
     void Update()
@@ -76,6 +78,7 @@ public class PlayerControl : MonoBehaviour
             {
                 Ishit();
             }
+            attack_tick += Time.deltaTime;
         }
     }
 
@@ -98,6 +101,9 @@ public class PlayerControl : MonoBehaviour
     {
         if (isdash == false) //대쉬중일땐 움직이지 못함
         {
+            if (playerStatus.isLive == false)
+                return;
+
             if ((Input.GetButton("Horizontal") || Input.GetButton("Vertical"))||(Input.GetButtonDown("Horizontal") || Input.GetButtonDown("Vertical")))
             {
                 isMoving = true;
@@ -151,17 +157,24 @@ public class PlayerControl : MonoBehaviour
 
     void PlayerAttack() //마우스 좌클릭 시 포탄 발사
     {
-        if (playerStatus.getBullet > 0)
-        {
-            Instantiate(Bullet, FirePos.transform.position, FirePos.transform.rotation);
-            playerStatus.getBullet -= 1;
 
-            GameManger.instance.getInGameUIManger().getcanonUI().ShootBullet(playerStatus.getBullet);
-            //UnityEngine.Debug.Log("현재 총알 : " + getbullet.ToString());
-            if (playerStatus.getBullet == 0)
-                ReLoad();
+        if (attack_tick >= playerStatus.attack_tickRate)
+        {
+            if (playerStatus.getBullet > 0)
+            {
+                Instantiate(Bullet, FirePos.transform.position, FirePos.transform.rotation);
+                playerStatus.getBullet -= 1;
+
+                playeranim.SetTrigger("attack");
+
+                attack_tick = 0;
+                GameManger.instance.getInGameUIManger().getcanonUI().ShootBullet(playerStatus.getBullet);
+                //UnityEngine.Debug.Log("현재 총알 : " + getbullet.ToString());
+                if (playerStatus.getBullet == 0)
+                    ReLoad();
+            }
         }
-        
+
     }
 
     void Dash()
@@ -262,11 +275,6 @@ public class PlayerControl : MonoBehaviour
         if (playerStatus.isLive == true)
         {
             playerStatus.hp -= (int)damage;
-            playeranim.SetTrigger("hit");
-            isHit = true;
-            Debug.Log("데미지!!!");
-            SetHpUI();
-
             if (playerStatus.hp <= 0)
             {
                 playeranim.SetTrigger("die");
@@ -274,6 +282,12 @@ public class PlayerControl : MonoBehaviour
                 Debug.Log("GameOver");
                 GameManger.instance.getInGameUIManger().GetGameOverUI().GameOver();
             }
+            playeranim.SetTrigger("hit");
+            isHit = true;
+            Debug.Log("데미지!!!");
+            SetHpUI();
+
+
         }
     }
 

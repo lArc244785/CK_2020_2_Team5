@@ -446,8 +446,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 137189019}
-  m_LocalRotation: {x: -0.29536197, y: -0.03123902, z: 0.009660599, w: -0.95482576}
-  m_LocalPosition: {x: -37.562424, y: 3.1365533, z: -11.244891}
+  m_LocalRotation: {x: -0.32827646, y: 0.012526993, z: -0.0042988993, w: -0.9444889}
+  m_LocalPosition: {x: -36.309204, y: 2.7648325, z: -11.872932}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -568,7 +568,7 @@ PrefabInstance:
     - target: {fileID: 559364605664833194, guid: 6d5cf2e106b35b04e924fd2143edfe94,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -46.25085
+      value: -36.5
       objectReference: {fileID: 0}
     - target: {fileID: 559364605664833194, guid: 6d5cf2e106b35b04e924fd2143edfe94,
         type: 3}
@@ -578,7 +578,7 @@ PrefabInstance:
     - target: {fileID: 559364605664833194, guid: 6d5cf2e106b35b04e924fd2143edfe94,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 3.0190308
+      value: -8.73
       objectReference: {fileID: 0}
     - target: {fileID: 559364605664833194, guid: 6d5cf2e106b35b04e924fd2143edfe94,
         type: 3}
@@ -1622,6 +1622,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: ShortEnemy_anim Variant
+      objectReference: {fileID: 0}
+    - target: {fileID: 2434538135893138027, guid: 9484682670935764da056f1916fc7061,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3063264845697450193, guid: 9484682670935764da056f1916fc7061,
         type: 3}

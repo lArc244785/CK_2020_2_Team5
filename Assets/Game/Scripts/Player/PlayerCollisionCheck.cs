@@ -20,7 +20,7 @@ public class PlayerCollisionCheck : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == ("Player") || other.gameObject.tag == ("Bullet"))
+        if (other.gameObject.tag == ("Player") || other.gameObject.tag == ("Bullet") || other.gameObject.tag =="Box" )
             return;
 
         collision = true;
@@ -29,7 +29,7 @@ public class PlayerCollisionCheck : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.tag == ("Player") || other.gameObject.tag == ("Bullet"))
+        if (other.gameObject.tag == ("Player") || other.gameObject.tag == ("Bullet") || other.gameObject.tag == "Box")
             return;
         Debug.Log("충돌끝");
         collision = false;
