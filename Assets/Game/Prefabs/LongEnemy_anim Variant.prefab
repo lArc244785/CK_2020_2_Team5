@@ -199,15 +199,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mstatus:
-    hp: 3
-    maxHp: 3
+    hp: 1.1
+    maxHp: 1.1
     shortMonsterRange: 0
     longMonsterRange: 4
     tick: 0
     tickRate: 3
     shortdamage: 0
     longdamage: 1
-    bulletSpeed: 2
+    bulletSpeed: 0.3
     shortAttackRange: 0
     longAttackRange: 3
     isShortMonster: 0
@@ -258,37 +258,37 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: e0e15db29db9fe641884453199ecb6bc,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -2.3290327
+      value: 4.255311
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: e0e15db29db9fe641884453199ecb6bc,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -3.7729098e-19
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: e0e15db29db9fe641884453199ecb6bc,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -15.259272
+      value: 3.1911938
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: e0e15db29db9fe641884453199ecb6bc,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: e0e15db29db9fe641884453199ecb6bc,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: e0e15db29db9fe641884453199ecb6bc,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: e0e15db29db9fe641884453199ecb6bc,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: e0e15db29db9fe641884453199ecb6bc,
         type: 3}
@@ -313,12 +313,12 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: e0e15db29db9fe641884453199ecb6bc,
         type: 3}
       propertyPath: m_Name
-      value: LongEnemy_anim Variant
+      value: LongEnemy_anim Variant A
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: e0e15db29db9fe641884453199ecb6bc,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: e0e15db29db9fe641884453199ecb6bc,
         type: 3}
