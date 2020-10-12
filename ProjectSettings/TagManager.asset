@@ -13,6 +13,7 @@ TagManager:
   - Monster
   - Wall
   - Object
+  - forward
   layers:
   - Default
   - TransparentFX

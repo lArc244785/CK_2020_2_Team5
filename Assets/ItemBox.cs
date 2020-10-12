@@ -22,7 +22,6 @@ public class ItemBox : MonoBehaviour
 
         Item.SetActive(false);
         Particle.SetActive(false);
-        ItemBoxDestoryEvent();
     }
 
 
@@ -33,7 +32,6 @@ public class ItemBox : MonoBehaviour
 
     IEnumerator Evnet()
     {
-        yield return new WaitForSeconds(1.0f);
         Particle.SetActive(true);
         Modle.SetActive(false);
         //yield return new WaitForSeconds(0.2f);

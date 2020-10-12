@@ -20,6 +20,8 @@ public class CollisionCheck : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        if (other.gameObject.tag == ("forward"))
+            return;
         if (other.gameObject.tag == ("Player") || other.gameObject.tag==("Bullet"))
             return;
         if(other.gameObject.tag==("Wall"))
