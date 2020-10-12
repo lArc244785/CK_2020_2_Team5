@@ -350,9 +350,21 @@ public class LongEnemy : EnemyBase
             {
                 agent.isStopped = true;
                 mstatus.isLive = false;
+                if (!isErrorEvnet)
+                {
+                    StartCoroutine(ErrorLive());
+                }
             }
         }
     }
+    bool isErrorEvnet = false;
+    IEnumerator ErrorLive()
+    {
+        isErrorEvnet = true;
+        yield return new WaitForSeconds(1.5f);
+        gameObject.SetActive(false);
+    }
+
 
     //이동시키는 함수
     public override void Move()
