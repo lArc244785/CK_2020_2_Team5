@@ -119,12 +119,20 @@ public class Stage : MonoBehaviour
             isPlayerIn = true;
 
 
-            Transform palyerTr = GameManger.instance.getPlayerControl().transform;
+            PlayerControl pc = GameManger.instance.getPlayerControl();
+            //HP 1 회복
+            pc.AddHP(1);
+
+            Transform palyerTr = pc.transform;
+
 
             if (playerPostion != Vector3.zero)
                 palyerTr.position = playerPostion;
 
             palyerTr.rotation = Quaternion.Euler(playerRotaion);
+
+           
+
 
 
             GameManger.instance.getCameraManger().setCamType(roomCamType);

@@ -268,6 +268,7 @@ public class PlayerControl : MonoBehaviour
             playeranim.SetTrigger("hit");
             isHit = true;
             Debug.Log("데미지!!!");
+            SetHpUI();
 
             if (playerStatus.hp <= 0)
             {
@@ -277,6 +278,26 @@ public class PlayerControl : MonoBehaviour
             }
         }
     }
+
+    public void SetHpUI()
+    {
+        GameManger.instance.getInGameUIManger().GetHpUI().SetHp(playerStatus.hp);
+    }
+
+
+    public void AddHP(int hp)
+    {
+        if(playerStatus.maxHp >= playerStatus.hp + hp)
+        {
+            playerStatus.hp += hp;
+        }
+        else
+        {
+            playerStatus.hp = playerStatus.maxHp;
+        }
+        SetHpUI();
+    }
+
 
     void IsCollision()
     {

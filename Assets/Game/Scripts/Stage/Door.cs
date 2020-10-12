@@ -16,11 +16,16 @@ public class Door : MonoBehaviour
     private Vector3 movePoint;
     private Vector3 rotion;
 
+    private Animator ani;
 
     public void Start()
     {
         room = transform.GetComponentInParent<Stage>();
         PointSetting();
+        if (ani == null)
+        {
+            ani = transform.FindChild("Model").GetComponent<Animator>();
+        }
     }
 
     public void PointSetting()
@@ -84,10 +89,20 @@ public class Door : MonoBehaviour
     public void CloseDoor()
     {
         isOpen = false;
+        if(ani == null)
+        {
+            ani = transform.FindChild("Model").GetComponent<Animator>();
+        }
+        ani.SetBool("IsOpen", isOpen);
     }
     public void OpenderDoor()
     {
         isOpen = true;
+        if (ani == null)
+        {
+            ani = transform.FindChild("Model").GetComponent<Animator>();
+        }
+        ani.SetBool("IsOpen", isOpen);
     }
 
     private void OnTriggerEnter(Collider collider)
