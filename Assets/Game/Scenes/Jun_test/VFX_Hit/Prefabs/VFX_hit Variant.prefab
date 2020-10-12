@@ -82,6 +82,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: VFX_hit Variant
       objectReference: {fileID: 0}
+    - target: {fileID: 3202132328730102566, guid: cdbf8f7363535874d9871111b4047a0e,
+        type: 3}
+      propertyPath: m_RenderMode
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3202132328730102566, guid: cdbf8f7363535874d9871111b4047a0e,
+        type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+    - target: {fileID: 3202132328730102566, guid: cdbf8f7363535874d9871111b4047a0e,
+        type: 3}
+      propertyPath: m_RenderAlignment
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cdbf8f7363535874d9871111b4047a0e, type: 3}
 --- !u!1 &956781702676680732 stripped

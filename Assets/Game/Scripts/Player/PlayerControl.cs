@@ -33,11 +33,21 @@ public class PlayerControl : MonoBehaviour
     public Animator playeranim;
     bool isHit=false;                    //맞았는지
     bool isMoving;                 //움직이는 중인지
-    //======================================
+                                   //======================================
 
 
     //=============이펙트==================
+    public GameObject fireCannon;
+    //fire pos 에서 생성
 
+
+
+
+
+    public GameObject swordHit;
+    public Transform swordHitTransform;
+    public GameObject arrowHit;
+    public Transform arrowHitTransform;
     //=====================================
 
     void Start()
@@ -153,7 +163,11 @@ public class PlayerControl : MonoBehaviour
     {
         if (playerStatus.getBullet > 0)
         {
+            Instantiate(fireCannon, FirePos.transform.position, FirePos.transform.rotation);
             Instantiate(Bullet, FirePos.transform.position, FirePos.transform.rotation);
+
+            Destroy(fireCannon, 1);
+
             playerStatus.getBullet -= 1;
 
             GameManger.instance.getInGameUIManger().getcanonUI().ShootBullet(playerStatus.getBullet);
@@ -257,12 +271,14 @@ public class PlayerControl : MonoBehaviour
     }
 
 
-    public void SetDamage(float damage)
+    public void GetDamageForSword(float damage)
     {
         if (playerStatus.isLive == true)
         {
             playerStatus.hp -= (int)damage;
             playeranim.SetTrigger("hit");
+            Instantiate(swordHit, swordHitTransform.position, swordHitTransform.rotation);
+
             isHit = true;
             Debug.Log("데미지!!!");
             SetHpUI();
@@ -276,6 +292,29 @@ public class PlayerControl : MonoBehaviour
             }
         }
     }
+
+    public void GetDamageForArrow(float damage)
+    {
+        if (playerStatus.isLive == true)
+        {
+            playerStatus.hp -= (int)damage;
+            playeranim.SetTrigger("hit");
+            Instantiate(arrowHit, arrowHitTransform.position, arrowHitTransform.rotation);
+
+            isHit = true;
+            Debug.Log("데미지!!!");
+            SetHpUI();
+
+            if (playerStatus.hp <= 0)
+            {
+                playeranim.SetTrigger("die");
+                playerStatus.isLive = false;
+                Debug.Log("GameOver");
+                GameManger.instance.getInGameUIManger().GetGameOverUI().GameOver();
+            }
+        }
+    }
+
 
     public void SetHpUI()
     {

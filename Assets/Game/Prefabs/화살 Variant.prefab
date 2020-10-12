@@ -63,7 +63,7 @@ MonoBehaviour:
     waitingTime: 0
     fcollision: 0
     isLive: 1
-  hit_effect: {fileID: 7125441237660177182, guid: fbaa012cbded2c9439b758d4dc69f78b,
+  hit_effect: {fileID: 956781702676680732, guid: afd31ba0b36aee0479d5774a86bba156,
     type: 3}
 --- !u!1001 &8653452954252766304
 PrefabInstance:
