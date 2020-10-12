@@ -277,7 +277,7 @@ MonoBehaviour:
   dashCoolTimeMax: 4
   dashSpeed: 4
   playeranim: {fileID: 116479834}
-  fireCannon: {fileID: 2357418110790120185, guid: a1dcf5f570393784baba23f6576d6cf0,
+  fireCannon: {fileID: 2357418110790120185, guid: 25cbfd82b5303b146bb8e75f2083686d,
     type: 3}
   hitSword: {fileID: 2500740018351458258, guid: b62a9d7be2a957f448cb85c26b7b8e6d,
     type: 3}

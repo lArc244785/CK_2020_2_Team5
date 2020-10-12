@@ -180,7 +180,7 @@ public class PlayerControl : MonoBehaviour
                     ReLoad();
 
                 //잘 안사라짐
-                Destroy(fireCannon, 1);
+                //Destroy(fireCannon, 1);
             }
         }
 

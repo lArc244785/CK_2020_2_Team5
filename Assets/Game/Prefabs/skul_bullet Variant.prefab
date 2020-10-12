@@ -43,7 +43,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bulletSpeed: 5
   bulletRange: 15
-  hit_Effect: {fileID: 397539543115504661, guid: e8ad1100a236cf34889a4ec5cd5d5f30,
+  hit_Effect: {fileID: 397539543115504661, guid: 1fbedd0758a3a444193542f1c9b1583c,
     type: 3}
 --- !u!1001 &5018045696137303242
 PrefabInstance:
