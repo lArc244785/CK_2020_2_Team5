@@ -179,6 +179,7 @@ public class GameManger : MonoBehaviour
 
     public void GoToTitleScene()
     {
+
         StartCoroutine(IE_LoadingEvnetStart(0));
 
        // SetGameState(EnumInfo.GameState.Title);
@@ -217,7 +218,9 @@ public class GameManger : MonoBehaviour
 
     private IEnumerator IE_LoadingEvnetStart(int i)
     {
+
         SetGameState(EnumInfo.GameState.Loading);
+        Time.timeScale = 1;
         LoadingView.PadeIn();
         yield return new WaitForSeconds(1.0f);
         LoadingView.SetLoadTextAndImg(true);
@@ -262,12 +265,17 @@ public class GameManger : MonoBehaviour
         if(gameState == EnumInfo.GameState.Ingame)
         {
             LoadingView.SetPadeinOutOption(EnumInfo.PadeinOutOption.StageMove);
-        }else if(gameState == EnumInfo.GameState.Title)
+            LoadingView.SetLoadingViewActive(false);
+        }
+        else if(gameState == EnumInfo.GameState.Title)
         {
             LoadingView.LoadOptionReset();
+            LoadingView.SetLoadingViewActive(false);
         }
 
     }
+
+
 
 
     void OnDisable()

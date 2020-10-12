@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class InGameUIManger :I_UI
 {
@@ -130,6 +131,7 @@ public class InGameUIManger :I_UI
     {
         GameManger.instance.GoToInGameScene();
     }
+
 
     public void ItemGet(EnumInfo.Item item)
     {

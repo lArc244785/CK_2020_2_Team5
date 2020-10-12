@@ -184,6 +184,12 @@ public class Stage : MonoBehaviour
 
     private void Update()
     {
+        if (isPlayerIn)
+        {
+            OffsetPointSetting();
+            GameManger.instance.getCameraManger().SetOffset(offsetUpperLeft, offsetDownRight);
+        }
+       
         if (roomCamType == EnumInfo.CamType.Fixing)
         {
             GameManger.instance.getCameraManger().SetFixingCameraPoint(fixingPosition);
