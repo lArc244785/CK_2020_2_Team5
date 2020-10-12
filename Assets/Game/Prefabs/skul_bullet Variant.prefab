@@ -41,9 +41,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a4161f5c9309124f9e48bbdcf0caf2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletSpeed: 20
+  bulletSpeed: 10
   bulletRange: 15
-  hit_Effect: {fileID: 956781702676680732, guid: afd31ba0b36aee0479d5774a86bba156,
+  hit_Effect: {fileID: 397539543115504661, guid: e8ad1100a236cf34889a4ec5cd5d5f30,
     type: 3}
 --- !u!1001 &6037364009303373378
 PrefabInstance:

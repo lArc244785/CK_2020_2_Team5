@@ -146,6 +146,7 @@ public class ShortEnemy : EnemyBase
             {
                 if (Vector3.Distance(player.transform.position, transform.position) <= agent.stoppingDistance)
                 {
+
                     shortAnim.SetTrigger("attack");
 
                     endAttack = false;
@@ -387,7 +388,7 @@ public class ShortEnemy : EnemyBase
     void PlayerHpDown(int damage)
     {
         if (icanattack == true)
-            player.GetComponent<PlayerControl>().SetDamage(damage);
+            player.GetComponent<PlayerControl>().GetDamageForSword(damage);
     }
 
     void IsCollision()

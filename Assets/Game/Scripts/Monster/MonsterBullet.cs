@@ -54,8 +54,8 @@ public class MonsterBullet : MonoBehaviour
     {
         if (other.gameObject.tag == "Player")
         {
-            other.gameObject.GetComponent<PlayerControl>().SetDamage(mstatus.longdamage);
-            Instantiate(hit_effect, transform.position, transform.rotation);
+            other.gameObject.GetComponent<PlayerControl>().GetDamageForArrow(mstatus.longdamage);
+            //Instantiate(hit_effect, transform.position, transform.rotation);
 
 
             UnityEngine.Debug.Log("공격성공");

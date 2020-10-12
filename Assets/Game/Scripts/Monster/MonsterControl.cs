@@ -136,6 +136,6 @@ public class MonsterControl : MonoBehaviour
 
     void PlayerHpDown(int damage)
     {
-        player.GetComponent<PlayerControl>().SetDamage(damage);
+        //player.GetComponent<PlayerControl>().SetDamage(damage);
     }
 }
