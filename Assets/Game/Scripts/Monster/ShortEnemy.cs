@@ -148,12 +148,12 @@ public class ShortEnemy : EnemyBase
 
                     if (mstatus.tick >= mstatus.tickRate)
                     {
-
+                        
                         shortAnim.SetTrigger("attack");
-
+                        
                         endAttack = false;
                         StartCoroutine(Shortattack());
-
+                        
                         mstatus.tick = 0;
                     }
 
@@ -388,8 +388,9 @@ public class ShortEnemy : EnemyBase
 
     void PlayerHpDown(int damage)
     {
-        if (icanattack == true)
+        //if (icanattack == true)
             player.GetComponent<PlayerControl>().GetDamageForSword(damage);
+   
     }
 
     void IsCollision()
@@ -408,9 +409,11 @@ public class ShortEnemy : EnemyBase
 
     IEnumerator Shortattack()
     {
+        
         yield return new WaitForSeconds(0.9f);
-        //Instantiate(attack_effact, effectTransform.position, effectTransform.rotation);
-        PlayerHpDown(1);
+        if (Vector3.Distance(player.transform.position, transform.position) <= agent.stoppingDistance)
+            PlayerHpDown(1);
+        
         yield return null;
     }
 }

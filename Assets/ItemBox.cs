@@ -45,7 +45,7 @@ public class ItemBox : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider collision)
     {
         if(collision.gameObject.tag == "Bullet")
         {
@@ -63,4 +63,7 @@ public class ItemBox : MonoBehaviour
         paper.item = (EnumInfo.Item)r;
 
     }
+
+
+
 }
