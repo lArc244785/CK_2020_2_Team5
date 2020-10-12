@@ -39,9 +39,16 @@ public class ShortEnemy : EnemyBase
     public Transform effectTransform;
     //=========================================
 
+    //===============사운드=====================
+    public AudioSource shortaudiosource;
+    public AudioClip hit_sound;
+    public AudioClip attack_sound;
+
 
     void Start()
     {
+        shortaudiosource = GetComponent<AudioSource>();
+
         player = GameObject.FindGameObjectWithTag("Player");
         isMoving = false;
         agent = GetComponent<NavMeshAgent>();
@@ -338,12 +345,14 @@ public class ShortEnemy : EnemyBase
         base.OnDamage();
         if (mstatus.isLive == true)
         {
+
             mstatus.hp -= player.GetComponent<PlayerControl>().playerStatus.attackPower;
             if (deadmotion == true)
                 return;
             if (mstatus.hp > 0)
+            {
                 shortAnim.SetTrigger("hit");
-
+            }
             if (mstatus.hp <= 0)
             {
                 menum = EnumInfo.MonsterState.Die;
@@ -411,6 +420,9 @@ public class ShortEnemy : EnemyBase
     {
         
         yield return new WaitForSeconds(0.9f);
+        shortaudiosource.clip = attack_sound;
+        shortaudiosource.Play();
+
         if (Vector3.Distance(player.transform.position, transform.position) <= agent.stoppingDistance)
             PlayerHpDown(1);
         

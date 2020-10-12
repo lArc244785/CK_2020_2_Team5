@@ -38,8 +38,14 @@ public class LongEnemy : EnemyBase
 
     //=========================================
 
+    //===========사운드===============
+    public AudioSource longaudiosource;
+    public AudioClip attack_sound;
+    public AudioClip hit_sound;
+
     void Start()
     {
+        longaudiosource = GetComponent<AudioSource>();
         player = GameObject.FindGameObjectWithTag("Player");
         isMoving = false;
         longAnim = GetComponent<Animator>();
@@ -336,6 +342,8 @@ public class LongEnemy : EnemyBase
         if (mstatus.isLive == true)
         {
             mstatus.hp -= player.GetComponent<PlayerControl>().playerStatus.attackPower;
+            longaudiosource.clip = hit_sound;
+            longaudiosource.Play();
             if (mstatus.hp > 0)
                 longAnim.SetTrigger("hit");
             if (mstatus.hp <= 0)
@@ -396,6 +404,9 @@ public class LongEnemy : EnemyBase
     {
         //화살 나가는 타이밍 조절
         yield return new WaitForSeconds(0.8f);
+        longaudiosource.clip = attack_sound;
+        longaudiosource.Play();
+
         Instantiate(bullet, firePos.transform.position, firePos.transform.rotation);
 
         yield return null;

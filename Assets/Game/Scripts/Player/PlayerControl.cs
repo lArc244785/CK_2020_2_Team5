@@ -47,14 +47,22 @@ public class PlayerControl : MonoBehaviour
 
     //=====================================
 
+    //=============오디오===================
+    public AudioSource playeraudio;
+    public AudioClip hit_sound;
+    public AudioClip attack_sound;
+    //========================================
+
     void Start()
     {
+        playeraudio = GetComponent<AudioSource>();
         rb = GetComponent<Rigidbody>();
         dashCoolTime = dashCoolTimeMax;
         playeranim.SetTrigger("idle");
         dashStop = false;
         playerStatus.isLive = true;
         attack_tick = 0;
+
     }
 
     void Update()
@@ -64,25 +72,29 @@ public class PlayerControl : MonoBehaviour
         {
             if (GameManger.instance.GetGameState() == EnumInfo.GameState.Ingame)
             {
-            if (Input.GetMouseButtonDown(0))
-            {
-                PlayerAttack();
-            }
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                Dash();
-            }
-            if (Input.GetKeyDown(KeyCode.R))
-            {
-                ReLoad();
-            }
-            dashCoolTime += Time.deltaTime;
-            }
 
-            if (playeranim.GetCurrentAnimatorStateInfo(0).IsName("hit"))
-            {
-                Ishit();
-            }
+                if (Input.GetMouseButtonDown(0))
+                {
+                    PlayerAttack();
+                }
+
+                if (Input.GetKeyDown(KeyCode.Space))
+                {
+                    Dash();
+                }
+
+                if (Input.GetKeyDown(KeyCode.R))
+                {
+                    ReLoad();
+                }
+
+                dashCoolTime += Time.deltaTime;
+                }
+
+                if (playeranim.GetCurrentAnimatorStateInfo(0).IsName("hit"))
+                {
+                    Ishit();
+                }
             attack_tick += Time.deltaTime;
         }
     }
@@ -167,6 +179,9 @@ public class PlayerControl : MonoBehaviour
         {
             if (playerStatus.getBullet > 0)
             {
+                playeraudio.clip = attack_sound;
+                playeraudio.Play();
+
                 Instantiate(fireCannon, FirePos.transform.position, FirePos.transform.rotation);
                 Instantiate(Bullet, FirePos.transform.position, FirePos.transform.rotation);
                 playerStatus.getBullet -= 1;
@@ -283,6 +298,9 @@ public class PlayerControl : MonoBehaviour
     {
         if (playerStatus.isLive == true)
         {
+            playeraudio.clip = hit_sound;
+            playeraudio.Play();
+
             playerStatus.hp -= (int)damage;
             if (playerStatus.hp <= 0)
             {
@@ -304,8 +322,12 @@ public class PlayerControl : MonoBehaviour
 
     public void GetDamageForArrow(float damage)
     {
+
         if (playerStatus.isLive == true)
         {
+            playeraudio.clip = hit_sound;
+            playeraudio.Play();
+
             playerStatus.hp -= (int)damage;
             if (playerStatus.hp <= 0)
             {
@@ -370,7 +392,6 @@ public class PlayerControl : MonoBehaviour
     public void StatUp_AttackRange()
     {
         playerStatus.attackRangeUp += 0.5f;
-        Debug.Log("사거리증가");
     }
 
     public void StatUp_PowerUp()
@@ -387,5 +408,6 @@ public class PlayerControl : MonoBehaviour
     {
         playerStatus.moveSpeed += 1;
     }
+
     //hit일때 끝났음을 확인하는 코드를 추가하고, bool값이 true이면 다른게 움직일 수 있도록? -> hit상태에서 hit을 부르는건 그대로 부를 수 있도록 조절
 }
