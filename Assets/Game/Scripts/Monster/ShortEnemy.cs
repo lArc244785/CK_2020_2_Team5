@@ -349,6 +349,8 @@ public class ShortEnemy : EnemyBase
             mstatus.hp -= player.GetComponent<PlayerControl>().playerStatus.attackPower;
             if (deadmotion == true)
                 return;
+            shortaudiosource.clip = hit_sound;
+            shortaudiosource.Play();
             if (mstatus.hp > 0)
             {
                 shortAnim.SetTrigger("hit");
