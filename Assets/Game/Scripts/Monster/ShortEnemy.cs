@@ -140,29 +140,30 @@ public class ShortEnemy : EnemyBase
 
         mstatus.tick += Time.deltaTime;
 
-        if (mstatus.tick >= mstatus.tickRate)
-        {
+
             if (Vector3.Distance(player.transform.position, transform.position) <= mstatus.shortAttackRange)
             {
                 if (Vector3.Distance(player.transform.position, transform.position) <= agent.stoppingDistance)
                 {
 
-                    shortAnim.SetTrigger("attack");
+                    if (mstatus.tick >= mstatus.tickRate)
+                    {
 
-                    endAttack = false;
-                    StartCoroutine(Shortattack());
+                        shortAnim.SetTrigger("attack");
+
+                        endAttack = false;
+                        StartCoroutine(Shortattack());
+
+                        mstatus.tick = 0;
+                    }
 
                 }
                 menum = EnumInfo.MonsterState.Move;
-                mstatus.tick = 0;
             }
-
-        }
-        else
-        {
-            menum = EnumInfo.MonsterState.Move;
-        }
-
+            else
+            {
+                menum = EnumInfo.MonsterState.Move;
+            }
     }
 
     public override void FindPlayer()

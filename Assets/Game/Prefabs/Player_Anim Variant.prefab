@@ -261,7 +261,7 @@ MonoBehaviour:
   playerStatus:
     hp: 5
     maxHp: 5
-    moveSpeed: 2
+    moveSpeed: 1.5
     reLoadTime: 2
     maxBullet: 5
     getBullet: 5
@@ -277,6 +277,8 @@ MonoBehaviour:
   dashCoolTimeMax: 4
   dashSpeed: 4
   playeranim: {fileID: 116479834}
+  fireCannon: {fileID: 2357418110790120185, guid: a1dcf5f570393784baba23f6576d6cf0,
+    type: 3}
   hitSword: {fileID: 2500740018351458258, guid: b62a9d7be2a957f448cb85c26b7b8e6d,
     type: 3}
   hitSwordTransform: {fileID: 1647374809}

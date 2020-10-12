@@ -62,6 +62,16 @@ public class MonsterBullet : MonoBehaviour
             Destroy(gameObject);
 
         }
+        else if (other.gameObject.tag == "Wall")
+        {
+            //other.gameObject.GetComponent<PlayerControl>().GetDamageForArrow(mstatus.longdamage);
+            Instantiate(hit_effect, transform.position, transform.rotation);
+
+
+            //UnityEngine.Debug.Log("공격성공");
+            Destroy(gameObject);
+
+        }
         else 
         {
             if (other.gameObject.tag == "forward")
