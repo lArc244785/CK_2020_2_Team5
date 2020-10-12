@@ -21,12 +21,14 @@ public class MonsterBullet : MonoBehaviour
 
     private void FixedUpdate()
     {
+        Debug.Log("Code 444: " +mstatus.bulletSpeed);
         transform.Translate(Vector3.forward * mstatus.bulletSpeed * Time.deltaTime);
 
         //충돌하거나 사거리 끝에 도달하면 없어짐
         if (Vector3.Distance(bulletV, transform.position) > mstatus.longAttackRange)
             Destroy(gameObject);
     }
+
     //private void OnCollisionEnter(Collision collision)
     //{
     //    //플레이어 hp감소
@@ -60,7 +62,7 @@ public class MonsterBullet : MonoBehaviour
             Destroy(gameObject);
 
         }
-        else
+        else 
         {
             Instantiate(hit_effect, transform);
             Destroy(gameObject);

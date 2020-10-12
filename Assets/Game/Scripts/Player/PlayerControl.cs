@@ -155,7 +155,8 @@ public class PlayerControl : MonoBehaviour
         {
             Instantiate(Bullet, FirePos.transform.position, FirePos.transform.rotation);
             playerStatus.getBullet -= 1;
-            //GameManger.instance.getInGameUIManger().getcanonUI().ShootBullet(getbullet);
+
+            GameManger.instance.getInGameUIManger().getcanonUI().ShootBullet(playerStatus.getBullet);
             //UnityEngine.Debug.Log("현재 총알 : " + getbullet.ToString());
             if (playerStatus.getBullet == 0)
                 ReLoad();
@@ -207,11 +208,7 @@ public class PlayerControl : MonoBehaviour
                 yield return null;
                 break;
             }
-
-
         }
-
-
     }
 
     void ReLoad()
@@ -275,6 +272,7 @@ public class PlayerControl : MonoBehaviour
                 playeranim.SetTrigger("die");
                 playerStatus.isLive = false;
                 Debug.Log("GameOver");
+                GameManger.instance.getInGameUIManger().GetGameOverUI().GameOver();
             }
         }
     }

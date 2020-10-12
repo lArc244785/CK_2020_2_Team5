@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 3190714852725409666}
   m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 4.472364, y: 4.472364, z: 4.472364}
+  m_LocalScale: {x: 5, y: 5, z: 5}
   m_Children: []
   m_Father: {fileID: 3970231291225225271}
   m_RootOrder: 0
@@ -140,7 +140,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21ff9b3212599d04e96a6ac7d36f51dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  randomParcent: 100
+  randomParcent: 10
 --- !u!54 &5036924349709135639
 Rigidbody:
   m_ObjectHideFlags: 0

@@ -26,12 +26,13 @@ public class MonsterGenerator : MonoBehaviour
             try
             {
                 GameObject temp = tr.GetChild(i).gameObject;
-                Debug.Log("Monster GameObject  " + temp.gameObject);
+                //Debug.Log("Monster GameObject  " + temp.gameObject);
                 monsterList.Add(temp);
                
             }
             catch
             {
+                Debug.LogError(gameObject);
                 Debug.LogError("MonsterGenerator_monsterListSettingNullObject Index: " + i);
             }
         }
@@ -43,8 +44,14 @@ public class MonsterGenerator : MonoBehaviour
         {
             try
             {
-                MonsterControl mc = monsterList[i].GetComponent<MonsterControl>();
-                mc.enabled = false;
+                if(monsterList[i].GetComponent<LongEnemy>() != null)
+                {
+                    monsterList[i].GetComponent<LongEnemy>().enabled = false;
+                }
+                else if(monsterList[i].GetComponent<ShortEnemy>() != null)
+                {
+                    monsterList[i].GetComponent<ShortEnemy>().enabled = false;
+                }
             }
             catch
             {
@@ -60,8 +67,14 @@ public class MonsterGenerator : MonoBehaviour
         {
             try
             {
-                MonsterControl mc = monsterList[i].GetComponent<MonsterControl>();
-                mc.enabled = true;
+                if (monsterList[i].GetComponent<LongEnemy>() != null)
+                {
+                    monsterList[i].GetComponent<LongEnemy>().enabled = true;
+                }
+                else if (monsterList[i].GetComponent<ShortEnemy>() != null)
+                {
+                    monsterList[i].GetComponent<ShortEnemy>().enabled = true;
+                }
             }
             catch
             {
@@ -95,6 +108,10 @@ public class MonsterGenerator : MonoBehaviour
         foreach(GameObject obj in monsterList)
         {
             if (obj.activeSelf == true) return true;
+            else
+            {
+                Debug.Log("CODE 443: "+ obj.name);
+            }
         }
         return false;
     }

@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class PaperItem : I_Item
 {
-    public GameObject player;
 
     //테스트용입니다.
     private void OnTriggerEnter(Collider other)
@@ -32,6 +31,7 @@ public class PaperItem : I_Item
     //아이템 획득했을때 이 메소드를 호출해주시면 돕니다.
     public void ItemGet()
     {
+        PlayerControl player = GameManger.instance.getPlayerControl();
         switch (item)
         {
             case EnumInfo.Item.Power:

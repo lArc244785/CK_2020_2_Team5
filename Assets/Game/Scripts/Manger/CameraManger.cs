@@ -88,7 +88,7 @@ public class CameraManger : MonoBehaviour
     {
         DistancePoint();
 
-        print("CODE44: " + upperLeftPoint.x +  downRightPoint.x);
+        //print("CODE44: " + upperLeftPoint.x +  downRightPoint.x);
 
         TargetPoint = new Vector3(
             Mathf.Clamp(TargetPoint.x, upperLeftPoint.x, downRightPoint.x),

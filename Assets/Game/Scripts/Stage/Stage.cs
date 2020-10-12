@@ -165,6 +165,9 @@ public class Stage : MonoBehaviour
             {
                 GameManger.instance.getCameraManger().SetFixingCameraPoint(fixingPosition);
             }
+
+
+
         }
 
         yield return null;

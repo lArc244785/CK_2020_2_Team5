@@ -38,6 +38,7 @@ public class ItemBox : MonoBehaviour
         if (Random.Range(.0f, 100.0f) < randomParcent)
         {
             Item.SetActive(true);
+            RandomScroll();
             Item.transform.parent = null;
         }
         yield return new WaitForSeconds(0.6f);
@@ -50,5 +51,16 @@ public class ItemBox : MonoBehaviour
         {
             ItemBoxDestoryEvent();
         }
+    }
+
+    private void RandomScroll()
+    {
+        PaperItem paper = Item.GetComponent<PaperItem>();
+        if (paper == null) return;
+
+        int r = Random.Range(0, 3);
+
+        paper.item = (EnumInfo.Item)r;
+
     }
 }

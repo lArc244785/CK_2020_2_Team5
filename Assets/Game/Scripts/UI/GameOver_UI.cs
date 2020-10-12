@@ -24,6 +24,7 @@ public class GameOver_UI : I_UI
 
     IEnumerator GameOverPadeIn()
     {
+        yield return new WaitForSeconds(2.0f);
         GameManger.instance.SetGameState(EnumInfo.GameState.Loading);
         UI_LoadingView loadView = GameManger.instance.GetLoadingView();
         loadView.SetPadeinOutOption(EnumInfo.PadeinOutOption.GameOver);
